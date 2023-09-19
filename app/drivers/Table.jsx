@@ -117,37 +117,41 @@ export default function StickyHeadTable(props) {
 
   const [searchData, setSearchData] = useState(games);
 
-  const goSearch = () => {
-    var arr = [];
+  const goSearch = (games) => {
+    console.log("=====");
+    console.log(games);
+    var emptyarr = [];
+    var arr = games;
     console.log("searchResult");
     console.log(searchName);
     console.log(countries);
+    console.log("=====");
 
-    for (var i = 0; i < rows.length; i++) {
+    for (var i = 0; i < games.length; i++) {
       if (searchName !== "" && countries === "") {
-        var result = rows[i].name.indexOf(searchName);
+        var result = games[i].name.indexOf(searchName);
         if (result !== -1) {
-          console.log(rows[i].name);
-          arr.push(rows[i]);
+          console.log(games[i].name);
+          emptyarr.push(games[i]);
         }
       }
       if (searchName === "" && countries !== "") {
-        var result = rows[i].country.indexOf(countries);
+        var result = games[i].country.indexOf(countries);
         if (result !== -1) {
-          console.log(rows[i].country);
-          arr.push(rows[i]);
+          console.log(games[i].country);
+          emptyarr.push(games[i]);
         }
       }
       if (searchName !== "" && countries !== "") {
-        var result = rows[i].name.indexOf(searchName);
-        var result2 = rows[i].country.indexOf(countries);
+        var result = games[i].name.indexOf(searchName);
+        var result2 = games[i].country.indexOf(countries);
         if (result !== -1 && result2 !== -1) {
-          console.log(rows[i]);
-          arr.push(rows[i]);
+          console.log(games[i]);
+          emptyarr.push(games[i]);
         }
       }
     }
-    setGames(arr);
+    setGames(emptyarr);
   };
 
   return (
@@ -194,7 +198,19 @@ export default function StickyHeadTable(props) {
             </Select>
           </FormControl>
 
-          <Button sx={{ width: "15%" }} variant="outlined" onClick={goSearch}>
+          <Button
+            sx={{ width: "15%" }}
+            variant="outlined"
+            onClick={() => {
+              goSearch(games);
+              setSearchName("");
+              setCountries("");
+              var input = document.getElementById("outlined-basic");
+              input.value = null;
+              var select = document.getElementById("demo-simple-select");
+              select.value = null;
+            }}
+          >
             Search
           </Button>
         </Stack>

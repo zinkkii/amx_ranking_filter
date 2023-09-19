@@ -33,47 +33,53 @@ export default function filter() {
           />
         </div>
       </div>
-      <div className={styles.center}>
-        <Container
-          sx={{
-            py: { xs: 5, md: 8 },
-          }}
-        >
-          <TabContext value={value}>
-            <Box sx={{ width: "100%", textAlign: "center" }}>
-              <Tabs
-                value={value}
-                scrollButtons="auto"
-                allowScrollButtonsMobile
-                onChange={handleChangeTab}
-                sx={{ my: 5 }}
-                centered
-              >
-                <Tab label="Drivers" value="1" />
-                <Tab label="Teams" value="2" />
-                <Tab label="Countries" value="3" />
-              </Tabs>
-            </Box>
-            <Box
-              gap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: "repeat(1, 1fr)",
-              }}
+
+      <Container
+        sx={{
+          py: { xs: 5, md: 1 },
+        }}
+      >
+        <TabContext value={value}>
+          <Box sx={{ width: "100%" }}>
+            <Tabs
+              value={value}
+              scrollButtons="auto"
+              variant="scrollable"
+              allowScrollButtonsMobile
+              onChange={handleChangeTab}
+              sx={{ my: 5 }}
             >
-              <TabPanel value="1" sx={{ textAlign: "center" }}>
-                1111
-              </TabPanel>
-              <TabPanel value="2" sx={{ textAlign: "center" }}>
-                2222
-              </TabPanel>
-              <TabPanel value="3" sx={{ textAlign: "center" }}>
-                3333
-              </TabPanel>
-            </Box>
-          </TabContext>
-        </Container>
-      </div>
+              <Tab label="Drivers" value="1" />
+              <Tab label="Teams" value="2" />
+              <Tab label="Countries" value="3" />
+            </Tabs>
+          </Box>
+          <Box
+            gap={3}
+            display="grid"
+            gridTemplateColumns={{
+              xs: "repeat(1, 1fr)",
+            }}
+          >
+            <TabPanel value="1" sx={{ textAlign: "center" }}>
+              1111111111111111111sssssssssssssssssssssss
+              <br />
+              1111111111111111111sssssssssssssssssssssss
+              <br />
+              1111111111111111111sssssssssssssssssssssss
+              <br />
+              1111111111111111111sssssssssssssssssssssss
+              <br />
+            </TabPanel>
+            <TabPanel value="2" sx={{ textAlign: "center" }}>
+              2222
+            </TabPanel>
+            <TabPanel value="3" sx={{ textAlign: "center" }}>
+              3333
+            </TabPanel>
+          </Box>
+        </TabContext>
+      </Container>
       <div className={styles.grid}></div>
     </main>
   );

@@ -79,12 +79,8 @@ export default function Teams() {
   useEffect(() => {}, []);
 
   return (
-    <main className={styles.main}>
+    <>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/teams/page.jsx</code>
-        </p>
         <div style={{ cursor: "pointer" }}>
           <Image
             onClick={() => router.push("/")}
@@ -147,7 +143,6 @@ export default function Teams() {
           noValidate
           autoComplete="off"
         >
-          <h2>Test</h2>
           <br />
           <br />
           {rows.map((row, index) => (
@@ -156,6 +151,7 @@ export default function Teams() {
             </p>
           ))}
           <p>------------</p>
+          <h2>Test Result</h2>
           {data.length > 0 && data.name !== "" ? (
             data.map((data) => (
               <p key={data.name}>
@@ -168,6 +164,6 @@ export default function Teams() {
         </Box>
       </div>
       <div className={styles.grid}></div>
-    </main>
+    </>
   );
 }

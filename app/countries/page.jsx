@@ -8,12 +8,8 @@ export default function Countries() {
   const router = useRouter();
 
   return (
-    <main className={styles.main}>
+    <>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/countries/page.jsx</code>
-        </p>
         <div style={{ cursor: "pointer" }}>
           <Image
             onClick={() => router.push("/")}
@@ -26,7 +22,7 @@ export default function Countries() {
           />
         </div>
       </div>
-      <div className={styles.center}>
+      <div className={styles.filter}>
         <Image
           className={styles.logo}
           src="/next.svg"
@@ -36,7 +32,6 @@ export default function Countries() {
           priority
         />
       </div>
-      <div className={styles.grid}></div>
-    </main>
+    </>
   );
 }

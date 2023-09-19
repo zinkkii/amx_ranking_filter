@@ -1,9 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import Box from "@mui/material/Box";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <>
       <div className={styles.description}>
         <p>
           Get started by editing&nbsp;
@@ -32,44 +33,6 @@ export default function Home() {
           priority
         />
       </div>
-
-      <div className={styles.grid}>
-        <a href="/test" className={styles.card}>
-          <h2>
-            Test <span>&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-
-        <a href="/drivers" className={styles.card}>
-          <h2>
-            Drivers <span>&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-
-        <a href="/teams" className={styles.card}>
-          <h2>
-            Teams <span>&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-
-        <a href="/countries" className={styles.card}>
-          <h2>
-            Countries <span>&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </>
   );
 }

@@ -22,6 +22,7 @@ const columns = [
   { id: "game", label: "Game", minWidth: 150, align: "left" },
   { id: "tier", label: "Tier", minWidth: 100, align: "left" },
   { id: "region", label: "Region", minWidth: 100, align: "left" },
+  { id: "period", label: "Date", minWidth: 100, align: "left" },
 ];
 
 export default columns;

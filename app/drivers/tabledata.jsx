@@ -11,6 +11,7 @@ function createData(
   period
 ) {
   const player = country + " " + name;
+  const date = new Date();
   return {
     name,
     player,
@@ -36,7 +37,8 @@ const rows = [
     "🏁",
     "iracing",
     "AMX Zero",
-    "Global"
+    "Global",
+    "09/09/2022"
   ),
   createData("nameBB", 1112, 112, 98, 998, "🏁", "iracing", "AMX 10", "NA"),
   createData(
@@ -48,7 +50,8 @@ const rows = [
     "🏁",
     "Assetto Corsa",
     "AMX Zero",
-    "EUW"
+    "EUW",
+    "09/09/2022"
   ),
   createData(
     "nameDD22",

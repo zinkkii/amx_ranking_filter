@@ -99,24 +99,6 @@ export default function StickyHeadTable(props) {
     setCountries(event.target.value);
   };
 
-  // const [searchData, setSearchData] = useState([
-  //   {
-  //     name: "",
-  //     player: "",
-  //     racing: "",
-  //     finishedraces: "",
-  //     wins: "",
-  //     poles: "",
-  //     country: "",
-  //     game: "",
-  //     tier: "",
-  //     region: "",
-  //     period: "",
-  //   },
-  // ]);
-
-  const [searchData, setSearchData] = useState(games);
-
   const goSearch = (games) => {
     console.log("=====");
     console.log(games);
@@ -158,9 +140,7 @@ export default function StickyHeadTable(props) {
     <>
       <br />
       <br />
-
       <h1>Ranking</h1>
-
       <br />
       <br />
 

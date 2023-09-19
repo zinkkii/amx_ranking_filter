@@ -70,12 +70,8 @@ export default function Drivers() {
   };
 
   return (
-    <main className={styles.main}>
+    <>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/drivers/page.jsx</code>
-        </p>
         <div style={{ cursor: "pointer" }}>
           <Image
             onClick={() => router.push("/")}
@@ -210,6 +206,6 @@ export default function Drivers() {
 
         <Table game={game} tier={tier} region={region} />
       </div>
-    </main>
+    </>
   );
 }

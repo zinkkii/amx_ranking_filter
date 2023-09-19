@@ -1,9 +1,9 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -39,6 +39,31 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 }
+
+/* Radio-Button-Customizing Start */
+.box-radio-input input[type="checkbox"] {
+  display: none;
+}
+.box-radio-input input[type="checkbox"] + span {
+  display: inline-block;
+  background: none;
+  border: 1px solid #dfdfdf;
+  border-radius: 30px;
+  padding: 0px 15px;
+  margin: 0px 3px;
+  text-align: center;
+  height: 35px;
+  line-height: 33px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.box-radio-input input[type="checkbox"]:checked + span {
+  border: 1px solid #7ac4f9;
+  background: #7ac4f9;
+  color: #fff;
+}
+/* Radio-Button-Customizing End */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -105,3 +130,16 @@ a {
     color-scheme: dark;
   }
 }
+
+/* filter Custum Start */
+.filter-title {
+  margin-right: 20px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hrColor {
+  color: #ababab;
+  background-color: #ababab;
+}
+/* filter Custum End */

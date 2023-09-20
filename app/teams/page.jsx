@@ -76,8 +76,6 @@ export default function Teams() {
     setData(...[arr]);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <>
       <div className={styles.description}>

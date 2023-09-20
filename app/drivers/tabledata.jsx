@@ -12,6 +12,7 @@ function createData(
 ) {
   const player = country + " " + name;
   const date = new Date();
+  const today = date.toLocaleDateString();
   return {
     name,
     player,
@@ -38,9 +39,20 @@ const rows = [
     "iracing",
     "AMX Zero",
     "Global",
-    "09/09/2022"
+    "2021-09-01"
   ),
-  createData("nameBB", 1112, 112, 98, 998, "🏁", "iracing", "AMX 10", "NA"),
+  createData(
+    "nameBB",
+    1112,
+    112,
+    98,
+    998,
+    "🏁",
+    "iracing",
+    "AMX 10",
+    "NA",
+    "2021-09-20"
+  ),
   createData(
     "nameCC11",
     1113,
@@ -51,7 +63,7 @@ const rows = [
     "Assetto Corsa",
     "AMX Zero",
     "EUW",
-    "09/09/2022"
+    "2023-07-02"
   ),
   createData(
     "nameDD22",
@@ -62,7 +74,8 @@ const rows = [
     "🏁",
     "Asssetto Corsa Competizione",
     "AMX 10",
-    "EUNE"
+    "EUNE",
+    "2023-08-03"
   ),
   createData(
     "nameEE11",
@@ -73,7 +86,8 @@ const rows = [
     "🏁",
     "Automobilista2",
     "AMX Zero",
-    "KR"
+    "KR",
+    "2023-09-20"
   ),
   createData(
     "nameFF22",
@@ -84,9 +98,21 @@ const rows = [
     "🎌",
     "Gran Turismo",
     "AMX 10",
-    "JP"
+    "JP",
+    "2021-09-05"
   ),
-  createData("nameGG", 1117, 117, 93, 993, "🎌", "iracing", "AMX Zero", "AUS"),
+  createData(
+    "nameGG",
+    1117,
+    117,
+    93,
+    993,
+    "🎌",
+    "iracing",
+    "AMX Zero",
+    "AUS",
+    "2022-09-06"
+  ),
   createData(
     "nameHH11",
     1118,
@@ -96,7 +122,8 @@ const rows = [
     "🎌",
     "Gran Turismo",
     "AMX 10",
-    "Global"
+    "Global",
+    "2022-10-07"
   ),
   createData(
     "nameII22",
@@ -107,7 +134,8 @@ const rows = [
     "🏳️‍🌈",
     "Automobilista2",
     "AMX Zero",
-    "Global"
+    "Global",
+    "2022-10-08"
   ),
   createData(
     "nameJJ11",
@@ -118,7 +146,8 @@ const rows = [
     "🏳️‍🌈",
     "Asssetto Corsa Competizione",
     "AMX 10",
-    "Global"
+    "Global",
+    "2023-09-09"
   ),
   createData(
     "nameKK22",
@@ -129,7 +158,8 @@ const rows = [
     "🏴‍☠️",
     "Gran Turismo",
     "AMX Zero",
-    "EUW"
+    "EUW",
+    "2023-04-10"
   ),
   createData(
     "nameLL33",
@@ -140,7 +170,8 @@ const rows = [
     "🏴‍☠️",
     "Automobilista2",
     "AMX 10",
-    "EUNE"
+    "EUNE",
+    "2023-06-11"
   ),
   createData(
     "nameMM33",
@@ -151,7 +182,8 @@ const rows = [
     "🏳️‍🌈",
     "Asssetto Corsa Competizione",
     "AMX Zero",
-    "NA"
+    "NA",
+    "2023-08-12"
   ),
   createData(
     "nameNN33",
@@ -162,9 +194,21 @@ const rows = [
     "🏳️‍🌈",
     "Automobilista2",
     "AMX 10",
-    "NA"
+    "NA",
+    "2023-07-13"
   ),
-  createData("nameOO", 1125, 125, 85, 985, "🏳️‍🌈", "iracing", "AMX Zero", "EUW"),
+  createData(
+    "nameOO",
+    1125,
+    125,
+    85,
+    985,
+    "🏳️‍🌈",
+    "iracing",
+    "AMX Zero",
+    "EUW",
+    "2023-09-19"
+  ),
   createData(
     "namePP44",
     1126,
@@ -174,7 +218,8 @@ const rows = [
     "🏳️‍🌈",
     "Gran Turismo",
     "AMX 10",
-    "EUW"
+    "EUW",
+    "2023-09-14"
   ),
   createData(
     "nameQQ44",
@@ -185,7 +230,8 @@ const rows = [
     "🏳️‍🌈",
     "Automobilista2",
     "AMX Zero",
-    "EUNE"
+    "EUNE",
+    "2023-09-16"
   ),
   createData(
     "nameRR44",
@@ -196,9 +242,21 @@ const rows = [
     "🏴‍☠️",
     "Assetto Corsa",
     "AMX 10",
-    "KR"
+    "KR",
+    "2022-09-16"
   ),
-  createData("nameSS", 1129, 129, 81, 981, "🏴‍☠️", "iracing", "AMX Zero", "KR"),
+  createData(
+    "nameSS",
+    1129,
+    129,
+    81,
+    981,
+    "🏴‍☠️",
+    "iracing",
+    "AMX Zero",
+    "KR",
+    "2023-09-20"
+  ),
   createData(
     "nameTT55",
     1130,
@@ -208,7 +266,8 @@ const rows = [
     "🏴‍☠️",
     "Automobilista2",
     "AMX 10",
-    "AUS"
+    "AUS",
+    "2023-09-17"
   ),
   createData(
     "nameUU55",
@@ -219,7 +278,8 @@ const rows = [
     "🏴‍☠️",
     "Gran Turismo",
     "AMX Zero",
-    "AUS"
+    "AUS",
+    "2023-09-18"
   ),
   createData(
     "nameVV55",
@@ -230,7 +290,8 @@ const rows = [
     "🏴‍☠️",
     "Asssetto Corsa Competizione",
     "AMX 10",
-    "NA"
+    "NA",
+    "2023-09-19"
   ),
   createData(
     "nameWW666",
@@ -241,7 +302,8 @@ const rows = [
     "🏴‍☠️",
     "Assetto Corsa",
     "AMX Zero",
-    "KR"
+    "KR",
+    "2023-09-20"
   ),
   createData(
     "nameXX66",
@@ -252,9 +314,21 @@ const rows = [
     "🏴‍☠️",
     "Automobilista2",
     "AMX 10",
-    "JP"
+    "JP",
+    "2023-09-20"
   ),
-  createData("nameYY", 1135, 135, 75, 975, "🏴‍☠️", "iracing", "AMX Zero", "JP"),
+  createData(
+    "nameYY",
+    1135,
+    135,
+    75,
+    975,
+    "🏴‍☠️",
+    "iracing",
+    "AMX Zero",
+    "JP",
+    "2022-09-20"
+  ),
   createData(
     "nameZZ6666",
     1136,
@@ -264,7 +338,8 @@ const rows = [
     "🏴‍☠️",
     "Assetto Corsa",
     "AMX 10",
-    "KR"
+    "KR",
+    "2022-09-20"
   ),
 ];
 

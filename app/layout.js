@@ -35,6 +35,18 @@ export default function RootLayout({ children }) {
             <a href="/countries" className={styles.card}>
               <h3>Countries</h3>
             </a>
+
+            <a href="/test" className={styles.card}>
+              <h3>Test</h3>
+            </a>
+
+            <a href="/elotest" className={styles.card}>
+              <h3>Elo Test</h3>
+            </a>
+
+            <a href="/test2" className={styles.card}>
+              <h3>Test2</h3>
+            </a>
           </Box>
 
           {children}

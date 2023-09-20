@@ -20,7 +20,6 @@ import Button from "@mui/material/Button";
 import columns from "./columns";
 
 export default function StickyHeadTable(props) {
-  var arr = rows;
   const [games, setGames] = useState([{}]);
 
   useEffect(() => {
@@ -31,16 +30,7 @@ export default function StickyHeadTable(props) {
           (props.tier === "" && props.region === "") ||
           (props.tier === rows.tier && props.region === "") ||
           (props.tier === rows.tier && props.region === rows.region) ||
-          (props.tier === "" && props.region === rows.region) ||
-          (props.game === "" &&
-            props.tier === rows.tier &&
-            props.region === "") ||
-          (props.game === "" &&
-            props.tier === rows.tier &&
-            props.region === rows.region) ||
-          (props.game === "" &&
-            props.tier === "" &&
-            props.region === rows.region)
+          (props.tier === "" && props.region === rows.region)
         ) {
           return true;
         }
@@ -103,7 +93,6 @@ export default function StickyHeadTable(props) {
     console.log("=====");
     console.log(games);
     var emptyarr = [];
-    var arr = games;
     console.log("searchResult");
     console.log(searchName);
     console.log(countries);

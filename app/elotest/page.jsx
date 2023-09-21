@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import styles from "../page.module.css";
-import { Container } from "@mui/material";
+import EloTable from "./EloTable";
 
 export default function Page() {
   return (
@@ -22,13 +24,11 @@ export default function Page() {
         </div>
       </div>
       <div className={styles.filter}>
-        <Container
-          sx={{
-            py: { xs: 5, md: 1 },
-          }}
-        >
-          <h2>Elo Test</h2>
-        </Container>
+        <h2>Elo Test</h2>
+        <br />
+        <br />
+
+        <EloTable />
       </div>
     </>
   );

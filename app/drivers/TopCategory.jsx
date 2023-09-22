@@ -1,10 +1,17 @@
 "use client";
 
 import { Stack, Button, Box } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function TopCategory() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    console.log(pathname);
+  }, []);
+
   return (
     <Box
       gap={1}
@@ -25,6 +32,7 @@ export default function TopCategory() {
         }}
       >
         <Button
+          className={pathname == "/" ? "clickedBtn" : "normalBtn"}
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
@@ -44,6 +52,7 @@ export default function TopCategory() {
         }}
       >
         <Button
+          className={pathname == "/teams" ? "clickedBtn" : "normalBtn"}
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
@@ -63,6 +72,7 @@ export default function TopCategory() {
         }}
       >
         <Button
+          className={pathname == "/countries" ? "clickedBtn" : "normalBtn"}
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {

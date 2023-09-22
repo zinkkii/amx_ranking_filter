@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Libre+Baskerville&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Orbit&display=swap");
 
 body {
   background-color: #dbdfe0;
   font-family: "Kanit", sans-serif;
-  font-family: "Libre Baskerville", serif;
+  font-family: "Orbit", sans-serif;
 }
 
 /* Radio-Button-Customizing Start */
@@ -32,12 +32,6 @@ body {
 }
 /* Radio-Button-Customizing End */
 
-hr {
-  display: block;
-  border: 0;
-  border-top: 1px solid #ababab;
-}
-
 /* filter Custum Start */
 .filter-title {
   margin-right: 20px;
@@ -45,3 +39,19 @@ hr {
   font-weight: 700;
 }
 /* filter Custum End */
+
+hr {
+  display: block;
+  border: 0;
+  border-top: 1px solid #ababab;
+}
+
+/* TopCategory Clicked & UnClicked */
+.normalBtn {
+  background-color: transparent;
+}
+.clickedBtn {
+  background-color: transparent;
+  border: 2px solid #2699ea;
+  pointer-events: none;
+}

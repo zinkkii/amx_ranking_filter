@@ -59,7 +59,10 @@ export default function EloTable() {
           elodata[i].name +
             ": " +
             elodata[i].winlose +
-            "번 이김 -- 아래 New Elo값"
+            "번 이김(" +
+            randomResult[i] +
+            "등)" +
+            "-- 아래는 New Elo값"
         );
         //new Elo 값 계산
         console.log(
@@ -72,30 +75,30 @@ export default function EloTable() {
   }, [setRandomResult]);
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ overflow: "hidden" }}>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>DriverName</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>Start Elo</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>Elo Diff</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>Odds</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>Result</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>Win:1 , Lose:0</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>New Elo</b>
               </TableCell>
             </TableRow>
@@ -106,27 +109,35 @@ export default function EloTable() {
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.startElo}</TableCell>
-                <TableCell>{row.eloDiff}</TableCell>
-                <TableCell>{row.Odds}</TableCell>
-                <TableCell>{randomResult[index]}</TableCell>
-                <TableCell>{row.winlose}</TableCell>
-                <TableCell>{row.newElo}</TableCell>
+                <TableCell sx={{ fontFamily: "Orbit" }}>{row.name}</TableCell>
+                <TableCell sx={{ fontFamily: "Kanit" }}>
+                  {row.startElo}
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit" }}>
+                  {row.eloDiff}
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit" }}>{row.Odds}</TableCell>
+                <TableCell sx={{ fontFamily: "Kanit" }}>
+                  {randomResult[index]}
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit" }}>
+                  {row.winlose}
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit" }}>{row.newElo}</TableCell>
               </TableRow>
             ))}
             <TableRow>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                 <b>Average</b>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontFamily: "Kanit" }}>
                 <b>{startEloAvg}</b>
               </TableCell>
-              <TableCell>_</TableCell>
-              <TableCell>_</TableCell>
-              <TableCell>_</TableCell>
-              <TableCell>_</TableCell>
-              <TableCell>_</TableCell>
+              <TableCell sx={{ fontFamily: "Kanit" }}>_</TableCell>
+              <TableCell sx={{ fontFamily: "Kanit" }}>_</TableCell>
+              <TableCell sx={{ fontFamily: "Kanit" }}>_</TableCell>
+              <TableCell sx={{ fontFamily: "Kanit" }}>_</TableCell>
+              <TableCell sx={{ fontFamily: "Kanit" }}>_</TableCell>
             </TableRow>
           </TableBody>
         </Table>

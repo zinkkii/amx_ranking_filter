@@ -13,13 +13,13 @@ import testdata from "./testdata";
 export default function EloTable() {
   const [elodata, setElodata] = useState(testdata);
   const [startEloAvg, setStartEloAvg] = useState(0);
-  var participants = 0;
-  var [randomResult, setRandomResult] = useState([]);
+  var participants = 0; //참가자수
+  var [randomResult, setRandomResult] = useState([]); //Result(등수 결과)
   useEffect(() => {
     if (elodata.length > 0) {
       var temp = 0;
 
-      //참가자수
+      //참가자수(Result 값 계산)
       participants = elodata.length;
 
       //Result 결과 등수(고정값이 아니니까...일단 랜덤으로 참가자 수만큼 돌리기)
@@ -31,7 +31,7 @@ export default function EloTable() {
         }
       }
       const result = randomResult.map(Number);
-      console.log(result);
+      console.log("랜덤 등수 결과" + result);
       setRandomResult(result);
 
       for (var i = 0; i < participants; i++) {
@@ -55,7 +55,12 @@ export default function EloTable() {
         elodata[i].Odds = oddsvalue;
         //Win & Lose 값 계산
         elodata[i].winlose = participants - randomResult[i];
-        console.log(elodata[i].winlose + "번 이겼다 -- 아래 New Elo값");
+        console.log(
+          elodata[i].name +
+            ": " +
+            elodata[i].winlose +
+            "번 이김 -- 아래 New Elo값"
+        );
         //new Elo 값 계산
         console.log(
           elodata[i].startElo + 16 * (elodata[i].winlose - oddsvalue)

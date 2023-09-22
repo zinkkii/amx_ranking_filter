@@ -1,7 +1,7 @@
 const testdata = [
   {
     name: "이상학",
-    startElo: 400,
+    startElo: 337.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -10,7 +10,7 @@ const testdata = [
   },
   {
     name: "윤정준",
-    startElo: 400,
+    startElo: 353.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -19,7 +19,7 @@ const testdata = [
   },
   {
     name: "강주상",
-    startElo: 400,
+    startElo: 369.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -28,7 +28,7 @@ const testdata = [
   },
   {
     name: "박근형",
-    startElo: 400,
+    startElo: 385.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -37,7 +37,7 @@ const testdata = [
   },
   {
     name: "한태준",
-    startElo: 400,
+    startElo: 401.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -46,7 +46,7 @@ const testdata = [
   },
   {
     name: "홍수림",
-    startElo: 400,
+    startElo: 417.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -55,7 +55,7 @@ const testdata = [
   },
   {
     name: "장건희",
-    startElo: 400,
+    startElo: 433.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -64,7 +64,7 @@ const testdata = [
   },
   {
     name: "이상목",
-    startElo: 400,
+    startElo: 449.16,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -73,7 +73,7 @@ const testdata = [
   },
   {
     name: "박윤서",
-    startElo: 400,
+    startElo: 465.15,
     eloDiff: 0,
     Odds: 0,
     result: 0,
@@ -82,7 +82,7 @@ const testdata = [
   },
   {
     name: "Naji",
-    startElo: 800,
+    startElo: 813.09,
     eloDiff: 0,
     Odds: 0,
     result: 0,

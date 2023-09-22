@@ -21,6 +21,17 @@ import columns from "./columns";
 
 export default function StickyHeadTable(props) {
   const [games, setGames] = useState([{}]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     if (props.game === "all") {
@@ -70,17 +81,9 @@ export default function StickyHeadTable(props) {
     }
   }, [props, rows]);
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+  useEffect(() => {
     setPage(0);
-  };
+  }, [props]);
 
   const [searchName, setSearchName] = useState("");
   const [countries, setCountries] = useState("");
@@ -127,21 +130,16 @@ export default function StickyHeadTable(props) {
 
   return (
     <>
-      <br />
-      <br />
-      <h1>Ranking</h1>
-      <br />
-      <br />
-
       {/* SearchFilter */}
       <Box
         component="form"
-        sx={{ width: "100%" }}
+        sx={{ width: "100%", mb: 2 }}
         noValidate
         autoComplete="off"
       >
         <Stack spacing={1} direction="row">
           <TextField
+            sx={{ width: "50%", fontFamily: "Kanit" }}
             id="outlined-basic"
             label="Search"
             variant="outlined"
@@ -149,10 +147,9 @@ export default function StickyHeadTable(props) {
               console.log(e.target.value);
               setSearchName(e.target.value);
             }}
-            sx={{ width: "50%" }}
           />
           <FormControl sx={{ width: "35%" }}>
-            <InputLabel id="demo-simple-select-label">All Countries</InputLabel>
+            <InputLabel id="demo-simple-select-label">Countries</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -174,6 +171,7 @@ export default function StickyHeadTable(props) {
               goSearch(games);
               setSearchName("");
               setCountries("");
+              setPage(0);
               var input = document.getElementById("outlined-basic");
               input.value = null;
               var select = document.getElementById("demo-simple-select");
@@ -185,18 +183,27 @@ export default function StickyHeadTable(props) {
         </Stack>
       </Box>
 
-      <br />
       {/* Table Row */}
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: "100vh" }}>
-          <Table stickyHeader aria-label="sticky table">
+      <TablePagination
+        sx={{ fontFamily: "Kanit" }}
+        rowsPerPageOptions={[10, 50, 100]}
+        component="div"
+        count={games.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <Paper sx={{ overflow: "hidden" }}>
+        <TableContainer>
+          <Table>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
+                    sx={{ fontFamily: "Kanit", fontWeight: "900" }}
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}
                   >
                     {column.label}
                   </TableCell>
@@ -213,7 +220,11 @@ export default function StickyHeadTable(props) {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell
+                            sx={{ fontFamily: "Kanit" }}
+                            key={column.id}
+                            align={column.align}
+                          >
                             {value}
                           </TableCell>
                         );
@@ -224,16 +235,6 @@ export default function StickyHeadTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={games.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
       </Paper>
     </>
   );

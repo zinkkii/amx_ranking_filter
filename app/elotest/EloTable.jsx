@@ -48,11 +48,14 @@ export default function EloTable() {
         var diffvalue =
           (temp - elodata[i].startElo) / (participants - 1) -
           elodata[i].startElo;
+        console.log(diffvalue);
         testdata[i].eloDiff = diffvalue;
         //Odds 값 계산
         var oddsvalue =
           (1 / (10 ** (diffvalue / 400) + 1)) * (participants - 1);
+        console.log(oddsvalue);
         elodata[i].Odds = oddsvalue;
+
         //Win & Lose 값 계산
         elodata[i].winlose = participants - randomResult[i];
         console.log(

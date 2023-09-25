@@ -183,7 +183,7 @@ export default function StickyHeadTable(props) {
         </Stack>
       </Box>
 
-      {/* Table Row */}
+      {/* Paging */}
       <TablePagination
         sx={{ fontFamily: "Kanit" }}
         rowsPerPageOptions={[10, 50, 100]}
@@ -194,6 +194,8 @@ export default function StickyHeadTable(props) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
+      {/* Table Row */}
       <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table>

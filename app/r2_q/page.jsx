@@ -8,7 +8,7 @@ export default function R2_Q() {
   const router = useRouter();
   useEffect(() => {
     router.push("/r2_q");
-  }, []);
+  }, [1]);
   return (
     <Layout>
       <Result_R2_Q />

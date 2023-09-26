@@ -1,6 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,65 +11,34 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import eloheader from "../elo_table_header/eloheader";
+import EloUpdate3 from "./EloUpdate3";
 
-export default function Elo_R2_H1(props) {
-  var arr = [];
-  const [elodata, setElodata] = useState([{}]);
-  const [startEloAvg, setStartEloAvg] = useState(0);
+const queryClient = new QueryClient();
 
-  var temp = 0;
-  //참가자 수
-  var participants = 0;
-  //StartElo
-  var firstStartElo = 1000;
-  useEffect(() => {
-    //참가자 수 계산
-    participants = props.data.length - 1;
+export default function getJsonFile() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  );
+}
 
-    for (var i = 0; i < participants; i++) {
-      arr.push({
-        name: props.data[i].Name,
-        startElo: firstStartElo,
-        eloDiff: 0,
-        odds: 0,
-        result: props.data[i].FinPos,
-        winlose: 0,
-        newElo: 0,
-      });
-    }
-    setElodata(arr);
-  }, [props]);
+function Example() {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: () =>
+      fetch(
+        "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/test_h1.json"
+      ).then((res) => res.json()),
+  });
 
-  useEffect(() => {
-    console.log("!!!!");
-    for (var i = 0; i < participants; i++) {
-      temp = arr[i].startElo + temp;
-    }
-    //Start Elo 총 합
-    console.log("StartElo 총 합 : " + temp);
-    console.log("참가자 수 : " + participants);
-    console.log("StartElo Avg : " + temp / participants);
-    setStartEloAvg(temp / participants);
+  if (isLoading) return "Loading...";
 
-    for (var i = 0; i < participants; i++) {
-      //eloDiff 값 계산
-      var diffvalue =
-        (temp - arr[i].startElo) / (participants - 1) - arr[i].startElo;
-      arr[i].eloDiff = diffvalue;
-      //Odds 값 계산
-      var oddsvalue = (1 / (10 ** (diffvalue / 400) + 1)) * (participants - 1);
-      arr[i].odds = oddsvalue;
-      //win & lose계산
-      arr[i].winlose = participants - arr[i].result;
-      //new Elo 값 계산
-      arr[i].newElo = arr[i].startElo + 16 * (arr[i].winlose - oddsvalue);
-    }
-  }, [elodata, setElodata, props]);
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <>
-      <h2>S3 AMX10 R2_H1 Elo _ Result</h2>
-
+      <h2>저장된 elo (R2_H1_elo_Result) 불러오기</h2>
       <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -84,13 +55,15 @@ export default function Elo_R2_H1(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {elodata.map((row, index) => (
+              {data.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell sx={{ fontFamily: "Kanit" }}>{row.name}</TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>1000</TableCell>
+                  <TableCell sx={{ fontFamily: "Kanit" }}>
+                    {row.startElo}
+                  </TableCell>
                   <TableCell sx={{ fontFamily: "Kanit" }}>
                     {row.eloDiff}
                   </TableCell>
@@ -110,6 +83,10 @@ export default function Elo_R2_H1(props) {
           </Table>
         </TableContainer>
       </Paper>
+
+      <EloUpdate3 data={data} />
+
+      {/* <EloUpdate data={data} /> */}
     </>
   );
 }

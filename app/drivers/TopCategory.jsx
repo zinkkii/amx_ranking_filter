@@ -92,54 +92,14 @@ export default function TopCategory() {
         }}
       >
         <Button
-          className={pathname == "/r2_q" ? "clickedBtn" : "normalBtn"}
+          className={pathname == "/elotest" ? "clickedBtn" : "normalBtn"}
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
-            document.location.href = "/r2_q";
+            document.location.href = "/elotest";
           }}
         >
-          R2_Q
-        </Button>
-      </Stack>
-
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        sx={{
-          borderRadius: 2,
-          cursor: "pointer",
-        }}
-      >
-        <Button
-          className={pathname == "/r2_h1" ? "clickedBtn" : "normalBtn"}
-          sx={{ width: "100%", height: "75px" }}
-          variant="outlined"
-          onClick={() => {
-            document.location.href = "/r2_h1";
-          }}
-        >
-          R2_H1
-        </Button>
-      </Stack>
-
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        sx={{
-          borderRadius: 2,
-          cursor: "pointer",
-        }}
-      >
-        <Button
-          className={pathname == "/r2_h2" ? "clickedBtn" : "normalBtn"}
-          sx={{ width: "100%", height: "75px" }}
-          variant="outlined"
-          onClick={() => {
-            document.location.href = "/r2_h2";
-          }}
-        >
-          R2_H2
+          Elo
         </Button>
       </Stack>
     </Box>

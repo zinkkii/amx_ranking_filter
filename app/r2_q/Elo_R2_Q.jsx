@@ -9,8 +9,24 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import eloheader from "../elo_table_header/eloheader";
+import { Button } from "@mui/material";
+import AWS from "aws-sdk";
 
 export default function Elo_R2_Q(props) {
+  //S3
+  const ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY;
+  const SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_KEY;
+  const REGION = process.env.NEXT_PUBLIC_AWS_REGION;
+  const S3_BUCKET = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+  AWS.config.update({
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_ACCESS_KEY,
+  });
+  const myBucket = new AWS.S3({
+    params: { Bucket: S3_BUCKET },
+    region: REGION,
+  });
+
   var arr = [];
   const [elodata, setElodata] = useState([{}]);
   const [startEloAvg, setStartEloAvg] = useState(0);
@@ -64,6 +80,22 @@ export default function Elo_R2_Q(props) {
     }
   }, [elodata, setElodata, props]);
 
+  const s3upload = (data) => {
+    console.log(data);
+
+    const stringObject = JSON.stringify(data);
+
+    const params = {
+      ACL: "public-read",
+      Body: stringObject,
+      Bucket: S3_BUCKET,
+      Key: "amx/test.json",
+    };
+    myBucket.putObject(params).send((err) => {
+      if (err) console.log(err);
+    });
+  };
+
   return (
     <>
       <h2>S3 AMX10 R2_Q Elo _ Result</h2>
@@ -110,6 +142,13 @@ export default function Elo_R2_Q(props) {
           </Table>
         </TableContainer>
       </Paper>
+      <Button
+        onClick={() => {
+          s3upload(elodata);
+        }}
+      >
+        upload
+      </Button>
     </>
   );
 }

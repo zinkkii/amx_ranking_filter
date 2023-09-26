@@ -10,6 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Papa from "papaparse";
 import Typography from "@mui/material/Typography";
 import tableheader from "../elo_table_header/tableheader";
+import AWS from "aws-sdk";
 import Elo_R2_Q from "./Elo_R2_Q";
 
 export default function Result() {
@@ -43,16 +44,15 @@ export default function Result() {
         header: true,
         download: true,
         complete: (result) => {
-          // setCSVData(result.data);
           //console.log(result.data);
           for (var i = 0; i < result.data.length; i++) {
             //console.log(result.data[i]);
             arr.push(result.data[i]);
           }
+          setCSVData(arr);
         },
       }
     );
-    setCSVData(arr);
   }
   useEffect(() => {
     parseCSVData();

@@ -92,11 +92,11 @@ export default function TopCategory() {
         }}
       >
         <Button
-          className={pathname == "/elotest" ? "clickedBtn" : "normalBtn"}
+          className={pathname == "/elovalue" ? "clickedBtn" : "normalBtn"}
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
-            document.location.href = "/elotest";
+            document.location.href = "/elovalue";
           }}
         >
           Elo

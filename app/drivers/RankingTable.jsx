@@ -24,6 +24,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import RankingData from "./RankingData";
 const queryClient = new QueryClient();
 
 export default function StickyHeadTable(props) {
@@ -191,7 +192,7 @@ export default function StickyHeadTable(props) {
       </Box>
 
       {/* Paging */}
-      <TablePagination
+      {/* <TablePagination
         sx={{ fontFamily: "Kanit" }}
         rowsPerPageOptions={[10, 50, 100]}
         component="div"
@@ -200,11 +201,11 @@ export default function StickyHeadTable(props) {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      {/* <QueryWraped /> */}
+      /> */}
+      <RankingData games={games} />
 
       {/* Table Row */}
-      <Paper sx={{ overflow: "hidden" }}>
+      {/* <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table>
             <TableHead>
@@ -245,81 +246,7 @@ export default function StickyHeadTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
-    </>
-  );
-}
-
-function QueryWraped() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <GetJson />
-    </QueryClientProvider>
-  );
-}
-
-function GetJson() {
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["data"],
-    queryFn: () =>
-      fetch(
-        "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/R3/R3_H2_ELO.json" //R2_Q_ELO 읽기
-      ).then((res) => res.json()),
-  });
-
-  if (isLoading) return "Loading...";
-  if (error) return "An error has occurred: " + error.message;
-
-  return (
-    <>
-      <h2>ReadData</h2>
-      <Paper sx={{ overflow: "hidden" }}>
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                {eloheader.map((row, index) => (
-                  <TableCell
-                    key={index}
-                    sx={{ fontFamily: "Kanit", fontWeight: "900" }}
-                  >
-                    <b>{row.label}</b>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((row, index) => (
-                <TableRow
-                  key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell sx={{ fontFamily: "Kanit" }}>{row.name}</TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>
-                    {row.startElo}
-                  </TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>
-                    {row.eloDiff}
-                  </TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>{row.odds}</TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>
-                    {row.result}
-                  </TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>
-                    {row.winlose}
-                  </TableCell>
-                  <TableCell sx={{ fontFamily: "Kanit" }}>
-                    {row.newElo}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-
-      {/* H1 csv결과파일 읽고, ELO계산해서 H1 ELO값 업로드 */}
-      {/* <H1_ReadCsv_EloUpload2 data={data} /> */}
+      </Paper> */}
     </>
   );
 }

@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
+import EloCalculation from "./EloCalculation";
 
-export default function ConvertTest() {
+export default function CsvToJson() {
+  const [CSVData, setCSVData] = useState([{}]);
+
   var commonConfig = {
     delimiter: ",",
     header: true,
@@ -17,16 +20,15 @@ export default function ConvertTest() {
       var removepercent = removesharp.replace("%", "_");
       var removeR = removepercent.replace("(", "_");
       var result = removeR.replace(")", "_");
+
       return result;
     },
   };
-
-  const [CSVData, setCSVData] = useState([{}]);
-
   // Parse remote CSV file
   function parseCSVData() {
     Papa.parse(
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/S3_AMX10_R2_Q.csv",
+      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/R1/S3_AMX10_R1_Q.csv",
+
       {
         ...commonConfig,
         header: true,
@@ -38,17 +40,18 @@ export default function ConvertTest() {
       }
     );
   }
-
   useEffect(() => {
     parseCSVData();
   }, []);
   return (
     <>
+      <h3>-CSV 파일 Json으로 읽어오기</h3>
       {CSVData.map((data, index) => (
         <p key={index}>
-          {data.FinPos}~{data.Car}
+          {data.FinPos}, {data.Name} ,{data.Car}
         </p>
       ))}
+      <EloCalculation data={CSVData} />
     </>
   );
 }

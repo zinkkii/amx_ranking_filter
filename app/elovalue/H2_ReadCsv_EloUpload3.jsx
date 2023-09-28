@@ -13,7 +13,7 @@ import eloheader from "../elo_table_header/eloheader";
 import { Button } from "@mui/material";
 import AWS from "aws-sdk";
 
-export default function EloUpdate(props) {
+export default function H2_ReadCsv_EloUpload3(props) {
   //S3
   const ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY;
   const SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_KEY;
@@ -56,7 +56,9 @@ export default function EloUpdate(props) {
   // csv to json 변환
   function parseCSVData() {
     Papa.parse(
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/S3_AMX10_R2_H1.csv", //csv파일주소
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/R1/S3_AMX10_R1_H2.csv", //R1_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/R2/S3_AMX10_R2_H2.csv", //R2_H2
+      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/R3/S3_AMX10_R3_H2.csv", //R2_H2
       {
         ...commonConfig,
         header: true,
@@ -71,12 +73,12 @@ export default function EloUpdate(props) {
           const result1 = arr.sort((a, b) =>
             a.Name.toLowerCase() < b.Name.toLowerCase() ? -1 : 1
           );
-          //console.log(result1);
+          console.log(result1);
           //전 경기 Elo값 결과지 _ 참가자 이름순 정렬
           const result2 = props.data.sort((a, b) =>
             a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
           );
-          //console.log(result2);
+          console.log(result2);
 
           //배열생성(이름, 등수, 해당선수 Elo값)
           const tempArr = [];
@@ -103,7 +105,7 @@ export default function EloUpdate(props) {
   }, []);
 
   useEffect(() => {
-    console.log(newArr);
+    //console.log(newArr);
 
     //참가자수
     participants = newArr.length;
@@ -134,10 +136,13 @@ export default function EloUpdate(props) {
         result: newArr[i].resultvalue,
         winlose: winlose,
         newElo: newElo,
+        game: "iracing",
+        tier: "AMX 10",
+        region: "Global",
       });
     }
 
-    console.log(eloResult);
+    //console.log(eloResult);
     setElodataResult(eloResult);
   }, [CSVData]);
 
@@ -148,7 +153,10 @@ export default function EloUpdate(props) {
       ACL: "public-read",
       Body: stringObject,
       Bucket: S3_BUCKET,
-      Key: "amx/test_h1.json",
+      //Key: "amx/R1/R1_H2_ELO.json", //R1_H2
+      //Key: "amx/R2/R2_H2_ELO.json", //R2_H2
+      Key: "amx/R3/R3_H2_ELO.json", //R3_H2
+      CacheControl: "no-cache",
     };
     myBucket.putObject(params).send((err) => {
       if (err) console.log(err);
@@ -157,7 +165,7 @@ export default function EloUpdate(props) {
 
   return (
     <>
-      {/* <h2>위 데이터(R2_Q_elo_Result)로 R2_H1 elo값 계산</h2>
+      <h2>R3_H2_Elo</h2>
       <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -201,7 +209,7 @@ export default function EloUpdate(props) {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper> */}
+      </Paper>
       {/* <Button
         onClick={() => {
           s3upload(elodataResult);
@@ -209,7 +217,6 @@ export default function EloUpdate(props) {
       >
         upload
       </Button> */}
-      {/* 여기서 업데이트 하고 주석*/}
     </>
   );
 }

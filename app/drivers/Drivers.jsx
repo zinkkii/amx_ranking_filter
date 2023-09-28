@@ -9,6 +9,7 @@ import regions from "./regions";
 import periods from "./period";
 import { Typography } from "@mui/material";
 import TopCategory from "./TopCategory";
+import RankingTable from "./RankingTable";
 
 export default function Drivers() {
   const [game, setGame] = useState("");
@@ -180,7 +181,8 @@ export default function Drivers() {
 
       <hr />
 
-      <Table game={game} tier={tier} region={region} />
+      <RankingTable game={game} tier={tier} region={region} />
+      {/* <Table game={game} tier={tier} region={region} /> */}
     </>
   );
 }

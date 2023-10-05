@@ -202,7 +202,7 @@ export default function StickyHeadTable(props) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
-      <RankingData games={games} />
+      <RankingData game={props.game} tier={props.tier} region={props.region} />
 
       {/* Table Row */}
       {/* <Paper sx={{ overflow: "hidden" }}>

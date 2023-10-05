@@ -1,8 +1,3 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,39 +7,37 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useEffect, useState } from "react";
-const queryClient = new QueryClient();
+import { useQuery } from "@tanstack/react-query";
 
 export default function RankingData(props) {
-  useEffect(() => {
-    console.log(props.games);
-  }, []);
+  const [ranking, setRanking] = useState();
 
   const getRankingData = (x) => {
     console.log(x);
+    //setRanking(x);
   };
 
+  useEffect(() => {
+    console.log("props!");
+    console.log(props.game);
+  }, [props]);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <GetJson games={props.games} getRankingData={getRankingData} />
-    </QueryClientProvider>
+    <GetJson
+      game={props.game}
+      tier={props.tier}
+      region={props.region}
+      getRankingData={getRankingData}
+      ranking={ranking}
+    />
   );
 }
 
-function GetJson({ getRankingData }, props) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+function GetJson({ getRankingData, game, tier, region }) {
   useEffect(() => {
-    setPage(0);
-  }, [props]);
-  const [rankingData, setRankingData] = useState([{}]);
+    console.log("GetJson");
+    console.log(game);
+  }, [game]);
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["data"],
@@ -61,6 +54,40 @@ function GetJson({ getRankingData }, props) {
   return (
     <>
       <h2>Rankingdata.js</h2>
+
+      <RankingTable data={data} game={game} tier={tier} region={region} />
+    </>
+  );
+}
+
+function RankingTable({ data, game, tier, region }) {
+  //paging
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  useEffect(() => {
+    setPage(0);
+  }, []);
+  //--paging
+
+  //rankingData
+  const [rows, setRows] = useState([{}]);
+
+  useEffect(() => {
+    console.log("RankingTable----");
+    if (game === "all") {
+      setRows(data);
+    }
+  }, [game, tier, region]);
+
+  return (
+    <>
       {/* Paging */}
       <TablePagination
         sx={{ fontFamily: "Kanit" }}
@@ -105,7 +132,7 @@ function GetJson({ getRankingData }, props) {
             </TableHead>
 
             <TableBody>
-              {data
+              {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow hover role="checkbox" key={index}>

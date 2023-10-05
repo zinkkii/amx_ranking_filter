@@ -1,5 +1,6 @@
 const eloheader = [
   { label: "Driver Name" },
+  { label: "CustID" },
   { label: "Start Elo" },
   { label: "Elo Diff" },
   { label: "Odds" },

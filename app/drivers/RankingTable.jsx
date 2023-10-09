@@ -17,20 +17,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import columns from "./columns";
-import eloheader from "../elo_table_header/eloheader";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
 import RankingData from "./RankingData";
-const queryClient = new QueryClient();
+import axios from "axios";
 
 export default function StickyHeadTable(props) {
+  const [user, setUser] = useState([{}]);
   const [games, setGames] = useState([{}]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const row = [];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -41,53 +37,91 @@ export default function StickyHeadTable(props) {
     setPage(0);
   };
 
+  //DB에서 USER데이터 가져오기
   useEffect(() => {
+    // axios
+    //   .post("/api/user/select_elo_desc")
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     setUser(res.data);
+    //   })
+    //   .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    console.log(props.game);
+    console.log(props.tier);
+    console.log(props.region);
+
     if (props.game === "all") {
-      setGames(rows);
-      function allfilter(rows) {
-        if (
-          (props.tier === "" && props.region === "") ||
-          (props.tier === rows.tier && props.region === "") ||
-          (props.tier === rows.tier && props.region === rows.region) ||
-          (props.tier === "" && props.region === rows.region)
-        ) {
-          return true;
-        }
+      axios
+        .post("/api/user/select_elo_desc")
+        .then((res) => {
+          console.log(res.data);
+          setUser(res.data);
+        })
+        .catch((err) => console.log(err));
+      if (props.tier === "AMX Zero") {
+        console.log("ZEZEZEZEZE");
+      } else if (props.tier === "AMX 10") {
+        console.log("1010101010");
       }
-      console.log(rows.filter(allfilter));
-      setGames(rows.filter(allfilter));
     } else {
-      function filtergame(rows) {
-        if (
-          (props.game === rows.game &&
-            props.tier === "" &&
-            props.region === "") ||
-          (props.game === rows.game &&
-            props.tier === rows.tier &&
-            props.region === "") ||
-          (props.game === rows.game &&
-            props.tier === rows.tier &&
-            props.region === rows.region) ||
-          (props.game === rows.game &&
-            props.tier === "" &&
-            props.region === rows.region) ||
-          (props.game === "" &&
-            props.tier === rows.tier &&
-            props.region === "") ||
-          (props.game === "" &&
-            props.tier === rows.tier &&
-            props.region === rows.region) ||
-          (props.game === "" &&
-            props.tier === "" &&
-            props.region === rows.region)
-        ) {
-          return true;
-        }
+      if (props.game === "iracing") {
+        axios.post("/api/user/select_iracing").then((res) => {
+          console.log(res.data);
+          setUser(res.data);
+        });
+      } else {
+        setUser(row); //temp(빈값)
       }
-      console.log(rows.filter(filtergame));
-      setGames(rows.filter(filtergame));
     }
-  }, [props, rows]);
+    // if (props.game === "all") {
+    //   setGames(rows);
+    //   function allfilter(rows) {
+    //     if (
+    //       (props.tier === "" && props.region === "") ||
+    //       (props.tier === rows.tier && props.region === "") ||
+    //       (props.tier === rows.tier && props.region === rows.region) ||
+    //       (props.tier === "" && props.region === rows.region)
+    //     ) {
+    //       return true;
+    //     }
+    //   }
+    //   console.log(rows.filter(allfilter));
+    //   setGames(rows.filter(allfilter));
+    // } else {
+    //   function filtergame(rows) {
+    //     if (
+    //       (props.game === rows.game &&
+    //         props.tier === "" &&
+    //         props.region === "") ||
+    //       (props.game === rows.game &&
+    //         props.tier === rows.tier &&
+    //         props.region === "") ||
+    //       (props.game === rows.game &&
+    //         props.tier === rows.tier &&
+    //         props.region === rows.region) ||
+    //       (props.game === rows.game &&
+    //         props.tier === "" &&
+    //         props.region === rows.region) ||
+    //       (props.game === "" &&
+    //         props.tier === rows.tier &&
+    //         props.region === "") ||
+    //       (props.game === "" &&
+    //         props.tier === rows.tier &&
+    //         props.region === rows.region) ||
+    //       (props.game === "" &&
+    //         props.tier === "" &&
+    //         props.region === rows.region)
+    //     ) {
+    //       return true;
+    //     }
+    //   }
+    //   console.log(rows.filter(filtergame));
+    //   setGames(rows.filter(filtergame));
+    // }
+  }, [props, setUser]);
 
   useEffect(() => {
     setPage(0);
@@ -192,61 +226,86 @@ export default function StickyHeadTable(props) {
       </Box>
 
       {/* Paging */}
-      {/* <TablePagination
+      <TablePagination
         sx={{ fontFamily: "Kanit" }}
         rowsPerPageOptions={[10, 50, 100]}
         component="div"
-        count={games.length}
+        count={user.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
-      <RankingData game={props.game} tier={props.tier} region={props.region} />
+      />
 
-      {/* Table Row */}
-      {/* <Paper sx={{ overflow: "hidden" }}>
+      <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    sx={{ fontFamily: "Kanit", fontWeight: "900" }}
-                    key={column.id}
-                    align={column.align}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
+                <TableCell
+                  sx={{
+                    fontFamily: "Kanit",
+                    fontWeight: "900",
+                    align: "center",
+                  }}
+                >
+                  Pos
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Name
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Country
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Game
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Tier
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Region
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Elo
+                </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {games
+              {user
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell
-                            sx={{ fontFamily: "Kanit" }}
-                            key={column.id}
-                            align={column.align}
-                          >
-                            {value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
+                .map((row, index) => (
+                  <TableRow hover role="checkbox" key={index}>
+                    <TableCell sx={{ fontFamily: "Kanit", align: "center" }}>
+                      {index + page * rowsPerPage + 1}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.driverName}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.country}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.game}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.tier}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.region}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.elo}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper> */}
+      </Paper>
+
+      {/* <RankingData game={props.game} tier={props.tier} region={props.region} /> */}
     </>
   );
 }

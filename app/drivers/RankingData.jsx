@@ -117,6 +117,9 @@ function RankingTable({ data, game, tier, region }) {
                   Name
                 </TableCell>
                 <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Country
+                </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                   Game
                 </TableCell>
                 <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>

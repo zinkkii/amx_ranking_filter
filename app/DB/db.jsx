@@ -12,6 +12,7 @@ pool.getConnection((err, conn) => {
   if (err) console.log("Error connecting to db...");
   else console.log("Connected to db...!");
   conn.release();
+  //conn.end();
 });
 
 const executeQuery = (query, arrParams) => {

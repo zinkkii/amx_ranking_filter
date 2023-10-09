@@ -82,26 +82,6 @@ export default function TopCategory() {
           Countries
         </Button>
       </Stack>
-
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        sx={{
-          borderRadius: 2,
-          cursor: "pointer",
-        }}
-      >
-        <Button
-          className={pathname == "/elovalue" ? "clickedBtn" : "normalBtn"}
-          sx={{ width: "100%", height: "75px" }}
-          variant="outlined"
-          onClick={() => {
-            document.location.href = "/elovalue";
-          }}
-        >
-          Elo
-        </Button>
-      </Stack>
     </Box>
   );
 }

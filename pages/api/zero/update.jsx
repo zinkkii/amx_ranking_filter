@@ -3,7 +3,7 @@ import { executeQuery } from "@/app/DB/db";
 export default function handler(req, res) {
   if (req.method === "POST") {
     var sql =
-      "UPDATE AMX10 SET elo=? , wins = wins + ?, finishedRace= finishedRace + ? WHERE custID=?";
+      "UPDATE AMX0 SET elo=? , wins = wins + ?, finishedRace= finishedRace + ? WHERE custID=?";
     try {
       for (var i = 0; i < req.body.data.length; i++) {
         let result = executeQuery(sql, [

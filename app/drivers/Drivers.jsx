@@ -101,7 +101,6 @@ export default function Drivers() {
             value={games.value}
             onClick={(e) => {
               setGame(e.target.value);
-              console.log(e.target.value);
             }}
             onChange={(e) => checkOnlyGame(e.target)}
           />
@@ -120,7 +119,6 @@ export default function Drivers() {
             value={tiers.value}
             onClick={(e) => {
               setTier(e.target.value);
-              console.log(e.target.value);
             }}
             onChange={(e) => checkOnlyTier(e.target)}
           />
@@ -139,7 +137,6 @@ export default function Drivers() {
             value={regions.value}
             onClick={(e) => {
               setRegion(e.target.value);
-              console.log(e.target.value);
             }}
             onChange={(e) => checkOnlyRegion(e.target)}
           />
@@ -157,7 +154,6 @@ export default function Drivers() {
           value="all"
           onClick={(e) => {
             setPeriod(e.target.value);
-            console.log(e.target.value);
           }}
           onChange={(e) => checkOnlyPeriod(e.target)}
         />

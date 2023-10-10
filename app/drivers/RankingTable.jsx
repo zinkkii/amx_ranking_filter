@@ -55,7 +55,7 @@ export default function StickyHeadTable(props) {
 
     if (props.game === "all") {
       axios
-        .post("/api/user/select_elo_desc")
+        .post("/api/user/select_elo_desc") //전체뽑기
         .then((res) => {
           console.log(res.data);
           setUser(res.data);

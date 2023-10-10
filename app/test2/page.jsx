@@ -50,7 +50,7 @@ export default function Page() {
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R1/S3_AMXZero_R1_Q.csv", //R1_Q 첫경기 후 DB업데이트
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R1/S3_AMXZero_R1_H1.csv", //R1_H1 후 DB업데이트
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R1/S3_AMXZero_R1_H2.csv", //R1_H2 후 DB업데이트
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_Q.csv", //R2_Q
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_Q.csv", //R2_Q
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_H1.csv", //R2_H1
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_H2.csv", //R2_H2
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R3/S3_AMXZero_R3_Q.csv", //R3_Q
@@ -64,7 +64,7 @@ export default function Page() {
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R5/S3_AMXZero_R5_H2.csv", //R5_H2
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R6/S3_AMXZero_R6_Q.csv", //R6_Q
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R6/S3_AMXZero_R6_H1.csv", //R6_H1
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R6/S3_AMXZero_R6_H2.csv", //R6_H2
+      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R6/S3_AMXZero_R6_H2.csv", //R6_H2
       {
         ...commonConfig,
         header: true,
@@ -81,9 +81,7 @@ export default function Page() {
   //CsvData의 USER INFO -- DB에 INSERT하기
   const userInsert = (CsvData) => {
     axios
-      //.post("/api/user/insert", { data: CsvData }) //맨 처음에만(Round1) UserINSERT
-      //.post("/api/user/nested_insert", { data: CsvData }) //경기에따른 누적 UserINSERT
-      //.post("/api/zero/insert", { data: CsvData }) //Zero 맨 처음경기에만(User는 중복거르고Insert, Zero테이블엔 전체 Insert)
+      //.post("/api/zero/insert", { data: CsvData }) // Round1일때만!!!!!!
       .post("/api/zero/nested_insert", { data: CsvData })
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
@@ -99,9 +97,7 @@ export default function Page() {
   useEffect(() => {
     //DB에서 Driver정보 꺼내오기
     axios
-      //.post("/api/user/select") // 모든 유저 꺼내오기(Round1일때만)
-      //.post("/api/user/nested_select", { data: CsvData }) // Csv파일과 일치하는 유저만 꺼내오기
-      //.post("/api/zero/select") //Zero의모든유저 꺼내오기(Zero맨 처음경기의 Q일때만)
+      //.post("/api/zero/select") //Zero의모든유저 꺼내오기((Round1일때만))
       .post("/api/zero/nested_select", { data: CsvData }) // Zero Csv파일과 일치하는 유저만 꺼내오기
       .then((res) => {
         console.log(res.data); //(Round2부터는)중복유저 걸러짐
@@ -163,8 +159,8 @@ export default function Page() {
     console.log("아래 데이터 : DB의 USER 데이터를 custID순서로 정렬한다");
     console.log(sort_arr);
 
-    //순서대로 CSV파일의 startElo를 DB의 elo 저장값 으로 넣음 => 자동계산
-    //Q 계산할때는 !!! (하기전에 중복 USer먼저 체크!!! INSERT 버튼클릭클릭 하고 주석풀기!!)
+    // 순서대로 CSV파일의 startElo를 DB의 elo 저장값 으로 넣음 => 자동계산
+    // Q 계산할때는 !!! (하기전에 중복 USer먼저 체크!!! INSERT 버튼클릭클릭 하고 주석풀기!!)
     for (var i = 0; i < driverInfo.length; i++) {
       arr[i].startElo = driverInfo[i].elo;
     }
@@ -199,8 +195,7 @@ export default function Page() {
   //elo값 계산 결과 USER INFO -- DB에 UPDATE하기
   const eloUpdate = (elodata) => {
     axios
-      //.post("/api/user/update", { data: elodata }) // =>AMX 10
-      .post("/api/zero/update", { data: elodata }) // =>AMX Zero
+      .post("/api/zero/update", { data: elodata })
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   };

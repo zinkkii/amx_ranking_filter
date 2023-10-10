@@ -83,8 +83,6 @@ export default function Page() {
     axios
       //.post("/api/user/insert", { data: CsvData }) //맨 처음에만(Round1) UserINSERT
       .post("/api/user/nested_insert", { data: CsvData }) //경기에따른 누적 UserINSERT
-      //.post("/api/zero/insert", { data: CsvData }) //Zero 맨 처음경기에만(User는 중복거르고Insert, Zero테이블엔 전체 Insert)
-      //.post("/api/zero/nested_insert", { data: CsvData })
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   };
@@ -101,8 +99,6 @@ export default function Page() {
     axios
       //.post("/api/user/select") // 모든 유저 꺼내오기(Round1일때만)
       .post("/api/user/nested_select", { data: CsvData }) // Csv파일과 일치하는 유저만 꺼내오기
-      //.post("/api/zero/select") //Zero의모든유저 꺼내오기(Zero맨 처음경기의 Q일때만)
-      //.post("/api/zero/nested_select", { data: CsvData }) // Zero Csv파일과 일치하는 유저만 꺼내오기
       .then((res) => {
         console.log(res.data); //(Round2부터는)중복유저 걸러짐
         setDriverInfo(res.data);
@@ -199,8 +195,7 @@ export default function Page() {
   //elo값 계산 결과 USER INFO -- DB에 UPDATE하기
   const eloUpdate = (elodata) => {
     axios
-      .post("/api/user/update", { data: elodata }) // =>AMX 10
-      //.post("/api/zero/update", { data: elodata }) // =>AMX Zero
+      .post("/api/user/update", { data: elodata })
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   };

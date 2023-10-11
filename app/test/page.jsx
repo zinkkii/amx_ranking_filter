@@ -50,7 +50,7 @@ export default function Page() {
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R1/S3_AMX10_R1_Q.csv", //R1_Q 첫경기 후 DB업데이트
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R1/S3_AMX10_R1_H1.csv", //R1_H1 후 DB업데이트
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R1/S3_AMX10_R1_H2.csv", //R1_H2 후 DB업데이트
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R2/S3_AMX10_R2_Q.csv", //R2_Q
+      //AXIOS CHECK//"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R2/S3_AMX10_R2_Q.csv", //R2_Q
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R2/S3_AMX10_R2_H1.csv", //R2_H1
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R2/S3_AMX10_R2_H2.csv", //R2_H2
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R3/S3_AMX10_R3_Q.csv", //R3_Q
@@ -64,7 +64,13 @@ export default function Page() {
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R5/S3_AMX10_R5_H2.csv", //R5_H2
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R6/S3_AMX10_R6_Q.csv", //R6_Q
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R6/S3_AMX10_R6_H1.csv", //R6_H1
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R6/S3_AMX10_R6_H2.csv", //R6_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R6/S3_AMX10_R6_H2.csv", //R6_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R7/S3_AMX10_R7_Q.csv", //R7_Q
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R7/S3_AMX10_R7_H1.csv", //R7_H1
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R7/S3_AMX10_R7_H2.csv", //R7_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_Q.csv", //R8_Q
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_H1.csv", //R8_H1
+      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_H2.csv", //R8_H2
       {
         ...commonConfig,
         header: true,

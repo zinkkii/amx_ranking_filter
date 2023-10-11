@@ -8,10 +8,6 @@ export default function TopCategory() {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    console.log(pathname);
-  }, []);
-
   return (
     <Box
       gap={1}

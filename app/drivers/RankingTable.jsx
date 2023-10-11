@@ -22,11 +22,8 @@ import axios from "axios";
 
 export default function StickyHeadTable(props) {
   const [user, setUser] = useState([{}]);
-  const [games, setGames] = useState([{}]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const row = [];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -37,95 +34,68 @@ export default function StickyHeadTable(props) {
     setPage(0);
   };
 
-  //DB에서 USER데이터 가져오기
   useEffect(() => {
-    // axios
-    //   .post("/api/user/select_elo_desc")
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     setUser(res.data);
-    //   })
-    //   .catch((err) => console.log(err));
-  }, []);
+    var rows = [];
 
-  useEffect(() => {
-    console.log(props.game);
-    console.log(props.tier);
-    console.log(props.region);
-
-    if (props.game === "all") {
-      axios
-        .post("/api/user/select_elo_desc") //전체뽑기
-        .then((res) => {
-          console.log(res.data);
-          setUser(res.data);
-        })
-        .catch((err) => console.log(err));
-      if (props.tier === "AMX Zero") {
-        console.log("ZEZEZEZEZE");
-      } else if (props.tier === "AMX 10") {
-        console.log("1010101010");
-      }
+    if (
+      props.game === "all" ||
+      props.game === "iracing" ||
+      props.region === "Global"
+    ) {
+      axios.post("/api/user/select_elo_desc").then((res) => {
+        setUser(res.data);
+        rows = res.data;
+        function allFilter(rows) {
+          if (
+            (props.tier === "" && props.region === "") ||
+            (props.tier === rows.tier && props.region === "") ||
+            (props.tier === rows.tier && props.region === rows.region) ||
+            (props.tier === "" && props.region === rows.region)
+          ) {
+            return true;
+          }
+        }
+        //console.log(rows.filter(allFilter));
+        setUser(rows.filter(allFilter));
+      });
     } else {
-      if (props.game === "iracing") {
-        axios.post("/api/user/select_iracing").then((res) => {
-          console.log(res.data);
-          setUser(res.data);
-        });
-      } else {
-        setUser(row); //temp(빈값)
-      }
+      axios.post("/api/user/select_elo_desc").then((res) => {
+        rows = res.data;
+        function otherFilter(rows) {
+          if (
+            (props.game === rows.game &&
+              props.tier === "" &&
+              props.region === "") ||
+            (props.game === rows.game &&
+              props.tier === rows.tier &&
+              props.region === "") ||
+            (props.game === rows.game &&
+              props.tier === rows.tier &&
+              props.region === rows.region) ||
+            (props.game === rows.game &&
+              props.tier === "" &&
+              props.region === rows.region) ||
+            (props.game === "" &&
+              props.tier === rows.tier &&
+              props.region === "") ||
+            (props.game === "" &&
+              props.tier === rows.tier &&
+              props.region === rows.region) ||
+            (props.game === "" &&
+              props.tier === "" &&
+              props.region === rows.region)
+          ) {
+            return true;
+          }
+        }
+        setUser(rows.filter(otherFilter));
+      });
     }
-    // if (props.game === "all") {
-    //   setGames(rows);
-    //   function allfilter(rows) {
-    //     if (
-    //       (props.tier === "" && props.region === "") ||
-    //       (props.tier === rows.tier && props.region === "") ||
-    //       (props.tier === rows.tier && props.region === rows.region) ||
-    //       (props.tier === "" && props.region === rows.region)
-    //     ) {
-    //       return true;
-    //     }
-    //   }
-    //   console.log(rows.filter(allfilter));
-    //   setGames(rows.filter(allfilter));
-    // } else {
-    //   function filtergame(rows) {
-    //     if (
-    //       (props.game === rows.game &&
-    //         props.tier === "" &&
-    //         props.region === "") ||
-    //       (props.game === rows.game &&
-    //         props.tier === rows.tier &&
-    //         props.region === "") ||
-    //       (props.game === rows.game &&
-    //         props.tier === rows.tier &&
-    //         props.region === rows.region) ||
-    //       (props.game === rows.game &&
-    //         props.tier === "" &&
-    //         props.region === rows.region) ||
-    //       (props.game === "" &&
-    //         props.tier === rows.tier &&
-    //         props.region === "") ||
-    //       (props.game === "" &&
-    //         props.tier === rows.tier &&
-    //         props.region === rows.region) ||
-    //       (props.game === "" &&
-    //         props.tier === "" &&
-    //         props.region === rows.region)
-    //     ) {
-    //       return true;
-    //     }
-    //   }
-    //   console.log(rows.filter(filtergame));
-    //   setGames(rows.filter(filtergame));
-    // }
   }, [props, setUser]);
 
   useEffect(() => {
     setPage(0);
-  }, [props]);
+  }, [props, user]);
 
   const [searchName, setSearchName] = useState("");
   const [countries, setCountries] = useState("");
@@ -134,40 +104,34 @@ export default function StickyHeadTable(props) {
     setCountries(event.target.value);
   };
 
-  const goSearch = (games) => {
-    console.log("=====");
-    console.log(games);
+  const goSearch = (user) => {
     var emptyarr = [];
-    console.log("searchResult");
-    console.log(searchName);
-    console.log(countries);
-    console.log("=====");
 
-    for (var i = 0; i < games.length; i++) {
+    for (var i = 0; i < user.length; i++) {
       if (searchName !== "" && countries === "") {
-        var result = games[i].name.indexOf(searchName);
+        var result = user[i].driverName.indexOf(searchName);
         if (result !== -1) {
-          console.log(games[i].name);
-          emptyarr.push(games[i]);
+          //console.log(user[i].driverName);
+          emptyarr.push(user[i]);
         }
       }
       if (searchName === "" && countries !== "") {
-        var result = games[i].country.indexOf(countries);
+        var result = user[i].country.indexOf(countries);
         if (result !== -1) {
-          console.log(games[i].country);
-          emptyarr.push(games[i]);
+          //console.log(user[i].country);
+          emptyarr.push(user[i]);
         }
       }
       if (searchName !== "" && countries !== "") {
-        var result = games[i].name.indexOf(searchName);
-        var result2 = games[i].country.indexOf(countries);
+        var result = user[i].driverName.indexOf(searchName);
+        var result2 = user[i].country.indexOf(countries);
         if (result !== -1 && result2 !== -1) {
-          console.log(games[i]);
-          emptyarr.push(games[i]);
+          //console.log(user[i]);
+          emptyarr.push(user[i]);
         }
       }
     }
-    setGames(emptyarr);
+    setUser(emptyarr);
   };
 
   return (
@@ -199,10 +163,25 @@ export default function StickyHeadTable(props) {
               label="Countries"
               onChange={handleChange}
             >
-              <MenuItem value="🏁">🏁</MenuItem>
-              <MenuItem value="🎌">🎌</MenuItem>
-              <MenuItem value="🏳️‍🌈">🏳️‍🌈</MenuItem>
-              <MenuItem value="🏴‍☠️">🏴‍☠️</MenuItem>
+              <MenuItem value="Asia">Asia</MenuItem>
+              <MenuItem value="Asia">Australia/NZ</MenuItem>
+              <MenuItem value="Benelux">Benelux</MenuItem>
+              <MenuItem value="Brazil">Brazil</MenuItem>
+              <MenuItem value="California Club">California Club</MenuItem>
+              <MenuItem value="Canada">Canada</MenuItem>
+              <MenuItem value="DE-AT-CH">DE-AT-CH</MenuItem>
+              <MenuItem value="Florida">Florida</MenuItem>
+              <MenuItem value="France">France</MenuItem>
+              <MenuItem value="Great Plains">Great Plains</MenuItem>
+              <MenuItem value="Hispanoamérica">Hispanoamérica</MenuItem>
+              <MenuItem value="Iberia">Iberia</MenuItem>
+              <MenuItem value="Italy">Italy</MenuItem>
+              <MenuItem value="Mexico">Mexico</MenuItem>
+              <MenuItem value="New York">New York</MenuItem>
+              <MenuItem value="Scandinavia">Scandinavia</MenuItem>
+              <MenuItem value="UK and I">UK and I</MenuItem>
+              <MenuItem value="Virginias">Virginias</MenuItem>
+              <MenuItem value="West">West</MenuItem>
             </Select>
           </FormControl>
 
@@ -210,7 +189,7 @@ export default function StickyHeadTable(props) {
             sx={{ width: "15%" }}
             variant="outlined"
             onClick={() => {
-              goSearch(games);
+              goSearch(user);
               setSearchName("");
               setCountries("");
               setPage(0);

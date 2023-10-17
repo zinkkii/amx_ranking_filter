@@ -70,7 +70,16 @@ export default function Page() {
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R7/S3_AMX10_R7_H2.csv", //R7_H2
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_Q.csv", //R8_Q
       //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_H1.csv", //R8_H1
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_H2.csv", //R8_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R8/S3_AMX10_R8_H2.csv", //R8_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R9/S3_AMX10_R9_Q.csv", //R9_Q
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R9/S3_AMX10_R9_H1.csv", //R9_H1
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R9/S3_AMX10_R9_H2.csv", //R9_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R10/S3_AMX10_R10_Q.csv", //R10_Q
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R10/S3_AMX10_R10_H1.csv", //R10_H1
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R10/S3_AMX10_R10_H2.csv", //R10_H2
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R11/S3_AMX10_R11_Q.csv", //R11_Q
+      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R11/S3_AMX10_R11_H1.csv", //R11_H1
+      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R11/S3_AMX10_R11_H2.csv", //R11_H2
       {
         ...commonConfig,
         header: true,

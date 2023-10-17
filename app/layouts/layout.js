@@ -1,5 +1,4 @@
 "use client";
-import useResponsive from "../hooks/useResponsive";
 import { Container, Stack, Typography, Button, Box } from "@mui/material";
 import {
   QueryClient,
@@ -9,8 +8,6 @@ import {
 const queryClient = new QueryClient();
 
 export default function Layout({ children }) {
-  const isMdUp = useResponsive("up", "md");
-
   return (
     <>
       <QueryClientProvider client={queryClient}>

@@ -10,6 +10,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import rows from "./tabledata";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -22,6 +23,7 @@ import axios from "axios";
 
 export default function StickyHeadTable(props) {
   const [user, setUser] = useState([{}]);
+  const [defaultUser, setDefaultUser] = useState([{}]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -36,7 +38,6 @@ export default function StickyHeadTable(props) {
 
   useEffect(() => {
     var rows = [];
-
     if (
       props.game === "all" ||
       props.game === "iracing" ||
@@ -202,6 +203,15 @@ export default function StickyHeadTable(props) {
             Search
           </Button>
         </Stack>
+      </Box>
+
+      <Box>
+        <Typography
+          variant="h5"
+          sx={{ fontFamily: "Kanit", fontWeight: "900", marginTop: "30px" }}
+        >
+          AMX Season3 Race11 Result
+        </Typography>
       </Box>
 
       {/* Paging */}

@@ -12,7 +12,7 @@ import TopCategory from "./TopCategory";
 import RankingTable from "./RankingTable";
 
 export default function Drivers() {
-  const [game, setGame] = useState("");
+  const [game, setGame] = useState("all");
   const [tier, setTier] = useState("");
   const [region, setRegion] = useState("");
   const [period, setPeriod] = useState("");
@@ -86,6 +86,7 @@ export default function Drivers() {
           type="checkbox"
           name="game"
           value="all"
+          defaultChecked={true}
           onClick={(e) => {
             setGame(e.target.value);
           }}

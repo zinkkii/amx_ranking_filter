@@ -3,7 +3,6 @@ import { executeQuery } from "@/app/DB/db";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     console.log(req.body.data);
-    //var sql = "INSERT INTO Driver(custID, driverName, country) VALUES(?,?,?)";
     var sql = "SELECT driverName FROM users WHERE custID=?";
     var sql2 = "INSERT INTO users(custID, driverName, country) VALUES(?,?,?)";
     var sql3 = "INSERT INTO AMX0(custID, driverName) VALUES(?,?)";

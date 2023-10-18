@@ -1,4 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## AMX_Ranking
+
+```
+주소 : < http://13.209.85.151 >
+
+
+-설명
+
+.csv파일(iracing 결과지)을 .json으로 변환한다
+게임 결과지의 참가자 정보 -> DB의 USER테이블에 저장한다
+게임 결과지의 참가자 및 결과 정보 -> 읽어와서 Elo값, Odds값 계산 -> DB의 각 게임테이블 정보에 저장한다.
+결과지 누적 -> DB정보 업데이트
+
+메인페이지 -> 가장 최근 게임결과까지의 누적데이터 표시한다
+
+```
 
 ## Getting Started
 

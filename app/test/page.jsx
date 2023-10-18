@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
-import eloheader from "../elo_table_header/eloheader";
+import eloheader from "../assets/eloheader";
 
 export default function Page() {
   var arr = []; //elo값 계산해서 넣을공간

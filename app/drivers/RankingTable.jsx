@@ -8,7 +8,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import rows from "./tabledata";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -293,8 +292,6 @@ export default function StickyHeadTable(props) {
           </Table>
         </TableContainer>
       </Paper>
-
-      {/* <RankingData game={props.game} tier={props.tier} region={props.region} /> */}
     </>
   );
 }

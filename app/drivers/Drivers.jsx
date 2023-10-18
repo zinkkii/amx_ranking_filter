@@ -1,12 +1,11 @@
 "use client";
 
-import Table from "./Table";
 import { useState } from "react";
 
-import games from "./games";
-import tiers from "./tiers";
-import regions from "./regions";
-import periods from "./period";
+import games from "../assets/games";
+import tiers from "../assets/tiers";
+import regions from "../assets/regions";
+import periods from "../assets/period";
 import { Typography } from "@mui/material";
 import TopCategory from "./TopCategory";
 import RankingTable from "./RankingTable";
@@ -147,7 +146,7 @@ export default function Drivers() {
 
       <hr />
 
-      <span className="filter-title">Period</span>
+      {/* <span className="filter-title">Period</span>
       <label className="box-radio-input">
         <input
           type="checkbox"
@@ -176,10 +175,9 @@ export default function Drivers() {
         </label>
       ))}
 
-      <hr />
+      <hr /> */}
 
       <RankingTable game={game} tier={tier} region={region} />
-      {/* <Table game={game} tier={tier} region={region} /> */}
     </>
   );
 }

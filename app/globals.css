@@ -55,3 +55,9 @@ hr {
   border: 2px solid #2699ea;
   pointer-events: none;
 }
+
+/* product img */
+.raceraikit {
+  width: 100%;
+  height: auto;
+}

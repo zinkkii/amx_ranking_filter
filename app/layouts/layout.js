@@ -1,10 +1,6 @@
 "use client";
-import { Container, Stack, Typography, Button, Box } from "@mui/material";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { Container, Stack, Typography, Box } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 export default function Layout({ children }) {

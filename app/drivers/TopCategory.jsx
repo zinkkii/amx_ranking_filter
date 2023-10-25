@@ -2,7 +2,6 @@
 
 import { Stack, Button, Box } from "@mui/material";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 export default function TopCategory() {
   const router = useRouter();

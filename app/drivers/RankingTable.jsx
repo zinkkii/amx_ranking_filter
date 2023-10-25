@@ -43,6 +43,7 @@ export default function StickyHeadTable(props) {
       props.region === "Global"
     ) {
       axios.post("/api/user/select_elo_desc").then((res) => {
+        console.log(res.data);
         setUser(res.data);
         rows = res.data;
         function allFilter(rows) {
@@ -257,6 +258,9 @@ export default function StickyHeadTable(props) {
                 <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                   Elo
                 </TableCell>
+                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                  Points
+                </TableCell>
               </TableRow>
             </TableHead>
 
@@ -285,6 +289,9 @@ export default function StickyHeadTable(props) {
                     </TableCell>
                     <TableCell sx={{ fontFamily: "Kanit" }}>
                       {row.elo}
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>
+                      {row.points}
                     </TableCell>
                   </TableRow>
                 ))}

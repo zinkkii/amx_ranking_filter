@@ -50,10 +50,34 @@ export default function Hpage() {
 
   function parseCSVData() {
     Papa.parse(
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R1/S3_AMX10_R1_H1.csv", //R1_H1
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R1/S3_AMX10_R1_H2.csv", //R1_H2
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R2/S3_AMX10_R2_H1.csv", //R2_H1
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMX10/R2/S3_AMX10_R2_H2.csv", //R2_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_H1.csv`, //R1_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_H2.csv`, //R1_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_H1.csv`, //R2_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_H2.csv`, //R2_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_H1.csv`, //R3_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_H2.csv`, //R3_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_H1.csv`, //R4_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_H2.csv`, //R4_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_H1.csv`, //R5_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_H2.csv`, //R5_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_H1.csv`, //R6_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_H2.csv`, //R6_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_H1.csv`, //R7_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_H2.csv`, //R7_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_H1.csv`, //R8_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_H2.csv`, //R8_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_H1.csv`, //R9_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_H2.csv`, //R9_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_H1.csv`, //R10_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_H2.csv`, //R10_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_H1.csv`, //R11_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_H2.csv`, //R11_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_H1.csv`, //R12_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_H2.csv`, //R12_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_H1.csv`, //R13_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_H2.csv`, //R13_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_H1.csv`, //R14_H1
+      `${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_H2.csv`, //R14_H2
       {
         ...commonConfig,
         header: true,
@@ -240,7 +264,7 @@ export default function Hpage() {
                 </TableHead>
                 <TableBody>
                   {elodata.map((row, index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index} hover>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
                         {row.result}. {row.driverName}
                       </TableCell>

@@ -13,7 +13,7 @@ export default async function handler(req, res) {
           req.body.data[i].FinPos,
         ]);
       }
-      return res.redirect(302, "/amx0/h");
+      return res.redirect(302, "/amx0");
     } catch (error) {
       console.log(error);
     }

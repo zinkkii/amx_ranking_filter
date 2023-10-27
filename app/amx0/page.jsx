@@ -1,6 +1,6 @@
 "use client";
 import { Stack, Button, Box } from "@mui/material";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Layout from "../layouts/layout";
 export default function Amx0() {
   const router = useRouter();
@@ -12,9 +12,9 @@ export default function Amx0() {
         display="grid"
         sx={{ mb: 3 }}
         gridTemplateColumns={{
-          xs: "repeat(2, 1fr)",
-          sm: "repeat(2, 1fr)",
-          md: "repeat(2, 1fr)",
+          xs: "repeat(3, 1fr)",
+          sm: "repeat(3, 1fr)",
+          md: "repeat(3, 1fr)",
         }}
       >
         <Stack
@@ -26,7 +26,6 @@ export default function Amx0() {
           }}
         >
           <Button
-            // className={pathname == "/" ? "clickedBtn" : "normalBtn"}
             sx={{ width: "100%", height: "75px" }}
             variant="outlined"
             onClick={() => {
@@ -46,14 +45,13 @@ export default function Amx0() {
           }}
         >
           <Button
-            // className={pathname == "/teams" ? "clickedBtn" : "normalBtn"}
             sx={{ width: "100%", height: "75px" }}
             variant="outlined"
             onClick={() => {
-              router.push("/amx0/h");
+              router.push("/amx0/h1");
             }}
           >
-            H1,2 update
+            H1 update
           </Button>
         </Stack>
 
@@ -66,14 +64,13 @@ export default function Amx0() {
           }}
         >
           <Button
-            // className={pathname == "/teams" ? "clickedBtn" : "normalBtn"}
             sx={{ width: "100%", height: "75px" }}
             variant="outlined"
             onClick={() => {
-              router.push("/amx0/zoom");
+              router.push("/amx0/h2");
             }}
           >
-            ZoomCam+Bonus
+            H2 + Zoom Update
           </Button>
         </Stack>
       </Box>

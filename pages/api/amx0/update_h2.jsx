@@ -21,7 +21,21 @@ export default function handler(req, res) {
           let result2 = executeQuery(sql2, [req.body.fastest]);
           console.log("fastest 들어가요====i값은" + i);
         }
+
+        for (var j = 0; j < req.body.arr.length; j++) {
+          if (req.body.data[i].custID === req.body.arr[j]) {
+            console.log(
+              "req.body.data[i].custID:" +
+                req.body.data[i].custID +
+                ", req.body.arr[j]:" +
+                req.body.arr[j]
+            );
+            let result3 = executeQuery(sql2, [req.body.arr[j]]);
+            console.log("i = " + i + " j = " + j + "zoomBous들어가요!");
+          }
+        }
       }
+
       return res.redirect(302, "/amx0");
     } catch (error) {
       console.log(error);

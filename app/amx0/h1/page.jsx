@@ -5,7 +5,7 @@ import Papa from "papaparse";
 import commonConfig from "../../assets/csvHeader";
 import Layout from "../../layouts/layout";
 import axios from "axios";
-import amx10points from "../../assets/amx10points";
+import amx0points from "../../assets/amx0points";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,9 +15,10 @@ import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import elo from "../../assets/elo";
 
-export default function Qpage() {
+export default function Hpage() {
   const [CsvData, setCsvData] = useState([{}]);
   const [dollar, setDollar] = useState([{ points: 0 }]);
+  const [fastest, setFastest] = useState();
   const [amxInfo, setAmxInfo] = useState([
     {
       custID: "",
@@ -49,21 +50,20 @@ export default function Qpage() {
 
   function parseCSVData() {
     Papa.parse(
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_Q.csv`, //R1_Q 첫경기
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_Q.csv`, //R2_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_Q.csv`, //R3_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_Q.csv`, //R4_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_Q.csv`, //R5_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_Q.csv`, //R6_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_Q.csv`, //R7_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_Q.csv`, //R8_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_Q.csv`, //R9_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_Q.csv`, //R10_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_Q.csv`, //R11_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_Q.csv`, //R12_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_Q.csv`, //R13_Q
-      `${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_Q.csv`, //R14_Q
-
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R1/S3_AMXZero_R1_H1.csv`, //Zero H1 - R1_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R2/S3_AMXZero_R2_H1.csv`, //R2_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R3/S3_AMXZero_R3_H1.csv`, //R3_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R4/S3_AMXZero_R4_H1.csv`, //R4_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R5/S3_AMXZero_R5_H1.csv`, //R5_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R6/S3_AMXZero_R6_H1.csv`, //R6_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R7/S3_AMXZero_R7_H1.csv`, //R7_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R8/S3_AMXZero_R8_H1.csv`, //R8_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R9/S3_AMXZero_R9_H1.csv`, //R9_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R10/S3_AMXZero_R10_H1.csv`, //R10_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R11/S3_AMXZero_R11_H1.csv`, //R11_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R12/S3_AMXZero_R12_H1.csv`, //R12_H1
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R13/S3_AMXZero_R13_H1.csv`, //R13_H1
+      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_H1.csv`, //R14_H1
       {
         ...commonConfig,
         header: true,
@@ -74,21 +74,10 @@ export default function Qpage() {
       }
     );
   }
-  //-- USER_TABLE, AMX10_TABLE
-  const userInsert = (CsvData) => {
-    axios
-      .post("/api/amx10/user_insert", { data: CsvData })
-      .then((res) => {
-        console.log(res.data);
-        alert("유저 정보가 User,AMX10에 들어감!!ㅇㅇ");
-        //window.location.reload("/amx10"); //페이지 강제 새로고침
-      })
-      .catch((err) => console.log(err));
-  };
 
   const finPosUpdate = (CsvData) => {
     axios
-      .post("/api/amx10/finPosUpdate", { data: CsvData })
+      .post("/api/amx0/finPosUpdate", { data: CsvData })
       .then((res) => {
         console.log(res.data);
         alert("finPos업데이트됨!!");
@@ -100,7 +89,7 @@ export default function Qpage() {
     alert("고고");
     const temparr = [];
     axios
-      .post("/api/amx10/select") //WHERE finPos>0 ORDER BY finPos ASC;
+      .post("/api/amx0/select") //WHERE finPos>0 ORDER BY finPos ASC;
       .then((res) => {
         console.log(res.data);
         console.log(dollar);
@@ -111,6 +100,7 @@ export default function Qpage() {
             elo: res.data[i].elo,
             game: res.data[i].game,
             num: res.data[i].num,
+            //points: res.data[i].points,
             points: 0,
             region: res.data[i].region,
             tier: res.data[i].tier,
@@ -119,9 +109,9 @@ export default function Qpage() {
           });
         }
         for (var i = 0; i < dollar.length; i++) {
-          temparr[i].points = dollar[i].points;
+          temparr[i].points = dollar[i].points; //1~15
         }
-        //console.log(temparr);
+        console.log(temparr);
         setAmxInfo(temparr);
       })
       .catch((err) => console.log(err));
@@ -129,7 +119,7 @@ export default function Qpage() {
 
   useEffect(() => {
     parseCSVData();
-    setDollar(amx10points);
+    setDollar(amx0points);
   }, []);
 
   useEffect(() => {
@@ -170,16 +160,36 @@ export default function Qpage() {
         points: amxInfo[i].points,
       });
     }
+    console.log([...arr].sort((a, b) => a.result - b.result));
     setElodata([...arr].sort((a, b) => a.result - b.result));
   }, [amxInfo]);
 
-  const amx10_update = (elodata) => {
+  const checkOnlyOne = (checkThis) => {
+    const name = document.getElementsByName("fastest");
+    for (let i = 0; i < name.length; i++) {
+      if (name[i] !== checkThis) {
+        name[i].checked = false;
+      } else {
+        if (name[i].checked == false) {
+          setFastest();
+        }
+      }
+    }
+  };
+
+  const amx0_update = (elodata, fastest, dollar) => {
+    if (!fastest) {
+      console.log(elodata);
+      console.log(dollar);
+      alert("Fastest 체크는 필수입니다!");
+      return;
+    }
     axios
-      .post("/api/amx10/update", { data: elodata })
+      .post("/api/amx0/update", { data: elodata, fastest })
       .then((res) => {
         console.log(res.data);
         alert("업데이트 완료!");
-        window.location.reload("/amx10/q");
+        window.location.reload("/amx0/h");
       })
       .catch((err) => console.log(err));
   };
@@ -192,21 +202,13 @@ export default function Qpage() {
           {data.FinPos}. {data.Name}({data.CustID})
         </Typography>
       ))}
-      <Button onClick={() => userInsert(CsvData)} variant="outlined">
-        USER INSERT
-      </Button>
-
-      <br />
       <Button onClick={() => finPosUpdate(CsvData)} variant="outlined">
         FinPos UPDATE
       </Button>
-
       <h3>계산값 확인하기</h3>
-
       <Button onClick={() => eloList(dollar)} variant="outlined">
         Elo계산,Point확인
       </Button>
-
       {amxInfo.length > 1 ? (
         <>
           <h3>등수별 상금</h3>
@@ -218,10 +220,10 @@ export default function Qpage() {
           <h3>누적 상금</h3>
           {amxInfo.map((info, index) => (
             <Typography key={index}>
-              {index + 1}. {info.driverName} <b>+${info.points}</b>
+              {index + 1}. {info.driverName} <b>${info.points}</b>
             </Typography>
           ))}
-          <h2>Q _ Elo계산값</h2>
+          <h2>H _ Elo계산값</h2>
           <Paper sx={{ overflow: "hidden" }}>
             <TableContainer>
               <Table
@@ -231,6 +233,7 @@ export default function Qpage() {
               >
                 <TableHead>
                   <TableRow>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>Pos</TableCell>
                     {elo.map((row, index) => (
                       <TableCell
                         key={index}
@@ -239,37 +242,58 @@ export default function Qpage() {
                         {row.label}
                       </TableCell>
                     ))}
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      Fastest
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {elodata.map((value, index) => (
+                  {elodata.map((row, index) => (
                     <TableRow key={index} hover>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.result}. {value.driverName}
+                        <b>{row.result}</b>
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.custID}
+                        {row.driverName}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.startElo}
+                        {row.custID}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.eloDiff}
+                        {row.startElo}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.odds}
+                        {row.eloDiff}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.result}
+                        {row.odds}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {value.winlose}
+                        {row.result}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        <b>{value.newElo}</b>
+                        {row.winlose}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        <b>${value.points}</b>
+                        <b>{row.newElo}</b>
+                      </TableCell>
+                      <TableCell sx={{ fontFamily: "Kanit" }}>
+                        <b>${row.points}</b>
+                      </TableCell>
+                      <TableCell
+                        sx={{ fontFamily: "Kanit" }}
+                        padding="checkbox"
+                      >
+                        <input
+                          type="checkbox"
+                          name="fastest"
+                          onClick={(e) => {
+                            setFastest(e.target.value);
+                            console.log(e.target.value);
+                          }}
+                          onChange={(e) => checkOnlyOne(e.target)}
+                          value={row.custID}
+                        ></input>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -279,7 +303,7 @@ export default function Qpage() {
           </Paper>
           <Button
             style={{ marginTop: 10 }}
-            onClick={() => amx10_update(elodata)}
+            onClick={() => amx0_update(elodata, fastest, dollar)}
             variant="outlined"
           >
             UPDATE

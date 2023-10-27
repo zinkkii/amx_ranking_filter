@@ -14,7 +14,7 @@ export default function Drivers() {
   const [game, setGame] = useState("all");
   const [tier, setTier] = useState("");
   const [region, setRegion] = useState("");
-  const [period, setPeriod] = useState("");
+  //const [period, setPeriod] = useState("");
 
   const checkOnlyGame = (checkThis) => {
     const gamesname = document.getElementsByName("game");

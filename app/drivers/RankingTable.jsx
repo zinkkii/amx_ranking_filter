@@ -43,7 +43,7 @@ export default function StickyHeadTable(props) {
       props.region === "Global"
     ) {
       axios.post("/api/user/select_elo_desc").then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setUser(res.data);
         rows = res.data;
         function allFilter(rows) {
@@ -151,7 +151,7 @@ export default function StickyHeadTable(props) {
             label="Search"
             variant="outlined"
             onChange={(e) => {
-              console.log(e.target.value);
+              //console.log(e.target.value);
               setSearchName(e.target.value);
             }}
           />

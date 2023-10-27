@@ -48,8 +48,21 @@ export default function Qpage() {
   ]);
   function parseCSVData() {
     Papa.parse(
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R1/S3_AMXZero_R1_Q.csv", //Zero-R1_Q 첫경기 후 DB업데이트
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_Q.csv", //R2_Q 첫경기 후 DB업데이트
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R1/S3_AMXZero_R1_Q.csv`, //Zero-R1_Q 첫경기
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R2/S3_AMXZero_R2_Q.csv`, //Zero-R2_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R3/S3_AMXZero_R3_Q.csv`, //Zero-R3_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R4/S3_AMXZero_R4_Q.csv`, //Zero-R4_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R5/S3_AMXZero_R5_Q.csv`, //Zero-R5_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R6/S3_AMXZero_R6_Q.csv`, //Zero-R6_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R7/S3_AMXZero_R7_Q.csv`, //Zero-R7_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R8/S3_AMXZero_R8_Q.csv`, //Zero-R8_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R9/S3_AMXZero_R9_Q.csv`, //Zero-R9_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R10/S3_AMXZero_R10_Q.csv`, //Zero-R10_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R11/S3_AMXZero_R11_Q.csv`, //Zero-R11_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R12/S3_AMXZero_R12_Q.csv`, //Zero-R12_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R13/S3_AMXZero_R13_Q.csv`, //Zero-R13_Q
+      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_Q.csv`, //Zero-R14_Q
+
       {
         ...commonConfig,
         header: true,

@@ -50,10 +50,20 @@ export default function Hpage() {
 
   function parseCSVData() {
     Papa.parse(
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R1/S3_AMXZero_R1_H1.csv", //Zero H1 - R1_H1
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R1/S3_AMXZero_R1_H2.csv", //R1_H2
-      "https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_H1.csv", //R2_H1
-      //"https://automanix.s3.ap-northeast-2.amazonaws.com/amx/AMXZero/R2/S3_AMXZero_R2_H2.csv", //R2_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R1/S3_AMXZero_R1_H2.csv`, //Zero-R1_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R2/S3_AMXZero_R2_H2.csv`, //R2_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R3/S3_AMXZero_R3_H2.csv`, //R3_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R4/S3_AMXZero_R4_H2.csv`, //R4_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R5/S3_AMXZero_R5_H2.csv`, //R5_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R6/S3_AMXZero_R6_H2.csv`, //R6_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R7/S3_AMXZero_R7_H2.csv`, //R7_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R8/S3_AMXZero_R8_H2.csv`, //R8_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R9/S3_AMXZero_R9_H2.csv`, //R9_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R10/S3_AMXZero_R10_H2.csv`, //R10_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R11/S3_AMXZero_R11_H2.csv`, //R11_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R12/S3_AMXZero_R12_H2.csv`, //R12_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R13/S3_AMXZero_R13_H2.csv`, //R13_H2
+      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_H2.csv`, //R14_H2
       {
         ...commonConfig,
         header: true,
@@ -167,21 +177,57 @@ export default function Hpage() {
     }
   };
 
+  // zoomCheck
+  const [isAllChecked, setAllChecked] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(elodata.length).fill(false)
+  );
+
   const amx0_update = (elodata, fastest, dollar) => {
-    if (!fastest) {
+    const name = document.getElementsByName("zoom");
+    const arr = []; //zoom보너스담고 +$1
+    for (var i = 0; i < elodata.length; i++) {
+      if (name[i].checked == true) {
+        arr.push(elodata[i].custID);
+      }
+    }
+    if (!fastest || arr.length == 0) {
       console.log(elodata);
       console.log(dollar);
-      alert("Fastes체크필수");
+      alert("ZoomBonus와 FastestBonus 체크는 필수입니다!");
       return;
     }
     axios
-      .post("/api/amx0/update", { data: elodata, fastest })
+      .post("/api/amx0/update_h2", { data: elodata, fastest, arr })
       .then((res) => {
         console.log(res.data);
         alert("업데이트 완료!");
         window.location.reload("/amx0/h");
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleAllCheck = (elodata) => {
+    setAllChecked((prev) => !prev);
+    let array = new Array(elodata.length).fill(!isAllChecked);
+    setCheckedState(array);
+    const arr = [];
+    for (var i = 0; i < elodata.length; i++) {
+      arr.push(elodata[i].custID);
+    }
+  };
+  const handleMonoCheck = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+    const checkedLength = updatedCheckedState.reduce((sum, currentState) => {
+      if (currentState === true) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0);
+    setAllChecked(checkedLength === updatedCheckedState.length);
   };
 
   return (
@@ -195,13 +241,10 @@ export default function Hpage() {
       <Button onClick={() => finPosUpdate(CsvData)} variant="outlined">
         FinPos UPDATE
       </Button>
-
       <h3>계산값 확인하기</h3>
-
       <Button onClick={() => eloList(dollar)} variant="outlined">
         Elo계산,Point확인
       </Button>
-
       {amxInfo.length > 1 ? (
         <>
           <h3>등수별 상금</h3>
@@ -226,6 +269,14 @@ export default function Hpage() {
               >
                 <TableHead>
                   <TableRow>
+                    <TableCell padding="checkbox">
+                      <input
+                        type="checkbox"
+                        checked={isAllChecked}
+                        onChange={() => handleAllCheck(elodata)}
+                      ></input>
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>Pos</TableCell>
                     {elo.map((row, index) => (
                       <TableCell
                         key={index}
@@ -237,16 +288,27 @@ export default function Hpage() {
                     <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                       Fastest
                     </TableCell>
-                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
-                      Zoom+Bonus
-                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {elodata.map((row, index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index} hover>
+                      <TableCell padding="checkbox">
+                        <input
+                          type="checkbox"
+                          name="zoom"
+                          value={row.custID}
+                          checked={checkedState[index]}
+                          onChange={() => {
+                            handleMonoCheck(index);
+                          }}
+                        ></input>
+                      </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {row.result}. {row.driverName}
+                        <b>{row.result}</b>
+                      </TableCell>
+                      <TableCell sx={{ fontFamily: "Kanit" }}>
+                        {row.driverName}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
                         {row.custID}
@@ -272,7 +334,10 @@ export default function Hpage() {
                       <TableCell sx={{ fontFamily: "Kanit" }}>
                         <b>${row.points}</b>
                       </TableCell>
-                      <TableCell sx={{ fontFamily: "Kanit" }}>
+                      <TableCell
+                        sx={{ fontFamily: "Kanit" }}
+                        padding="checkbox"
+                      >
                         <input
                           type="checkbox"
                           name="fastest"
@@ -283,9 +348,6 @@ export default function Hpage() {
                           onChange={(e) => checkOnlyOne(e.target)}
                           value={row.custID}
                         ></input>
-                      </TableCell>
-                      <TableCell sx={{ fontFamily: "Kanit" }}>
-                        <input type="checkbox" name="zoom" value={row.custID} />
                       </TableCell>
                     </TableRow>
                   ))}

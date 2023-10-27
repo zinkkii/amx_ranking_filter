@@ -1,11 +1,10 @@
 "use client";
 import { Stack, Button, Box } from "@mui/material";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Layout from "../layouts/layout";
 
 export default function Amx10() {
   const router = useRouter();
-  const pathname = usePathname();
   return (
     <Layout>
       <Box
@@ -27,7 +26,6 @@ export default function Amx10() {
           }}
         >
           <Button
-            // className={pathname == "/" ? "clickedBtn" : "normalBtn"}
             sx={{ width: "100%", height: "75px" }}
             variant="outlined"
             onClick={() => {
@@ -47,7 +45,6 @@ export default function Amx10() {
           }}
         >
           <Button
-            // className={pathname == "/teams" ? "clickedBtn" : "normalBtn"}
             sx={{ width: "100%", height: "75px" }}
             variant="outlined"
             onClick={() => {

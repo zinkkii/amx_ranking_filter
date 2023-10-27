@@ -210,7 +210,7 @@ export default function StickyHeadTable(props) {
           variant="h5"
           sx={{ fontFamily: "Kanit", fontWeight: "900", marginTop: "30px" }}
         >
-          AMX Season3 RACE14 Result
+          AMX Season3 RACE_14 Result
         </Typography>
       </Box>
 
@@ -291,7 +291,7 @@ export default function StickyHeadTable(props) {
                       {row.elo}
                     </TableCell>
                     <TableCell sx={{ fontFamily: "Kanit" }}>
-                      {row.points}
+                      ${row.points}
                     </TableCell>
                   </TableRow>
                 ))}

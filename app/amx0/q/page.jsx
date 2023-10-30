@@ -61,7 +61,10 @@ export default function Qpage() {
       //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R11/S3_AMXZero_R11_Q.csv`, //Zero-R11_Q
       //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R12/S3_AMXZero_R12_Q.csv`, //Zero-R12_Q
       //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R13/S3_AMXZero_R13_Q.csv`, //Zero-R13_Q
-      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_Q.csv`, //Zero-R14_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_Q.csv`, //Zero-R14_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R15/S3_AMXZero_R15_Q.csv`, //Zero-R15_Q
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R16/S3_AMXZero_R16_Q.csv`, //Zero-R16_Q
+      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R17/S3_AMXZero_R17_Q.csv`, //Zero-R17_Q
 
       {
         ...commonConfig,

@@ -63,7 +63,10 @@ export default function Hpage() {
       //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R11/S3_AMXZero_R11_H2.csv`, //R11_H2
       //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R12/S3_AMXZero_R12_H2.csv`, //R12_H2
       //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R13/S3_AMXZero_R13_H2.csv`, //R13_H2
-      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_H2.csv`, //R14_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_H2.csv`, //R14_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R15/S3_AMXZero_R15_H2.csv`, //R15_H2
+      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R16/S3_AMXZero_R16_H2.csv`, //R16_H2
+      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R17/S3_AMXZero_R17_H2.csv`, //R17_H2
       {
         ...commonConfig,
         header: true,

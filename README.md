@@ -13,7 +13,7 @@
 4. 결과지의 결과값으로 새로운 Elo,Odds,OddsDiff값 등을 계산한다.
 5. 계산된 값을 각 AMX_Zero, AMX_10 테이블에 업데이트한다.
 6. User테이블에 유저별 경기횟수, 이긴횟수를 누적시킨다.
-7. 메인페이지 내용 : ~라운드까지의 한번이라도 참가한 유저들의 Elo값의 랭킹순위임
+7. 메인페이지 내용 : 17라운드(현재)까지의 한번이라도 참가한 유저들의 Elo값의 랭킹순위임
 8. Game, Tier, Region 별 데이터 걸러짐
 9. Search : 유저 네임 검색/ Countries : 나라 검색
 10. 각 라운드마다 Q,H1,H2 상금 누적
@@ -24,16 +24,57 @@
 10-2. AMX10
 - Q, H1, H2 1등~15등까지만 상금있음 -> 등수별 상이
 - H1, H2 -> Fastest기록세운 유저 -> + $5
-
+11. 관리자 페이지 jwt 방식로그인
+12. s3 파일 선택 업로드
 
 -추가 및 변경 하고 싶은 내용
 
-관리자 페이지 추가하고 싶음
-1. AMXZero / AMX10 별 csv파일 업로드를 선택하게 한다.
-2. S3에 csv 파일을 업로드 하게 한다. (지금 내가 한땀한땀..하)
-3. Elo초기값 변경할 수 있게한다. (지금 초기값 무조건 1000점 부터 시작)
-4. 관리자페이지에서 페널티 적용시키면 포인트를 깎을수 있도록 수정부분넣기
-5. 유저로그 쌓기(결과를 계속 누적시키니까 이게 계속 업데이트되는데 중간중간 계산과정이 생략되어서 결과만 보이고 있어서 굉장히 별로다..예를들면, 각 라운드마다 몇등해서 얼만큼 상금이 쌓였고, 몇등해서 엘로값이 이만큼 나왔는지...업데이트 될때마다 LOG테이블을 만들어서 넣어놓기)
+-관리자
+1. Elo초기값 변경할 수 있게한다. (지금 초기값 무조건 1000점 부터 시작)
+2. 관리자페이지에서 페널티 적용시키면 포인트를 깎을수 있도록 수정부분넣기(맨마지막)
+3. 유저로그 쌓기
+
+
+Q
+1. s3 .csv Upload
+2. Read .csv with Papaparse
+3. User Check, Insert + (Log++)
+4. Result Update + (Log++)
+5. elo,point,result(...) Calculation + (Log++)
+
+H1
+1. s3 .csv Upload
+2. Read .csv with Papaparse
+3. Result Update + (Log++)
+4. elo,point,result,
+    fastestLapUser,fastestPoint(...) Calculation + (Log++)
+
+H2
+1. s3 .csv Upload
+2. Read .csv with Papaparse
+3. User Check, Insert + (Log++)
+4. elo,point,result,fastestLapUser,fastestPoint,
+    zoomBousUser,zoomPoint(...) Calculation + (Log++)
+
+LogTableColumn(유저로그 쌓기)
+num -  그냥 PK
+custID - user고유 id (user의 custID FK)
+round - 몇 라운드인지
+game - AMX0인지 AMX10인지
+q_result - Q 결과(등수)
+q_point - Q 에서 얻은 포인트
+q_elo - Q경기 후 엘로값
+q_fastest - Q에서 fastestLaptime기록했는지(하면1 아님0)
+h1_result - H1 결과(등수)
+h1_point - H1에서 얻은 포인트
+h1_elo - H1경기 후 엘로값
+h1_fastest - H1에서 fastestLaptime기록했는지(1,0)
+h2_result - H2결과(등수)
+h2_point - H2에서 얻은 포인트
+h2_elo - H2경기 후 엘로값
+h2_fastest - H2에서 fastestLaptime기록했니?(1,0)
+zoomPoint - AMX0 일때만 줌캠ON유저들 +1달러씩
+
 
 ```
 

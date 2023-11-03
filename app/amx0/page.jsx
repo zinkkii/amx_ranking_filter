@@ -1,12 +1,11 @@
 "use client";
 import { Stack, Button, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
-import Layout from "../layouts/layout";
 export default function Amx0() {
   const router = useRouter();
 
   return (
-    <Layout>
+    <>
       <Box
         gap={1}
         display="grid"
@@ -74,6 +73,6 @@ export default function Amx0() {
           </Button>
         </Stack>
       </Box>
-    </Layout>
+    </>
   );
 }

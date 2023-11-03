@@ -5,10 +5,10 @@ import { useState } from "react";
 import games from "../assets/games";
 import tiers from "../assets/tiers";
 import regions from "../assets/regions";
-import periods from "../assets/period";
 import { Typography } from "@mui/material";
 import TopCategory from "./TopCategory";
 import RankingTable from "./RankingTable";
+import Layout from "../layouts/layout";
 
 export default function Drivers() {
   const [game, setGame] = useState("all");

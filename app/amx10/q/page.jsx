@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Typography, Button } from "@mui/material";
 import Papa from "papaparse";
 import commonConfig from "../../assets/csvHeader";
-import Layout from "../../layouts/layout";
 import axios from "axios";
 import amx10points from "../../assets/amx10points";
 import Table from "@mui/material/Table";
@@ -188,7 +187,7 @@ export default function Qpage() {
   };
 
   return (
-    <Layout>
+    <>
       <h3>CSV파일 읽어온 값</h3>
       {CsvData.map((data, index) => (
         <Typography key={index}>
@@ -291,6 +290,6 @@ export default function Qpage() {
       ) : (
         <>누르면 없어짐</>
       )}
-    </Layout>
+    </>
   );
 }

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Typography, Button } from "@mui/material";
 import Papa from "papaparse";
 import commonConfig from "../../assets/csvHeader";
-import Layout from "../../layouts/layout";
 import axios from "axios";
 import amx0points from "../../assets/amx0points";
 import Table from "@mui/material/Table";
@@ -198,7 +197,7 @@ export default function Hpage() {
   };
 
   return (
-    <Layout>
+    <>
       <h3>CSV파일 읽어온 값</h3>
       {CsvData.map((data, index) => (
         <Typography key={index}>
@@ -315,6 +314,6 @@ export default function Hpage() {
       ) : (
         <>누르면 없어짐</>
       )}
-    </Layout>
+    </>
   );
 }

@@ -1,12 +1,11 @@
 "use client";
 
 import TopCategory from "../drivers/TopCategory";
-import Layout from "../layouts/layout";
 import Typography from "@mui/material/Typography";
 
 export default function Teams() {
   return (
-    <Layout>
+    <>
       <TopCategory />
 
       <Typography
@@ -15,6 +14,6 @@ export default function Teams() {
       >
         Teams
       </Typography>
-    </Layout>
+    </>
   );
 }

@@ -1,10 +1,9 @@
-import Layout from "../layouts/layout";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import AdminLogin from "./Login";
+import DashBoard from "./admin/DashBoard";
 
-export default function Manage() {
-  return (
-    <Layout>
-      <h2>Manage~~~</h2>
-      reduxtoolkit
-    </Layout>
-  );
+export default async function Auth() {
+  const session = await getServerSession(authOptions);
+  return <>{session === null ? <AdminLogin /> : <DashBoard />}</>;
 }

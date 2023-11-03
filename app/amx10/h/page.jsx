@@ -214,7 +214,7 @@ export default function Hpage() {
       .catch((err) => console.log(err));
   };
   return (
-    <Layout>
+    <>
       <h3>CSV파일 읽어온 값</h3>
       {CsvData.map((data, index) => (
         <Typography key={index}>
@@ -327,6 +327,6 @@ export default function Hpage() {
       ) : (
         <>누르면 없어짐</>
       )}
-    </Layout>
+    </>
   );
 }

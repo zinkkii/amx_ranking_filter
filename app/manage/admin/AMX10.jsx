@@ -1,40 +1,361 @@
 "use client";
 
-import { Typography } from "@mui/material";
-import { useState } from "react";
+import {
+  Typography,
+  Box,
+  Stack,
+  Button,
+  Input,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableContainer,
+  Paper,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function AMX10() {
-  const [src, setSrc] = useState("");
+  const router = useRouter();
+  const [rounds, setRounds] = useState(0);
+  const [logdata, setLogData] = useState([{}]);
+
+  const searchRounds = (rounds) => {
+    var arr = [];
+    var rank = 0;
+    axios
+      .post("/api/amx10/round_search", { rounds: rounds })
+      .then((res) => {
+        console.log(res.data);
+        arr = [...res.data].sort(
+          (a, b) =>
+            a.Qpoints +
+            a.H1points +
+            a.H1fastest +
+            a.H2points +
+            a.H2fastest -
+            (b.Qpoints + b.H1points + b.H1fastest + b.H2points + b.H2fastest)
+        );
+        arr.reverse();
+
+        for (var i = 0; i < arr.length; i++) {
+          if (i < arr.length - 1) {
+            if (
+              arr[i].Qpoints +
+                arr[i].H1points +
+                arr[i].H2points +
+                arr[i].H1fastest +
+                arr[i].H2fastest ===
+              arr[i + 1].Qpoints +
+                arr[i + 1].H1points +
+                arr[i + 1].H2points +
+                arr[i + 1].H1fastest +
+                arr[i + 1].H2fastest
+            ) {
+              console.log(i + "=i :똑가타여!!!!!!!! / rank : " + rank);
+              arr[i].rank = rank + 1;
+            } else {
+              rank = rank + 1;
+              arr[i].rank = rank;
+              console.log(i + "=i :안똑같아영 / rank : " + rank);
+            }
+          } else if (i === arr.length - 1) {
+            console.log("i: " + i + " / ggggg");
+            if (
+              arr[i].Qpoints +
+                arr[i].H1points +
+                arr[i].H2points +
+                arr[i].H1fastest +
+                arr[i].H2fastest <
+              arr[i - 1].Qpoints +
+                arr[i - 1].H1points +
+                arr[i - 1].H2points +
+                arr[i - 1].H1fastest +
+                arr[i - 1].H2fastest
+            ) {
+              arr[i].rank = rank + 1;
+            } else if (
+              arr[i].Qpoints +
+                arr[i].H1points +
+                arr[i].H2points +
+                arr[i].H1fastest +
+                arr[i].H2fastest ===
+              arr[i - 1].Qpoints +
+                arr[i - 1].H1points +
+                arr[i - 1].H2points +
+                arr[i - 1].H1fastest +
+                arr[i - 1].H2fastest
+            ) {
+              arr[i].rank = rank + 1;
+            } else {
+              arr[i].rank = rank + 1;
+            }
+
+            console.log("i : " + i + " rank : " + rank);
+          }
+        }
+        console.log(arr);
+        setLogData(arr);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
-      <Typography>AMX111111100000000000</Typography>
-      <input
-        type="file"
-        accept="csv"
-        onChange={async (e) => {
-          let file = e.target.files[0];
-          let filename = encodeURIComponent(file.name);
-          let res = await fetch("/api/admin/upload?file=" + filename);
-          res = await res.json();
-          //S3 Upload
-          const formData = new FormData();
-          Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
-            formData.append(key, value);
-          });
-          const result = await fetch(res.url, {
-            method: "POST",
-            body: formData,
-          });
-          console.log(result);
-          if (result.ok) {
-            setSrc(result.url + "/" + filename);
-          } else {
-            console.log("ERROR....");
-          }
+      <Typography>AMX10- choose .csv file</Typography>
+      <Box
+        gap={1}
+        display="grid"
+        sx={{ mb: 3 }}
+        gridTemplateColumns={{
+          xs: "repeat(3, 1fr)",
+          sm: "repeat(3, 1fr)",
+          md: "repeat(3, 1fr)",
         }}
-      />
-      <img src={src} />
+      >
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            borderRadius: 2,
+            cursor: "pointer",
+          }}
+        >
+          <Button
+            sx={{ width: "100%", height: "75px" }}
+            variant="outlined"
+            onClick={() => {
+              router.push("/manage/amx10/q");
+            }}
+          >
+            Q update
+          </Button>
+        </Stack>
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            borderRadius: 2,
+            cursor: "pointer",
+          }}
+        >
+          <Button
+            sx={{ width: "100%", height: "75px" }}
+            variant="outlined"
+            onClick={() => {
+              router.push("/manage/amx10/h1");
+            }}
+          >
+            H1 update
+          </Button>
+        </Stack>
+
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            borderRadius: 2,
+            cursor: "pointer",
+          }}
+        >
+          <Button
+            sx={{ width: "100%", height: "75px" }}
+            variant="outlined"
+            onClick={() => {
+              router.push("/manage/amx10/h2");
+            }}
+          >
+            H2 update
+          </Button>
+        </Stack>
+      </Box>
+      <Typography>AMX10 Round Search</Typography>
+      <Stack
+        sx={{ display: "flex", justifyContent: "space-between", width: "10%" }}
+      >
+        <Input
+          type="number"
+          onChange={(e) => setRounds(e.target.value)}
+        ></Input>
+        <Button onClick={() => searchRounds(rounds)}>SEARCH</Button>
+      </Stack>
+      {rounds > 0 && logdata.length > 1 ? (
+        <>
+          <Typography variant="h5" sx={{ margin: 2 }}>
+            AMX10_Round {rounds} Result{" "}
+          </Typography>
+          <Paper sx={{ overflow: "hidden" }}>
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 650 }}
+                size="small"
+                aria-label="a dense table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      driverName(custID)
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      Q-result
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      Q-points
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      Q-elo
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H1-result
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H1-points
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H1-fastest
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H1-elo
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H2-result
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H2-points
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H2-fastest
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      H2-elo
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      Total Points
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {logdata.map((row, index) => (
+                    <TableRow key={index} hover>
+                      <TableCell>
+                        {row.driverName}({row.custID})
+                      </TableCell>
+                      <TableCell>{row.Qresult}</TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        $ {row.Qpoints}
+                      </TableCell>
+                      <TableCell>{row.Qelo}</TableCell>
+                      <TableCell>{row.H1result}</TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        $ {row.H1points}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        {row.H1fastest != 0 ? <>$ {row.H1fastest}</> : null}
+                      </TableCell>
+                      <TableCell>{row.H1elo}</TableCell>
+                      <TableCell>{row.H2result}</TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        $ {row.H2points}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        {row.H2fastest != 0 ? <>$ {row.H2fastest}</> : null}
+                      </TableCell>
+                      <TableCell>{row.H2elo}</TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        ${" "}
+                        {row.Qpoints +
+                          row.H1points +
+                          row.H2points +
+                          row.H1fastest +
+                          row.H2fastest}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+
+          <Typography variant="h5" sx={{ margin: 2 }}>
+            AMXZero_Round {rounds} Chart{" "}
+          </Typography>
+          <Paper sx={{ overflow: "hidden" }}>
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 650 }}
+                size="small"
+                aria-label="a dense table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: "900" }}>Pos</TableCell>
+                    <TableCell sx={{ fontWeight: "900" }}>Name</TableCell>
+                    <TableCell sx={{ fontWeight: "900" }}>Points</TableCell>
+                    <TableCell sx={{ fontWeight: "900" }} align="center">
+                      Pole Position
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "900" }} align="center">
+                      Heat Wins
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "900" }} align="center">
+                      Fastest Laps
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {logdata.map((row, index) => (
+                    <TableRow key={index} hover>
+                      <TableCell>{row.rank}</TableCell>
+                      <TableCell>{row.driverName}</TableCell>
+                      <TableCell>
+                        {row.Qpoints +
+                          row.H1points +
+                          row.H2points +
+                          row.H1fastest +
+                          row.H2fastest}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row.Qresult == 1 ? <>1</> : <></>}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row.H1result === 1 && row.H2result === 1 ? (
+                          <>2</>
+                        ) : (
+                          <>
+                            {row.H1result === 1 ? (
+                              <>1</>
+                            ) : (
+                              <>{row.H2result === 1 ? <>1</> : <></>}</>
+                            )}
+                          </>
+                        )}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row.H1fastest === 5 && row.H2fastest === 5 ? (
+                          <>2</>
+                        ) : (
+                          <>
+                            {row.H1fastest === 5 ? (
+                              <>1</>
+                            ) : (
+                              <>{row.H2fastest === 5 ? <>1</> : <></>}</>
+                            )}
+                          </>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </>
+      ) : (
+        <Typography variant="h5">-No Data-</Typography>
+      )}
     </>
   );
 }

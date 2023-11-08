@@ -2,8 +2,8 @@
 import { Typography, Stack, Divider } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { LoadingButton } from "@mui/lab";
-import AMX10 from "./AMX10";
-import AMX0 from "./AMX0";
+import AMX10 from "./admin/AMX10";
+import AMX0 from "./admin/AMX0";
 export default function DashBoard() {
   return (
     <>

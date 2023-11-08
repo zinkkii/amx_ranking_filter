@@ -1,23 +1,34 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Typography, Button } from "@mui/material";
-import Papa from "papaparse";
-import commonConfig from "../../assets/csvHeader";
-import axios from "axios";
-import amx10points from "../../assets/amx10points";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TableContainer from "@mui/material/TableContainer";
-import elo from "../../assets/elo";
 
-export default function Hpage() {
+import { useState, useEffect } from "react";
+import {
+  Typography,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableContainer,
+  Paper,
+  Input,
+} from "@mui/material";
+import elo from "../../../assets/elo";
+import Papa from "papaparse";
+import commonConfig from "@/app/assets/csvHeader";
+import amx10points from "@/app/assets/amx10points";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { LoadingButton } from "@mui/lab";
+
+export default function AMX10_H() {
+  const router = useRouter();
+  const [src, setSrc] = useState("");
+  const [rounds, setRounds] = useState(0);
   const [CsvData, setCsvData] = useState([{}]);
   const [dollar, setDollar] = useState([{ points: 0 }]);
   const [fastest, setFastest] = useState();
+  var step = "h1";
   const [amxInfo, setAmxInfo] = useState([
     {
       custID: "",
@@ -46,66 +57,35 @@ export default function Hpage() {
       points: 0,
     },
   ]);
-
   function parseCSVData() {
-    Papa.parse(
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_H1.csv`, //R1_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_H2.csv`, //R1_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_H1.csv`, //R2_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_H2.csv`, //R2_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_H1.csv`, //R3_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_H2.csv`, //R3_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_H1.csv`, //R4_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_H2.csv`, //R4_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_H1.csv`, //R5_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_H2.csv`, //R5_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_H1.csv`, //R6_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_H2.csv`, //R6_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_H1.csv`, //R7_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_H2.csv`, //R7_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_H1.csv`, //R8_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_H2.csv`, //R8_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_H1.csv`, //R9_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_H2.csv`, //R9_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_H1.csv`, //R10_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_H2.csv`, //R10_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_H1.csv`, //R11_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_H2.csv`, //R11_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_H1.csv`, //R12_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_H2.csv`, //R12_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_H1.csv`, //R13_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_H2.csv`, //R13_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_H1.csv`, //R14_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_H2.csv`, //R14_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R15/S3_AMX10_R15_H1.csv`, //R15_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R15/S3_AMX10_R15_H2.csv`, //R15_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R16/S3_AMX10_R16_H1.csv`, //R16_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R16/S3_AMX10_R16_H2.csv`, //R16_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R17/S3_AMX10_R17_H1.csv`, //R17_H1
-      `${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R17/S3_AMX10_R17_H2.csv`, //R17_H2
-      {
-        ...commonConfig,
-        header: true,
-        download: true,
-        complete: (result) => {
-          setCsvData(result.data);
-        },
-      }
-    );
+    Papa.parse(`${src}`, {
+      ...commonConfig,
+      header: true,
+      download: true,
+      complete: (result) => {
+        setCsvData(result.data);
+      },
+    });
   }
-
-  const finPosUpdate = (CsvData) => {
+  const finPosUpdate = (CsvData, rounds) => {
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
     axios
-      .post("/api/amx10/finPosUpdate", { data: CsvData })
+      .post("/api/amx10/finPosUpdate", {
+        data: CsvData,
+        rounds: rounds,
+        step: step,
+      })
       .then((res) => {
-        console.log(res.data);
-        alert("finPos업데이트됨!!");
+        //console.log(res.data);
+        alert("순위 업데이트 OK");
       })
       .catch((err) => console.log(err));
   };
-
   const eloList = (dollar) => {
-    alert("고고");
+    alert("계산 시작");
     const temparr = [];
     axios
       .post("/api/amx10/select") //WHERE finPos>0 ORDER BY finPos ASC;
@@ -130,7 +110,7 @@ export default function Hpage() {
         for (var i = 0; i < dollar.length; i++) {
           temparr[i].points = dollar[i].points; //1~15
         }
-        console.log(temparr);
+        //console.log(temparr);
         setAmxInfo(temparr);
       })
       .catch((err) => console.log(err));
@@ -139,7 +119,7 @@ export default function Hpage() {
   useEffect(() => {
     parseCSVData();
     setDollar(amx10points);
-  }, []);
+  }, [src]);
 
   useEffect(() => {
     var temp = 0;
@@ -179,7 +159,7 @@ export default function Hpage() {
         points: amxInfo[i].points,
       });
     }
-    console.log([...arr].sort((a, b) => a.result - b.result));
+    //console.log([...arr].sort((a, b) => a.result - b.result));
     setElodata([...arr].sort((a, b) => a.result - b.result));
   }, [amxInfo]);
 
@@ -196,39 +176,107 @@ export default function Hpage() {
     }
   };
 
-  const amx10_update = (elodata, fastest, dollar) => {
+  const amx10_update = (elodata, fastest, dollar, rounds) => {
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
     if (!fastest) {
-      console.log(elodata);
-      console.log(dollar);
+      //console.log(elodata);
+      //console.log(dollar);
       alert("Fastes체크필수");
       return;
     }
     axios
-      .post("/api/amx10/update", { data: elodata, fastest })
+      .post("/api/amx10/update", {
+        data: elodata,
+        fastest,
+        rounds: rounds,
+        step: step,
+      })
       .then((res) => {
         console.log(res.data);
-        alert("업데이트 완료!");
-        window.location.reload("/amx10/h");
+        alert("업데이트 OK");
+        //window.location.reload("/amx10/h");
+        router.push("/manage");
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
-      <h3>CSV파일 읽어온 값</h3>
-      {CsvData.map((data, index) => (
-        <Typography key={index}>
-          {data.FinPos}. {data.Name}({data.CustID})
-        </Typography>
-      ))}
-      <Button onClick={() => finPosUpdate(CsvData)} variant="outlined">
-        FinPos UPDATE
-      </Button>
+      <Typography
+        variant="h5"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <b>AMX10 - H1</b>
+        <LoadingButton
+          color="primary"
+          size="large"
+          type="submit"
+          sx={{ border: "1px solid" }}
+          onClick={() => router.push("/manage")}
+        >
+          DashBoard
+        </LoadingButton>
+      </Typography>
+      <h3>1. 해당 라운드 입력하기</h3>
+      <Input
+        type="number"
+        placeholder="숫자만입력"
+        onChange={(e) => setRounds(e.target.value)}
+      />
+      <br />
+      <h3>2. csv파일 선택하기</h3>
+      <Input
+        color="primary"
+        type="file"
+        accept="csv"
+        onChange={async (e) => {
+          let file = e.target.files[0];
+          let filename = encodeURIComponent(file.name);
+          let res = await fetch("/api/admin/upload?file=" + filename);
+          res = await res.json();
+          //S3 Upload
+          const formData = new FormData();
+          Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
+            formData.append(key, value);
+          });
+          const result = await fetch(res.url, {
+            method: "POST",
+            body: formData,
+          });
+          console.log(result);
+          if (result.ok) {
+            setSrc(result.url + "/iracing/" + filename);
+          } else {
+            console.log("ERROR....");
+          }
+        }}
+      />
+      {src === "" ? null : (
+        <>
+          <h3>csv파일 읽어온 값</h3>
+          {CsvData.map((data, index) => (
+            <Typography key={index}>
+              {data.FinPos}. {data.Name}({data.CustID})
+            </Typography>
+          ))}
 
-      <h3>계산값 확인하기</h3>
+          <h3>3. 순위 업데이트 하기</h3>
+          <Button
+            onClick={() => finPosUpdate(CsvData, rounds)}
+            variant="outlined"
+          >
+            FinPos UPDATE
+          </Button>
 
-      <Button onClick={() => eloList(dollar)} variant="outlined">
-        Elo계산,Point확인
-      </Button>
+          <h3>4. 계산값 확인하기</h3>
+          <Button onClick={() => eloList(dollar)} variant="outlined">
+            Elo계산,Point확인
+          </Button>
+        </>
+      )}
 
       {amxInfo.length > 1 ? (
         <>
@@ -315,16 +363,17 @@ export default function Hpage() {
               </Table>
             </TableContainer>
           </Paper>
+          <h3>5. 확인 후 업데이트 버튼 누르기</h3>
           <Button
             style={{ marginTop: 10 }}
-            onClick={() => amx10_update(elodata, fastest, dollar)}
+            onClick={() => amx10_update(elodata, fastest, dollar, rounds)}
             variant="outlined"
           >
             UPDATE
           </Button>
         </>
       ) : (
-        <>누르면 없어짐</>
+        <></>
       )}
     </>
   );

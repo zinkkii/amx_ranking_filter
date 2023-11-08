@@ -1,23 +1,34 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Typography, Button } from "@mui/material";
-import Papa from "papaparse";
-import commonConfig from "../../assets/csvHeader";
-import axios from "axios";
-import amx10points from "../../assets/amx10points";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TableContainer from "@mui/material/TableContainer";
-import elo from "../../assets/elo";
 
-export default function Hpage() {
+import { useState, useEffect } from "react";
+import {
+  Typography,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableContainer,
+  Paper,
+  Input,
+} from "@mui/material";
+import elo from "../../../assets/elo";
+import Papa from "papaparse";
+import commonConfig from "@/app/assets/csvHeader";
+import amx0points from "@/app/assets/amx0points";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { LoadingButton } from "@mui/lab";
+
+export default function AMX0_H2() {
+  const router = useRouter();
+  const [src, setSrc] = useState("");
+  const [rounds, setRounds] = useState(0);
   const [CsvData, setCsvData] = useState([{}]);
   const [dollar, setDollar] = useState([{ points: 0 }]);
   const [fastest, setFastest] = useState();
+  var step = "h2";
   const [amxInfo, setAmxInfo] = useState([
     {
       custID: "",
@@ -48,67 +59,40 @@ export default function Hpage() {
   ]);
 
   function parseCSVData() {
-    Papa.parse(
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_H1.csv`, //R1_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R1/S3_AMX10_R1_H2.csv`, //R1_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_H1.csv`, //R2_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R2/S3_AMX10_R2_H2.csv`, //R2_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_H1.csv`, //R3_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R3/S3_AMX10_R3_H2.csv`, //R3_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_H1.csv`, //R4_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R4/S3_AMX10_R4_H2.csv`, //R4_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_H1.csv`, //R5_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R5/S3_AMX10_R5_H2.csv`, //R5_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_H1.csv`, //R6_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R6/S3_AMX10_R6_H2.csv`, //R6_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_H1.csv`, //R7_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R7/S3_AMX10_R7_H2.csv`, //R7_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_H1.csv`, //R8_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R8/S3_AMX10_R8_H2.csv`, //R8_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_H1.csv`, //R9_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R9/S3_AMX10_R9_H2.csv`, //R9_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_H1.csv`, //R10_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R10/S3_AMX10_R10_H2.csv`, //R10_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_H1.csv`, //R11_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R11/S3_AMX10_R11_H2.csv`, //R11_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_H1.csv`, //R12_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R12/S3_AMX10_R12_H2.csv`, //R12_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_H1.csv`, //R13_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R13/S3_AMX10_R13_H2.csv`, //R13_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_H1.csv`, //R14_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R14/S3_AMX10_R14_H2.csv`, //R14_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R15/S3_AMX10_R15_H1.csv`, //R15_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R15/S3_AMX10_R15_H2.csv`, //R15_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R16/S3_AMX10_R16_H1.csv`, //R16_H1
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R16/S3_AMX10_R16_H2.csv`, //R16_H2
-      //`${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R17/S3_AMX10_R17_H1.csv`, //R17_H1
-      `${process.env.NEXT_PUBLIC_S3_AMX10_ADDRESS}/R17/S3_AMX10_R17_H2.csv`, //R17_H2
-      {
-        ...commonConfig,
-        header: true,
-        download: true,
-        complete: (result) => {
-          setCsvData(result.data);
-        },
-      }
-    );
+    Papa.parse(`${src}`, {
+      ...commonConfig,
+      header: true,
+      download: true,
+      complete: (result) => {
+        setCsvData(result.data);
+      },
+    });
   }
 
-  const finPosUpdate = (CsvData) => {
+  //finPos update
+  const finPosUpdate = (CsvData, rounds) => {
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
     axios
-      .post("/api/amx10/finPosUpdate", { data: CsvData })
+      .post("/api/amx0/finPosUpdate", {
+        data: CsvData,
+        rounds: rounds,
+        step: step,
+      })
       .then((res) => {
-        console.log(res.data);
-        alert("finPos업데이트됨!!");
+        //console.log(res.data);
+        alert("순위 업데이트 OK");
       })
       .catch((err) => console.log(err));
   };
 
   const eloList = (dollar) => {
-    alert("고고");
+    alert("계산 시작");
     const temparr = [];
     axios
-      .post("/api/amx10/select") //WHERE finPos>0 ORDER BY finPos ASC;
+      .post("/api/amx0/select") //WHERE finPos>0 ORDER BY finPos ASC;
       .then((res) => {
         console.log(res.data);
         console.log(dollar);
@@ -130,7 +114,7 @@ export default function Hpage() {
         for (var i = 0; i < dollar.length; i++) {
           temparr[i].points = dollar[i].points; //1~15
         }
-        console.log(temparr);
+        //console.log(temparr);
         setAmxInfo(temparr);
       })
       .catch((err) => console.log(err));
@@ -138,8 +122,8 @@ export default function Hpage() {
 
   useEffect(() => {
     parseCSVData();
-    setDollar(amx10points);
-  }, []);
+    setDollar(amx0points);
+  }, [src]);
 
   useEffect(() => {
     var temp = 0;
@@ -179,10 +163,11 @@ export default function Hpage() {
         points: amxInfo[i].points,
       });
     }
-    console.log([...arr].sort((a, b) => a.result - b.result));
+    //console.log([...arr].sort((a, b) => a.result - b.result));
     setElodata([...arr].sort((a, b) => a.result - b.result));
   }, [amxInfo]);
 
+  // fastest check only one
   const checkOnlyOne = (checkThis) => {
     const name = document.getElementsByName("fastest");
     for (let i = 0; i < name.length; i++) {
@@ -196,39 +181,146 @@ export default function Hpage() {
     }
   };
 
-  const amx10_update = (elodata, fastest, dollar) => {
-    if (!fastest) {
+  // zoomCheck
+  const [isAllChecked, setAllChecked] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(elodata.length).fill(false)
+  );
+
+  // zoomCam On users multi Check
+  const handleAllCheck = (elodata) => {
+    setAllChecked((prev) => !prev);
+    let array = new Array(elodata.length).fill(!isAllChecked);
+    setCheckedState(array);
+    const arr = [];
+    for (var i = 0; i < elodata.length; i++) {
+      arr.push(elodata[i].custID);
+    }
+  };
+  const handleMonoCheck = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+    const checkedLength = updatedCheckedState.reduce((sum, currentState) => {
+      if (currentState === true) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0);
+    setAllChecked(checkedLength === updatedCheckedState.length);
+  };
+
+  // h2 result update
+  const amx0_update = (elodata, fastest, dollar, rounds) => {
+    const name = document.getElementsByName("zoom");
+    const arr = []; //zoom보너스담고 +$1
+    for (var i = 0; i < elodata.length; i++) {
+      if (name[i].checked == true) {
+        arr.push(elodata[i].custID);
+      }
+    }
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
+    if (!fastest || arr.length == 0) {
       console.log(elodata);
       console.log(dollar);
-      alert("Fastes체크필수");
+      alert("ZoomBonus와 FastestBonus 체크는 필수입니다!");
       return;
     }
     axios
-      .post("/api/amx10/update", { data: elodata, fastest })
+      .post("/api/amx0/update_h2", {
+        data: elodata,
+        fastest,
+        arr,
+        rounds,
+        step,
+      })
       .then((res) => {
-        console.log(res.data);
-        alert("업데이트 완료!");
-        window.location.reload("/amx10/h");
+        //console.log(res.data);
+        alert("업데이트 OK");
+        router.push("/manage");
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
-      <h3>CSV파일 읽어온 값</h3>
-      {CsvData.map((data, index) => (
-        <Typography key={index}>
-          {data.FinPos}. {data.Name}({data.CustID})
-        </Typography>
-      ))}
-      <Button onClick={() => finPosUpdate(CsvData)} variant="outlined">
-        FinPos UPDATE
-      </Button>
+      <Typography
+        variant="h5"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <b>AMXZero - H2</b>
+        <LoadingButton
+          color="primary"
+          size="large"
+          type="submit"
+          sx={{ border: "1px solid" }}
+          onClick={() => router.push("/manage")}
+        >
+          DashBoard
+        </LoadingButton>
+      </Typography>
+      <h3>1. 해당 라운드 입력하기</h3>
+      <Input
+        type="number"
+        placeholder="숫자만입력"
+        onChange={(e) => setRounds(e.target.value)}
+      />
+      <br />
+      <h3>2. csv파일 선택하기</h3>
+      <Input
+        color="primary"
+        type="file"
+        accept="csv"
+        onChange={async (e) => {
+          let file = e.target.files[0];
+          let filename = encodeURIComponent(file.name);
+          let res = await fetch("/api/admin/upload?file=" + filename);
+          res = await res.json();
+          //S3 Upload
+          const formData = new FormData();
+          Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
+            formData.append(key, value);
+          });
+          const result = await fetch(res.url, {
+            method: "POST",
+            body: formData,
+          });
+          console.log(result);
+          if (result.ok) {
+            setSrc(result.url + "/iracing/" + filename);
+          } else {
+            console.log("ERROR....");
+          }
+        }}
+      />
 
-      <h3>계산값 확인하기</h3>
+      {src === "" ? null : (
+        <>
+          <h3>.csv파일 읽어온 값</h3>
+          {CsvData.map((data, index) => (
+            <Typography key={index}>
+              {data.FinPos}. {data.Name}({data.CustID})
+            </Typography>
+          ))}
 
-      <Button onClick={() => eloList(dollar)} variant="outlined">
-        Elo계산,Point확인
-      </Button>
+          <h3>3. 순위 업데이트 하기</h3>
+          <Button
+            onClick={() => finPosUpdate(CsvData, rounds)}
+            variant="outlined"
+          >
+            FinPos UPDATE
+          </Button>
+
+          <h3>4. 계산값 확인하기</h3>
+          <Button onClick={() => eloList(dollar)} variant="outlined">
+            Elo계산,Point확인
+          </Button>
+        </>
+      )}
 
       {amxInfo.length > 1 ? (
         <>
@@ -254,6 +346,14 @@ export default function Hpage() {
               >
                 <TableHead>
                   <TableRow>
+                    <TableCell padding="checkbox">
+                      <input
+                        type="checkbox"
+                        checked={isAllChecked}
+                        onChange={() => handleAllCheck(elodata)}
+                      ></input>
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit" }}>Pos</TableCell>
                     {elo.map((row, index) => (
                       <TableCell
                         key={index}
@@ -270,8 +370,22 @@ export default function Hpage() {
                 <TableBody>
                   {elodata.map((row, index) => (
                     <TableRow key={index} hover>
+                      <TableCell padding="checkbox">
+                        <input
+                          type="checkbox"
+                          name="zoom"
+                          value={row.custID}
+                          checked={checkedState[index]}
+                          onChange={() => {
+                            handleMonoCheck(index);
+                          }}
+                        ></input>
+                      </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
-                        {row.result}. {row.driverName}
+                        <b>{row.result}</b>
+                      </TableCell>
+                      <TableCell sx={{ fontFamily: "Kanit" }}>
+                        {row.driverName}
                       </TableCell>
                       <TableCell sx={{ fontFamily: "Kanit" }}>
                         {row.custID}
@@ -297,7 +411,10 @@ export default function Hpage() {
                       <TableCell sx={{ fontFamily: "Kanit" }}>
                         <b>${row.points}</b>
                       </TableCell>
-                      <TableCell sx={{ fontFamily: "Kanit" }}>
+                      <TableCell
+                        sx={{ fontFamily: "Kanit" }}
+                        padding="checkbox"
+                      >
                         <input
                           type="checkbox"
                           name="fastest"
@@ -317,14 +434,14 @@ export default function Hpage() {
           </Paper>
           <Button
             style={{ marginTop: 10 }}
-            onClick={() => amx10_update(elodata, fastest, dollar)}
+            onClick={() => amx0_update(elodata, fastest, dollar, rounds)}
             variant="outlined"
           >
             UPDATE
           </Button>
         </>
       ) : (
-        <>누르면 없어짐</>
+        <></>
       )}
     </>
   );

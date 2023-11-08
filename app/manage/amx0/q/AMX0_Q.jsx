@@ -1,22 +1,31 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Typography, Button } from "@mui/material";
-import Papa from "papaparse";
-import commonConfig from "../../assets/csvHeader";
-import axios from "axios";
-import amx0points from "../../assets/amx0points";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import TableContainer from "@mui/material/TableContainer";
-import elo from "../../assets/elo";
 
-export default function Qpage() {
-  const [CsvData, setCsvData] = useState([{}]);
+import { useState, useEffect } from "react";
+import {
+  Typography,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableContainer,
+  Paper,
+  Input,
+} from "@mui/material";
+import elo from "../../../assets/elo";
+import Papa from "papaparse";
+import commonConfig from "@/app/assets/csvHeader";
+import amx0points from "@/app/assets/amx0points";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { LoadingButton } from "@mui/lab";
+
+export default function AMX0_Q() {
+  const router = useRouter();
+  const [src, setSrc] = useState("");
   const [rounds, setRounds] = useState(0);
+  const [CsvData, setCsvData] = useState([{}]);
   const [dollar, setDollar] = useState([{ points: 0 }]);
   const [amxInfo, setAmxInfo] = useState([
     {
@@ -46,60 +55,53 @@ export default function Qpage() {
       points: 0,
     },
   ]);
-  function parseCSVData() {
-    Papa.parse(
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R1/S3_AMXZero_R1_Q.csv`, //Zero-R1_Q 첫경기
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R2/S3_AMXZero_R2_Q.csv`, //Zero-R2_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R3/S3_AMXZero_R3_Q.csv`, //Zero-R3_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R4/S3_AMXZero_R4_Q.csv`, //Zero-R4_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R5/S3_AMXZero_R5_Q.csv`, //Zero-R5_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R6/S3_AMXZero_R6_Q.csv`, //Zero-R6_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R7/S3_AMXZero_R7_Q.csv`, //Zero-R7_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R8/S3_AMXZero_R8_Q.csv`, //Zero-R8_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R9/S3_AMXZero_R9_Q.csv`, //Zero-R9_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R10/S3_AMXZero_R10_Q.csv`, //Zero-R10_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R11/S3_AMXZero_R11_Q.csv`, //Zero-R11_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R12/S3_AMXZero_R12_Q.csv`, //Zero-R12_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R13/S3_AMXZero_R13_Q.csv`, //Zero-R13_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R14/S3_AMXZero_R14_Q.csv`, //Zero-R14_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R15/S3_AMXZero_R15_Q.csv`, //Zero-R15_Q
-      //`${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R16/S3_AMXZero_R16_Q.csv`, //Zero-R16_Q
-      `${process.env.NEXT_PUBLIC_S3_AMX0_ADDRESS}/R17/S3_AMXZero_R17_Q.csv`, //Zero-R17_Q
+  var step = "q";
 
-      {
-        ...commonConfig,
-        header: true,
-        download: true,
-        complete: (result) => {
-          setCsvData(result.data);
-        },
-      }
-    );
+  function parseCSVData() {
+    Papa.parse(`${src}`, {
+      ...commonConfig,
+      header: true,
+      download: true,
+      complete: (result) => {
+        setCsvData(result.data);
+      },
+    });
   }
   //-- USER_TABLE, AMX0_TABLE
   const userInsert = (CsvData, rounds) => {
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
     axios
       .post("/api/amx0/user_insert", { data: CsvData, rounds: rounds })
       .then((res) => {
-        console.log(res.data);
-        alert("유저 정보가 User,AMX0에 들어감!!ㅇㅇ");
-        //window.location.reload("/amx0"); //페이지 강제 새로고침
+        //console.log(res.data);
+        alert("유저 정보 확인 OK");
       })
       .catch((err) => console.log(err));
   };
 
   const finPosUpdate = (CsvData, rounds) => {
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
     axios
-      .post("/api/amx0/finPosUpdate", { data: CsvData, rounds: rounds })
+      .post("/api/amx0/finPosUpdate", {
+        data: CsvData,
+        rounds: rounds,
+        step: step,
+      })
       .then((res) => {
-        console.log(res.data);
-        alert("finPos업데이트됨!!");
+        //console.log(res.data);
+        alert("순위 업데이트 OK");
       })
       .catch((err) => console.log(err));
   };
 
   const eloList = (dollar) => {
-    alert("고고");
+    alert("계산 시작");
     const temparr = [];
     axios
       .post("/api/amx0/select") //WHERE finPos>0 ORDER BY finPos ASC;
@@ -120,9 +122,18 @@ export default function Qpage() {
             finPos: res.data[i].finPos,
           });
         }
-        for (var i = 0; i < dollar.length; i++) {
-          temparr[i].points = dollar[i].points;
+        if (res.data.length < dollar.length) {
+          //console.log("data.length < dollar.length");
+          for (var i = 0; i < res.data.length; i++) {
+            temparr[i].points = dollar[i].points;
+          }
+        } else {
+          //console.log("원래 기본");
+          for (var i = 0; i < dollar.length; i++) {
+            temparr[i].points = dollar[i].points;
+          }
         }
+
         //console.log(temparr);
         setAmxInfo(temparr);
       })
@@ -132,7 +143,7 @@ export default function Qpage() {
   useEffect(() => {
     parseCSVData();
     setDollar(amx0points);
-  }, []);
+  }, [src]);
 
   useEffect(() => {
     var temp = 0;
@@ -176,37 +187,103 @@ export default function Qpage() {
   }, [amxInfo]);
 
   const amx0_update = (elodata, rounds) => {
+    if (!rounds) {
+      alert("몇라운드인지 입력하세요!");
+      return;
+    }
     axios
-      .post("/api/amx0/update", { data: elodata, rounds: rounds })
+      .post("/api/amx0/update", { data: elodata, rounds: rounds, step: step })
       .then((res) => {
-        console.log(res.data);
-        alert("업데이트 완료!");
+        //console.log(res.data);
+        alert("업데이트 OK");
+        router.push("/manage");
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
-      <input type="number" onChange={(e) => setRounds(e.target.value)}></input>
-      <h3>CSV파일 읽어온 값</h3>
-      {CsvData.map((data, index) => (
-        <Typography key={index}>
-          {data.FinPos}. {data.Name}({data.CustID})
-        </Typography>
-      ))}
-      <Button onClick={() => userInsert(CsvData, rounds)} variant="outlined">
-        USER INSERT
-      </Button>
-
+      <Typography
+        variant="h5"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <b>AMXZero - Q</b>
+        <LoadingButton
+          color="primary"
+          size="large"
+          type="submit"
+          sx={{ border: "1px solid" }}
+          onClick={() => router.push("/manage")}
+        >
+          DashBoard
+        </LoadingButton>
+      </Typography>
+      <h3>1. 해당 라운드 입력하기</h3>
+      <Input
+        type="number"
+        placeholder="몇 라운드인지 숫자 입력"
+        onChange={(e) => setRounds(e.target.value)}
+      />
       <br />
-      <Button onClick={() => finPosUpdate(CsvData, rounds)} variant="outlined">
-        FinPos UPDATE
-      </Button>
+      <h3>2. csv파일 선택하기</h3>
+      <Input
+        color="primary"
+        type="file"
+        accept="csv"
+        onChange={async (e) => {
+          let file = e.target.files[0];
+          let filename = encodeURIComponent(file.name);
+          let res = await fetch("/api/admin/upload?file=" + filename);
+          res = await res.json();
+          //S3 Upload
+          const formData = new FormData();
+          Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
+            formData.append(key, value);
+          });
+          const result = await fetch(res.url, {
+            method: "POST",
+            body: formData,
+          });
+          console.log(result);
+          if (result.ok) {
+            setSrc(result.url + "/iracing/" + filename);
+          } else {
+            console.log("ERROR....");
+          }
+        }}
+      />
 
-      <h3>계산값 확인하기</h3>
+      {src === "" ? null : (
+        <>
+          <h3>.csv파일 읽어온 값</h3>
+          {CsvData.map((data, index) => (
+            <Typography key={index}>
+              {data.FinPos}. {data.Name}({data.CustID})
+            </Typography>
+          ))}
 
-      <Button onClick={() => eloList(dollar)} variant="outlined">
-        Elo계산,Point확인
-      </Button>
+          <h3>3. 유저 정보 넣기</h3>
+          <Button
+            onClick={() => userInsert(CsvData, rounds)}
+            variant="outlined"
+          >
+            USER INSERT
+          </Button>
+
+          <h3>4. 순위 업데이트하기</h3>
+          <Button
+            onClick={() => finPosUpdate(CsvData, rounds)}
+            variant="outlined"
+          >
+            FinPos UPDATE
+          </Button>
+
+          <h3>5. 계산값 확인하기</h3>
+          <Button onClick={() => eloList(dollar)} variant="outlined">
+            Elo계산,Point확인
+          </Button>
+        </>
+      )}
 
       {amxInfo.length > 1 ? (
         <>
@@ -278,6 +355,7 @@ export default function Qpage() {
               </Table>
             </TableContainer>
           </Paper>
+          <h3>6. 확인 후 업데이트 버튼 누르기</h3>
           <Button
             style={{ marginTop: 10 }}
             onClick={() => amx0_update(elodata, rounds)}
@@ -287,7 +365,7 @@ export default function Qpage() {
           </Button>
         </>
       ) : (
-        <>누르면 없어짐</>
+        <></>
       )}
     </>
   );

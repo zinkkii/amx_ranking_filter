@@ -146,37 +146,6 @@ export default function Drivers() {
 
       <hr />
 
-      {/* <span className="filter-title">Period</span>
-      <label className="box-radio-input">
-        <input
-          type="checkbox"
-          name="period"
-          value="all"
-          onClick={(e) => {
-            setPeriod(e.target.value);
-          }}
-          onChange={(e) => checkOnlyPeriod(e.target)}
-        />
-        <span>All</span>
-      </label>
-      {periods.map((period) => (
-        <label className="box-radio-input" key={period.value}>
-          <input
-            type="checkbox"
-            name={period.name}
-            value={period.value}
-            onClick={(e) => {
-              setPeriod(e.target.value);
-              console.log(e.target.value);
-            }}
-            onChange={(e) => checkOnlyPeriod(e.target)}
-          />
-          <span>{period.label}</span>
-        </label>
-      ))}
-
-      <hr /> */}
-
       <RankingTable game={game} tier={tier} region={region} />
     </>
   );

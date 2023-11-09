@@ -210,7 +210,7 @@ export default function StickyHeadTable(props) {
           variant="h5"
           sx={{ fontFamily: "Kanit", fontWeight: "900", marginTop: "30px" }}
         >
-          AMX Season3 RACE_17 Result
+          AMX Season3
         </Typography>
       </Box>
 

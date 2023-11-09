@@ -14,6 +14,7 @@ import {
   TableContainer,
   Paper,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -104,7 +105,6 @@ export default function AMX0() {
 
   return (
     <>
-      <Typography>AMX0- choose .csv file</Typography>
       <Box
         gap={1}
         display="grid"
@@ -174,13 +174,18 @@ export default function AMX0() {
       </Box>
       <Typography>AMXZero Round Search</Typography>
       <Stack
-        sx={{ display: "flex", justifyContent: "space-between", width: "10%" }}
+        sx={{ display: "flex", justifyContent: "space-between", width: "15%" }}
       >
         <Input
           type="number"
           onChange={(e) => setRounds(e.target.value)}
         ></Input>
-        <Button onClick={() => searchRounds(rounds)}>SEARCH</Button>
+        <LoadingButton
+          onClick={() => searchRounds(rounds)}
+          sx={{ border: "1px solid", marginTop: 2, marginBottom: 2 }}
+        >
+          SEARCH
+        </LoadingButton>
       </Stack>
       {rounds > 0 && logdata.length > 1 ? (
         <>

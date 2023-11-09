@@ -284,12 +284,6 @@ export default function AMX10_Q() {
 
       {amxInfo.length > 1 ? (
         <>
-          <h3>등수별 상금</h3>
-          {dollar.map((row, index) => (
-            <Typography key={index}>
-              {index + 1}등 : <b>+${row.points}</b>
-            </Typography>
-          ))}
           <h3>Q _ Elo계산값</h3>
           <Paper sx={{ overflow: "hidden" }}>
             <TableContainer>
@@ -318,7 +312,9 @@ export default function AMX10_Q() {
                       <TableCell>{value.result}</TableCell>
                       <TableCell>{value.winlose}</TableCell>
                       <TableCell>{value.newElo}</TableCell>
-                      <TableCell>${value.points}</TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        ${value.points}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

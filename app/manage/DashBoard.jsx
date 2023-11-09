@@ -23,9 +23,13 @@ export default function DashBoard() {
             <b>LOGOUT</b>
           </LoadingButton>
         </Typography>
-        <Divider sx={{ marginTop: 5 }}>AMX_10</Divider>
+        <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
+          AMX_10
+        </Divider>
         <AMX10 />
-        <Divider sx={{ marginTop: 5 }}>AMX_Zero</Divider>
+        <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
+          AMX_Zero
+        </Divider>
         <AMX0 />
       </Stack>
     </>

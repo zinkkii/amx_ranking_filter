@@ -288,19 +288,7 @@ export default function AMX10_H() {
 
       {amxInfo.length > 1 ? (
         <>
-          <h3>등수별 상금</h3>
-          {dollar.map((row, index) => (
-            <Typography key={index}>
-              {index + 1}등 : <b>+${row.points}</b>
-            </Typography>
-          ))}
-          <h3>누적 상금</h3>
-          {amxInfo.map((info, index) => (
-            <Typography key={index}>
-              {index + 1}. {info.driverName} <b>${info.points}</b>
-            </Typography>
-          ))}
-          <h2>H _ Elo계산값</h2>
+          <h2>H1 _ Elo계산값</h2>
           <Paper sx={{ overflow: "hidden" }}>
             <TableContainer>
               <Table

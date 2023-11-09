@@ -110,8 +110,16 @@ export default function AMX0_H1() {
             finPos: res.data[i].finPos,
           });
         }
-        for (var i = 0; i < dollar.length; i++) {
-          temparr[i].points = dollar[i].points; //1~15
+        if (res.data.length < dollar.length) {
+          //console.log("data.length < dollar.length");
+          for (var i = 0; i < res.data.length; i++) {
+            temparr[i].points = dollar[i].points;
+          }
+        } else {
+          //console.log("원래 기본");
+          for (var i = 0; i < dollar.length; i++) {
+            temparr[i].points = dollar[i].points;
+          }
         }
         //console.log(temparr);
         setAmxInfo(temparr);

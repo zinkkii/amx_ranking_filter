@@ -94,8 +94,8 @@ export default function AMX0_H2() {
     axios
       .post("/api/amx0/select") //WHERE finPos>0 ORDER BY finPos ASC;
       .then((res) => {
-        console.log(res.data);
-        console.log(dollar);
+        //console.log(res.data);
+        //console.log(dollar);
         for (var i = 0; i < res.data.length; i++) {
           temparr.push({
             custID: res.data[i].custID,
@@ -233,8 +233,8 @@ export default function AMX0_H2() {
       return;
     }
     if (!fastest || arr.length == 0) {
-      console.log(elodata);
-      console.log(dollar);
+      //console.log(elodata);
+      //console.log(dollar);
       alert("ZoomBonus와 FastestBonus 체크는 필수입니다!");
       return;
     }
@@ -297,7 +297,7 @@ export default function AMX0_H2() {
             method: "POST",
             body: formData,
           });
-          console.log(result);
+          //console.log(result);
           if (result.ok) {
             setSrc(result.url + "/iracing/" + filename);
           } else {
@@ -404,7 +404,9 @@ export default function AMX0_H2() {
                       <TableCell sx={{ fontFamily: "Kanit" }}>
                         <b>{row.newElo}</b>
                       </TableCell>
-                      <TableCell sx={{ fontFamily: "Kanit" }}>
+                      <TableCell
+                        sx={{ fontFamily: "Kanit", fontWeight: "900" }}
+                      >
                         <b>${row.points}</b>
                       </TableCell>
                       <TableCell
@@ -416,7 +418,7 @@ export default function AMX0_H2() {
                           name="fastest"
                           onClick={(e) => {
                             setFastest(e.target.value);
-                            console.log(e.target.value);
+                            //console.log(e.target.value);
                           }}
                           onChange={(e) => checkOnlyOne(e.target)}
                           value={row.custID}

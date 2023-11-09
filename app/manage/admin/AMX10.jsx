@@ -30,7 +30,7 @@ export default function AMX10() {
     axios
       .post("/api/amx10/round_search", { rounds: rounds })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         arr = [...res.data].sort(
           (a, b) =>
             a.Qpoints +
@@ -56,15 +56,15 @@ export default function AMX10() {
                 arr[i + 1].H1fastest +
                 arr[i + 1].H2fastest
             ) {
-              console.log(i + "=i :똑가타여!!!!!!!! / rank : " + rank);
+              //console.log(i + "=i :똑가타여!!!!!!!! / rank : " + rank);
               arr[i].rank = rank + 1;
             } else {
               rank = rank + 1;
               arr[i].rank = rank;
-              console.log(i + "=i :안똑같아영 / rank : " + rank);
+              //console.log(i + "=i :안똑같아영 / rank : " + rank);
             }
           } else if (i === arr.length - 1) {
-            console.log("i: " + i + " / ggggg");
+            //console.log("i: " + i + " / ggggg");
             if (
               arr[i].Qpoints +
                 arr[i].H1points +
@@ -95,10 +95,10 @@ export default function AMX10() {
               arr[i].rank = rank + 1;
             }
 
-            console.log("i : " + i + " rank : " + rank);
+            //console.log("i : " + i + " rank : " + rank);
           }
         }
-        console.log(arr);
+        //console.log(arr);
         setLogData(arr);
       })
       .catch((err) => console.log(err));

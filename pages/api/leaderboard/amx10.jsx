@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     "sum(CASE WHEN Qresult = 1 THEN 1 ELSE 0 END ) AS polePositions, " +
     "(sum(CASE WHEN H1result=1 THEN 1 ELSE 0 END )+sum(CASE WHEN H2result=1 THEN 1 ELSE 0 END )) AS heatWins," +
     "(sum(CASE WHEN H1fastest = 5 THEN 1 ELSE 0 END )+sum(CASE WHEN H2fastest = 5 THEN 1 ELSE 0 END )) AS fastestLaps " +
-    "FROM logtable WHERE game='AMX10' AND custID= ? ";
+    "FROM LogTable WHERE game='AMX10' AND custID= ? ";
   var result3 = [];
   if (req.method === "POST") {
     let result = await executeQuery(sql, []);

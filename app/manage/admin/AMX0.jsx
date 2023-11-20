@@ -202,7 +202,10 @@ export default function AMX0() {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
-                      driverName(custID)
+                      Num
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      driverName
                     </TableCell>
                     <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                       Q-result
@@ -251,6 +254,7 @@ export default function AMX0() {
                 <TableBody>
                   {logdata.map((row, index) => (
                     <TableRow key={index} hover>
+                      <TableCell>{index + 1}</TableCell>
                       <TableCell>{row.driverName}</TableCell>
                       <TableCell>{row.Qresult}</TableCell>
                       <TableCell sx={{ fontWeight: "900" }}>

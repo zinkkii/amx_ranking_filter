@@ -10,13 +10,23 @@ const queryClient = new QueryClient();
 export default function Layout({ children }) {
   return (
     <ThemeProvider theme={theme}>
-      <Container sx={{ my: 5 }}>
+      <Container
+        sx={{ my: 5, display: "flex", justifyContent: "space-between" }}
+      >
         <Typography
           variant="h4"
           sx={{ fontFamily: "Kanit", fontWeight: "900" }}
         >
           <Link href="/" style={{ textDecoration: "none" }}>
             AMX
+          </Link>
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{ my: 1, fontFamily: "Kanit", fontWeight: "900" }}
+        >
+          <Link href="/leaderboard/amx10" style={{ textDecoration: "none" }}>
+            LeaderBoard
           </Link>
         </Typography>
       </Container>

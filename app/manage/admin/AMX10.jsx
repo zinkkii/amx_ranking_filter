@@ -202,7 +202,10 @@ export default function AMX10() {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
-                      driverName(custID)
+                      Num
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      driverName
                     </TableCell>
                     <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                       Q-result
@@ -245,9 +248,8 @@ export default function AMX10() {
                 <TableBody>
                   {logdata.map((row, index) => (
                     <TableRow key={index} hover>
-                      <TableCell>
-                        {row.driverName}({row.custID})
-                      </TableCell>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{row.driverName}</TableCell>
                       <TableCell>{row.Qresult}</TableCell>
                       <TableCell sx={{ fontWeight: "900" }}>
                         $ {row.Qpoints}
@@ -285,7 +287,7 @@ export default function AMX10() {
           </Paper>
 
           <Typography variant="h5" sx={{ margin: 2 }}>
-            AMXZero_Round {rounds} Chart{" "}
+            AMX10_Round {rounds} Chart{" "}
           </Typography>
           <Paper sx={{ overflow: "hidden" }}>
             <TableContainer>

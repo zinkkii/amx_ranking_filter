@@ -342,14 +342,20 @@ export default function AMX0_H2() {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell padding="checkbox">
+                    <TableCell
+                      padding="checkbox"
+                      sx={{ fontFamily: "Kanit", fontWeight: "900" }}
+                    >
+                      zoom
                       <input
                         type="checkbox"
                         checked={isAllChecked}
                         onChange={() => handleAllCheck(elodata)}
                       ></input>
                     </TableCell>
-                    <TableCell sx={{ fontFamily: "Kanit" }}>Pos</TableCell>
+                    <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
+                      No.
+                    </TableCell>
                     {elo.map((row, index) => (
                       <TableCell
                         key={index}

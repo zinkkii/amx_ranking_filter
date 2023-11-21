@@ -1,7 +1,7 @@
 import { executeQuery } from "@/app/DB/db";
 
 export default async function handler(req, res) {
-  var sql = "SELECT custID FROM USERS";
+  var sql = "SELECT custID FROM users";
   var sql2 =
     "SELECT custID, driverName, " +
     "sum(Qpoints+H1points+H2points+H1fastest+H2fastest+zoomBonus) AS points ," +

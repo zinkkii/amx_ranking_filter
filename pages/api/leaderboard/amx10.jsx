@@ -11,6 +11,7 @@ export default async function handler(req, res) {
     "(sum(CASE WHEN H1fastest = 5 THEN 1 ELSE 0 END )+sum(CASE WHEN H2fastest = 5 THEN 1 ELSE 0 END )) AS fastestLaps " +
     "FROM LogTable WHERE game='AMX10' AND custID= ? ";
   var result3 = [];
+
   if (req.method === "POST") {
     let result = await executeQuery(sql, []);
     //console.log(result);

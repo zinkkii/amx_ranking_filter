@@ -45,7 +45,7 @@ export default function AMX10() {
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontWeight: "900" }}>Pos.</TableCell>
-                <TableCell sx={{ fontWeight: "900" }}>DriverName</TableCell>
+                <TableCell sx={{ fontWeight: "900" }}>Driver Name</TableCell>
                 <TableCell sx={{ fontWeight: "900" }}>Points</TableCell>
                 <TableCell sx={{ fontWeight: "900" }}>
                   Races Participated

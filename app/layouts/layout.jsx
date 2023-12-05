@@ -18,15 +18,15 @@ export default function Layout({ children }) {
           sx={{ fontFamily: "Kanit", fontWeight: "900" }}
         >
           <Link href="/" style={{ textDecoration: "none" }}>
-            AMX
+            AMX ELO
           </Link>
         </Typography>
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{ my: 1, fontFamily: "Kanit", fontWeight: "900" }}
         >
           <Link href="/leaderboard/amx10" style={{ textDecoration: "none" }}>
-            LeaderBoard
+            AMX Global S3 LeaderBoard
           </Link>
         </Typography>
       </Container>

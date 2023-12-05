@@ -11,6 +11,7 @@ import {
 import LeaderBoardTopCategory from "../TopCategory";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import TopResultSearch from "../TopResultSearch";
 
 export default function AMX10() {
   const [board, setBoard] = useState([
@@ -39,6 +40,7 @@ export default function AMX10() {
   return (
     <>
       <LeaderBoardTopCategory />
+      <TopResultSearch />
       <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

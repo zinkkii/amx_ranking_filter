@@ -4,6 +4,12 @@ import { signOut } from "next-auth/react";
 import { LoadingButton } from "@mui/lab";
 import AMX10 from "./admin/AMX10";
 import AMX0 from "./admin/AMX0";
+import AMX10_Top from "./admin/AMX10_Top";
+import AMX10ResultSearch from "./admin/AMX10ResultSearch";
+
+import useStore from "../store/test";
+import { useEffect } from "react";
+
 export default function DashBoard() {
   return (
     <>
@@ -26,11 +32,13 @@ export default function DashBoard() {
         <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
           AMX_10
         </Divider>
-        <AMX10 />
+        <AMX10_Top />
+        <AMX10ResultSearch />
+        {/* <AMX10 /> */}
         <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
           AMX_Zero
         </Divider>
-        <AMX0 />
+        {/* <AMX0 /> */}
       </Stack>
     </>
   );

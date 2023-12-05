@@ -1,5 +1,5 @@
 const games = [
-  { value: "iracing", name: "game", label: "iracing" },
+  { value: "iracing", name: "game", label: "iRacing" },
   {
     value: "Assetto Corsa",
     name: "game",

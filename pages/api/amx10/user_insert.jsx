@@ -10,6 +10,8 @@ export default async function handler(req, res) {
       "INSERT INTO LogTable(custID, driverName, game, rounds) VALUES(?,?,'AMX10',?)";
     var sql6 = "SELECT * FROM LogTable WHERE game='AMX10' AND rounds=?";
     var sql7 = "DELETE FROM LogTable WHERE game='AMX10' AND rounds=?";
+    var sql8 = "INSERT INTO ClientChart(game, rounds) VALUES('AMX10',?) ";
+
     try {
       //users, amx10 table
       for (var i = 0; i < req.body.data.length; i++) {

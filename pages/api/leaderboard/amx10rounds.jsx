@@ -1,10 +1,10 @@
 // import { executeQuery } from "@/app/DB/db";
 
 // export default async function handler(req, res) {
-//   var sql = "SELECT * FROM LogTable WHERE rounds = ? AND game='AMX10' ";
 //   if (req.method === "POST") {
+//     var sql = "SELECT * FROM ClientChart WHERE game='AMX10' AND checked=1 ";
 //     try {
-//       let result = await executeQuery(sql, [req.body.rounds]);
+//       let result = await executeQuery(sql, []);
 //       res.status(200).json(result);
 //     } catch (err) {
 //       console.log(err);

@@ -258,9 +258,6 @@ export default function StickyHeadTable(props) {
                 <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
                   Elo
                 </TableCell>
-                <TableCell sx={{ fontFamily: "Kanit", fontWeight: "900" }}>
-                  Points
-                </TableCell>
               </TableRow>
             </TableHead>
 
@@ -289,9 +286,6 @@ export default function StickyHeadTable(props) {
                     </TableCell>
                     <TableCell sx={{ fontFamily: "Kanit" }}>
                       {row.elo}
-                    </TableCell>
-                    <TableCell sx={{ fontFamily: "Kanit" }}>
-                      ${row.points}
                     </TableCell>
                   </TableRow>
                 ))}

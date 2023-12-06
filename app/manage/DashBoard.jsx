@@ -38,7 +38,7 @@ export default function DashBoard() {
         <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
           AMX_Zero
         </Divider>
-        {/* <AMX0 /> */}
+        <AMX0 />
       </Stack>
     </>
   );

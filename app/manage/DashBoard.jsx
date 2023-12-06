@@ -32,9 +32,9 @@ export default function DashBoard() {
         <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
           AMX_10
         </Divider>
-        <AMX10_Top />
-        <AMX10ResultSearch />
-        {/* <AMX10 /> */}
+        {/* <AMX10_Top />
+        <AMX10ResultSearch /> */}
+        <AMX10 />
         <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
           AMX_Zero
         </Divider>

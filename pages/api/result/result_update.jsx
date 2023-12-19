@@ -7,6 +7,9 @@ export default async function handler(req, res) {
   var updateAmx10Fastest =
     "UPDATE CsvResult SET fastestPoints = 5 Where custID=? " +
     "AND game='iRacing' AND tier=? AND rounds=? AND category=? ";
+  var updateAmx0Fastest =
+    "UPDATE CsvResult SET fastestPoints = 1 Where custID=? " +
+    "AND game='iRacing' AND tier=? AND rounds=? AND category=? ";
   try {
     if (req.method === "POST") {
       for (var i = 0; i < req.body.elodata.length; i++) {
@@ -18,8 +21,22 @@ export default async function handler(req, res) {
           req.body.rounds,
           req.body.category,
         ]);
-        if (req.body.elodata[i].custID == req.body.fastest) {
-          let fastestUpdate = await executeQuery(updateAmx10Fastest, [
+
+        if (
+          req.body.elodata[i].custID == req.body.fastest &&
+          req.body.tier == "AMX10"
+        ) {
+          let fastestUpdate10 = await executeQuery(updateAmx10Fastest, [
+            req.body.elodata[i].custID,
+            req.body.tier,
+            req.body.rounds,
+            req.body.category,
+          ]);
+        } else if (
+          req.body.elodata[i].custID == req.body.fastest &&
+          req.body.tier == "AMXZero"
+        ) {
+          let fastestUpdate0 = await executeQuery(updateAmx0Fastest, [
             req.body.elodata[i].custID,
             req.body.tier,
             req.body.rounds,

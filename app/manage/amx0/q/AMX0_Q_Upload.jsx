@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import {
   Typography,
@@ -11,53 +12,62 @@ import {
   TableContainer,
   Paper,
   Input,
+  Alert,
+  Stack,
+  TextField,
 } from "@mui/material";
-import amx10points from "@/app/assets/amx10points";
+import amx0points from "@/app/assets/amx0points";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
 import csvStore from "@/app/store/amx10/csvStore";
 
-export default function AMX10_H2_Upload() {
-  const router = useRouter();
+export default function AMX10_Q_Upload() {
   const { fileupload, src, parseCsv, parseData, tableheader } = csvStore();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
   const [rounds, setRounds] = useState(0);
   const [csvUrl, setCsvUrl] = useState("");
   const [eloData, setEloData] = useState([{}]);
-  const [fastest, setFastest] = useState();
-  var category = "H2";
-  var tier = "AMX10";
+  const [datetime, setDatetime] = useState("");
+  const [car, setCar] = useState("");
+  const [track, setTrack] = useState("");
+  var category = "Q";
+  var tier = "AMXZero";
+  const handleClose = () => {
+    setOpen(false);
+    setErrorOpen(false);
+  };
+
+  useEffect(() => {
+    setTimeout(handleClose, 5000);
+  }, [open, errorOpen]);
 
   useEffect(() => {
     parseCsv(src);
   }, [src]);
 
-  const resultInsert = (parseData, rounds) => {
-    console.log(parseData);
-    if (!rounds) {
-      alert("라운드 입력 필수!");
-      return;
-    }
+  const insertRoundsTop = () => {
     axios
-      .post("/api/result/result_insert_h2_info", {
-        category,
-        rounds,
-        parseData,
+      .post("/api/result/result_insert_roundsInfo", {
         tier,
+        rounds,
+        datetime,
+        car,
+        track,
       })
       .then((res) => {
         if (res.data === "SUCCESS") {
           console.log("good...");
           alert("SUCCESS");
-        } else {
-          console.log("Failed....");
         }
       })
       .catch((err) => console.log(err));
   };
 
-  const eloCalculate = (rounds) => {
-    console.log("Elo값 계산--시작");
+  const eloCalculate = (tier, category, rounds) => {
+    console.log("ELO값 계산--시작");
     if (!rounds) {
       alert("라운드 입력 필수");
       return;
@@ -110,7 +120,7 @@ export default function AMX10_H2_Upload() {
           });
         }
         //point계산
-        if (res.data.length <= amx10points.length) {
+        if (res.data.length <= amx0points.length) {
           // 참가자 15명 이하
           var firstLapsComp = arr[0].lapsComp;
           var limitLapsComp = firstLapsComp * 0.8;
@@ -126,14 +136,14 @@ export default function AMX10_H2_Upload() {
             } else {
               //포인트 받음(참가자 15명 이하 && 1등의 LapsComp 80% 초과)
               console.log("얜 받음");
-              arr[i].points = amx10points[i].points;
+              arr[i].points = amx0points[i].points;
             }
           }
         } else {
           // 참가자 15명 초과
-          for (var i = 0; i < amx10points.length; i++) {
+          for (var i = 0; i < amx0points.length; i++) {
             console.log("15명 초과임!!!");
-            arr[i].points = amx10points[i].points;
+            arr[i].points = amx0points[i].points;
           }
         }
         setEloData([...arr].sort((a, b) => a.finPos - b.finPos));
@@ -141,17 +151,42 @@ export default function AMX10_H2_Upload() {
       .catch((err) => console.log(err));
   };
 
-  const checkOnlyOne = (checkThis) => {
-    const name = document.getElementsByName("fastest");
-    for (var i = 0; i < name.length; i++) {
-      if (name[i] !== checkThis) {
-        name[i].checked = false;
-      } else {
-        if (name[i].checked == false) {
-          setFastest();
+  const resultInsertUser = (parseData) => {
+    axios
+      .post("/api/result/result_insert_user", { data: parseData })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data === "SUCCESS") {
+          setOpen(true);
         }
-      }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const resultInsert = (parseData, rounds) => {
+    console.log(parseData);
+
+    if (!rounds) {
+      alert("라운드 입력 필수!");
+      return;
     }
+    axios
+      .post("/api/result/result_insert_q_info", {
+        category,
+        rounds,
+        parseData,
+        tier,
+      })
+      .then((res) => {
+        if (res.data === "SUCCESS") {
+          console.log("good...");
+          alert("SUCCESS");
+        } else {
+          console.log("Failed....");
+          setErrorOpen(true);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const resultUpdate = (elodata, rounds) => {
@@ -159,14 +194,11 @@ export default function AMX10_H2_Upload() {
       alert("라운드 입력 필수!");
       return;
     }
+    console.log("!!!!!!!");
+    console.log(elodata);
+
     axios
-      .post("/api/result/result_update", {
-        elodata,
-        rounds,
-        tier,
-        category,
-        fastest,
-      })
+      .post("/api/result/result_update", { elodata, rounds, tier, category })
       .then((res) => {
         console.log(res.data);
         if (res.data === "SUCCESS") {
@@ -183,7 +215,7 @@ export default function AMX10_H2_Upload() {
         variant="h5"
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <b>AMX10 - H2</b>
+        <b>AMX10 - Q</b>
         <LoadingButton
           color="primary"
           size="large"
@@ -197,11 +229,13 @@ export default function AMX10_H2_Upload() {
 
       <h3>1. 해당 라운드 입력하기</h3>
       <Input
+        sx={{ width: "40%" }}
         type="number"
-        placeholder="숫자만 입력"
+        placeholder="몇 라운드인지 숫자만 입력"
         onChange={(e) => setRounds(e.target.value)}
       ></Input>
       <br />
+
       <h3>2. csv파일 선택하기</h3>
       <Input
         color="primary"
@@ -214,7 +248,6 @@ export default function AMX10_H2_Upload() {
           setCsvUrl(src);
         }}
       />
-
       {src === "" ? null : (
         <>
           <div>
@@ -227,7 +260,27 @@ export default function AMX10_H2_Upload() {
           </div>
 
           <div>
-            <h3>5. Heat2 결과 넣기</h3>
+            <h3>4. 사용자 정보 넣기</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                resultInsertUser(parseData);
+              }}
+            >
+              INPUT
+            </Button>
+          </div>
+
+          <Stack sx={{ width: "100%", marginTop: 2 }} spacing={2}>
+            {open && (
+              <Alert variant="outlined" severity="info" onClose={handleClose}>
+                SUCCESS !
+              </Alert>
+            )}
+          </Stack>
+
+          <div>
+            <h3>5. Qualifying 결과 넣기</h3>
             <Button
               variant="outlined"
               onClick={() => {
@@ -238,12 +291,67 @@ export default function AMX10_H2_Upload() {
             </Button>
           </div>
 
+          <Stack sx={{ width: "100%", marginTop: 2 }} spacing={2}>
+            {errorOpen && (
+              <Alert variant="outlined" severity="error" onClose={handleClose}>
+                ERROR! The file already exists!
+              </Alert>
+            )}
+          </Stack>
+
           <div>
-            <h3>6. Heat2 Elo 계산하기</h3>
+            <h3>6. 해당라운드 정보 입력</h3>
+            <TextField
+              sx={{ width: "50%" }}
+              margin="dense"
+              id="datetime"
+              label="시간 입력(ex. 2024.01.01 12:20 AM GMT )"
+              type="text"
+              variant="standard"
+              required
+              onChange={(e) => setDatetime(e.target.value)}
+            />
+            <br />
+            <TextField
+              sx={{ width: "50%" }}
+              margin="dense"
+              id="datetime"
+              label="Car 또는 CarClass 입력"
+              type="text"
+              variant="standard"
+              required
+              onChange={(e) => setCar(e.target.value)}
+            />
+            <br />
+            <TextField
+              sx={{ width: "50%" }}
+              margin="dense"
+              id="datetime"
+              label="Track 정보 입력"
+              type="text"
+              variant="standard"
+              required
+              onChange={(e) => setTrack(e.target.value)}
+            />
+            <br />
+            <Button
+              variant="outlined"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                insertRoundsTop();
+              }}
+            >
+              INPUT
+            </Button>
+            <br />
+          </div>
+
+          <div>
+            <h3>7. Qualifying Elo 계산하기</h3>
             <Button
               variant="outlined"
               onClick={() => {
-                eloCalculate(rounds);
+                eloCalculate(tier, category, rounds);
               }}
             >
               Calculating
@@ -259,12 +367,11 @@ export default function AMX10_H2_Upload() {
                           {row}
                         </TableCell>
                       ))}
-                      <TableCell sx={{ fontWeight: "900" }}>Fastest</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {eloData.map((row, index) => (
-                      <TableRow key={index} hover>
+                      <TableRow key={index}>
                         <TableCell>{row.finPos}</TableCell>
                         <TableCell>{row.driverName}</TableCell>
                         <TableCell>{row.startElo}</TableCell>
@@ -274,17 +381,6 @@ export default function AMX10_H2_Upload() {
                         <TableCell>{row.winLose}</TableCell>
                         <TableCell>{row.newElo}</TableCell>
                         <TableCell>{row.points}</TableCell>
-                        <TableCell>
-                          <input
-                            type="checkbox"
-                            name="fastest"
-                            onClick={(e) => {
-                              setFastest(e.target.value);
-                            }}
-                            onChange={(e) => checkOnlyOne(e.target)}
-                            value={row.custID}
-                          ></input>
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -294,7 +390,7 @@ export default function AMX10_H2_Upload() {
           </div>
 
           <div>
-            <h3>7. 확인 후 업데이트</h3>
+            <h3>8. 확인 후 업데이트</h3>
             <Button
               variant="outlined"
               onClick={() => {

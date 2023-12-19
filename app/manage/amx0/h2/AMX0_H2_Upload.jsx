@@ -12,13 +12,13 @@ import {
   Paper,
   Input,
 } from "@mui/material";
-import amx10points from "@/app/assets/amx10points";
+import amx0points from "@/app/assets/amx0points";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
 import csvStore from "@/app/store/amx10/csvStore";
 
-export default function AMX10_H2_Upload() {
+export default function AMX0_H2_Upload() {
   const router = useRouter();
   const { fileupload, src, parseCsv, parseData, tableheader } = csvStore();
   const [rounds, setRounds] = useState(0);
@@ -26,7 +26,7 @@ export default function AMX10_H2_Upload() {
   const [eloData, setEloData] = useState([{}]);
   const [fastest, setFastest] = useState();
   var category = "H2";
-  var tier = "AMX10";
+  var tier = "AMXZero";
 
   useEffect(() => {
     parseCsv(src);
@@ -110,7 +110,7 @@ export default function AMX10_H2_Upload() {
           });
         }
         //point계산
-        if (res.data.length <= amx10points.length) {
+        if (res.data.length <= amx0points.length) {
           // 참가자 15명 이하
           var firstLapsComp = arr[0].lapsComp;
           var limitLapsComp = firstLapsComp * 0.8;
@@ -126,14 +126,14 @@ export default function AMX10_H2_Upload() {
             } else {
               //포인트 받음(참가자 15명 이하 && 1등의 LapsComp 80% 초과)
               console.log("얜 받음");
-              arr[i].points = amx10points[i].points;
+              arr[i].points = amx0points[i].points;
             }
           }
         } else {
           // 참가자 15명 초과
-          for (var i = 0; i < amx10points.length; i++) {
+          for (var i = 0; i < amx0points.length; i++) {
             console.log("15명 초과임!!!");
-            arr[i].points = amx10points[i].points;
+            arr[i].points = amx0points[i].points;
           }
         }
         setEloData([...arr].sort((a, b) => a.finPos - b.finPos));
@@ -183,7 +183,7 @@ export default function AMX10_H2_Upload() {
         variant="h5"
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <b>AMX10 - H2</b>
+        <b>AMX Zero - H2</b>
         <LoadingButton
           color="primary"
           size="large"

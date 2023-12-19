@@ -48,6 +48,7 @@ export default function AMX10_H1_Upload() {
       .then((res) => {
         if (res.data === "SUCCESS") {
           console.log("good...");
+          alert("SUCCESS");
         } else {
           console.log("Failed....");
         }
@@ -105,15 +106,33 @@ export default function AMX10_H1_Upload() {
                       1)) *
                     (res.data.length - 1)),
             points: 0,
+            lapsComp: res.data[i].lapsComp,
           });
         }
         //point계산
-        if (res.data.length < amx10points.length) {
+        if (res.data.length <= amx10points.length) {
+          // 참가자 15명 이하
+          var firstLapsComp = arr[0].lapsComp;
+          var limitLapsComp = firstLapsComp * 0.8;
+
           for (var i = 0; i < res.data.length; i++) {
-            arr[i].points = amx10points[i].points;
+            console.log("15명 이하!!!");
+            console.log("lapsComp : " + arr[i].lapsComp);
+            console.log("limitLapsComp : " + limitLapsComp);
+            if (arr[i].lapsComp <= limitLapsComp) {
+              //포인트 못받음(참가자 15명 이하 && 1등의 LapsComp 80% 이하)
+              console.log("얘 못받음");
+              arr[i].points = 0;
+            } else {
+              //포인트 받음(참가자 15명 이하 && 1등의 LapsComp 80% 초과)
+              console.log("얜 받음");
+              arr[i].points = amx10points[i].points;
+            }
           }
         } else {
+          // 참가자 15명 초과
           for (var i = 0; i < amx10points.length; i++) {
+            console.log("15명 초과임!!!");
             arr[i].points = amx10points[i].points;
           }
         }
@@ -195,93 +214,97 @@ export default function AMX10_H1_Upload() {
           setCsvUrl(src);
         }}
       />
-      <div>
-        <h3>3. 결과</h3>
-        {parseData.map((row, index) => (
-          <Typography key={index}>
-            {row.FinPos}, {row.Name}
-          </Typography>
-        ))}
-      </div>
+      {src === "" ? null : (
+        <>
+          <div>
+            <h3>3. 결과</h3>
+            {parseData.map((row, index) => (
+              <Typography key={index}>
+                {row.FinPos}, {row.Name}
+              </Typography>
+            ))}
+          </div>
 
-      <div>
-        <h3>5. Heat1 결과 넣기</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            resultInsert(parseData, rounds);
-          }}
-        >
-          INPUT
-        </Button>
-      </div>
+          <div>
+            <h3>5. Heat1 결과 넣기</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                resultInsert(parseData, rounds);
+              }}
+            >
+              INPUT
+            </Button>
+          </div>
 
-      <div>
-        <h3>6. Heat1 Elo 계산하기</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            eloCalculate(rounds);
-          }}
-        >
-          Calculating
-        </Button>
+          <div>
+            <h3>6. Heat1 Elo 계산하기</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                eloCalculate(rounds);
+              }}
+            >
+              Calculating
+            </Button>
 
-        <Paper sx={{ overflow: "hidden", marginTop: 3 }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 650 }} size="small">
-              <TableHead>
-                <TableRow>
-                  {tableheader.map((row, index) => (
-                    <TableCell sx={{ fontWeight: "900" }} key={index}>
-                      {row}
-                    </TableCell>
-                  ))}
-                  <TableCell sx={{ fontWeight: "900" }}>Fastest</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {eloData.map((row, index) => (
-                  <TableRow key={index} hover>
-                    <TableCell>{row.finPos}</TableCell>
-                    <TableCell>{row.driverName}</TableCell>
-                    <TableCell>{row.startElo}</TableCell>
-                    <TableCell>{row.eloDiff}</TableCell>
-                    <TableCell>{row.odds}</TableCell>
-                    <TableCell>{row.finPos}</TableCell>
-                    <TableCell>{row.winLose}</TableCell>
-                    <TableCell>{row.newElo}</TableCell>
-                    <TableCell>{row.points}</TableCell>
-                    <TableCell>
-                      <input
-                        type="checkbox"
-                        name="fastest"
-                        onClick={(e) => {
-                          setFastest(e.target.value);
-                        }}
-                        onChange={(e) => checkOnlyOne(e.target)}
-                        value={row.custID}
-                      ></input>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </div>
+            <Paper sx={{ overflow: "hidden", marginTop: 3 }}>
+              <TableContainer>
+                <Table sx={{ minWidth: 650 }} size="small">
+                  <TableHead>
+                    <TableRow>
+                      {tableheader.map((row, index) => (
+                        <TableCell sx={{ fontWeight: "900" }} key={index}>
+                          {row}
+                        </TableCell>
+                      ))}
+                      <TableCell sx={{ fontWeight: "900" }}>Fastest</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {eloData.map((row, index) => (
+                      <TableRow key={index} hover>
+                        <TableCell>{row.finPos}</TableCell>
+                        <TableCell>{row.driverName}</TableCell>
+                        <TableCell>{row.startElo}</TableCell>
+                        <TableCell>{row.eloDiff}</TableCell>
+                        <TableCell>{row.odds}</TableCell>
+                        <TableCell>{row.finPos}</TableCell>
+                        <TableCell>{row.winLose}</TableCell>
+                        <TableCell>{row.newElo}</TableCell>
+                        <TableCell>{row.points}</TableCell>
+                        <TableCell>
+                          <input
+                            type="checkbox"
+                            name="fastest"
+                            onClick={(e) => {
+                              setFastest(e.target.value);
+                            }}
+                            onChange={(e) => checkOnlyOne(e.target)}
+                            value={row.custID}
+                          ></input>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </div>
 
-      <div>
-        <h3>7. 확인 후 업데이트</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            resultUpdate(eloData, rounds);
-          }}
-        >
-          INPUT
-        </Button>
-      </div>
+          <div>
+            <h3>7. 확인 후 업데이트</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                resultUpdate(eloData, rounds);
+              }}
+            >
+              INPUT
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 }

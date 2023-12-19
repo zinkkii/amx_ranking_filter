@@ -5,10 +5,10 @@ export default async function handler(req, res) {
   var insertCsv =
     "INSERT INTO CsvResult" +
     "(game, tier, rounds, category, finPos, custID, driverName, car," +
-    "carClass, carSharp, outCheck, intervalvalue, lapsLed, qualifyTime," +
+    "carClass,startPos, carSharp, outCheck, intervalvalue, lapsLed, qualifyTime," +
     "averageLapTime, fastestLapTime, fastLap, lapsComp, inc, club, sessionName) " +
     "VALUES" +
-    "('iRacing',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    "('iRacing',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
   var updateStartElo =
     "UPDATE CsvResult SET startElo = ( SELECT A.newElo FROM (SELECT newElo FROM CsvResult " +
@@ -27,6 +27,7 @@ export default async function handler(req, res) {
           req.body.parseData[i].Name,
           req.body.parseData[i].Car,
           req.body.parseData[i].CarClass,
+          req.body.parseData[i].StartPos,
           req.body.parseData[i].Car_,
           req.body.parseData[i].Out,
           req.body.parseData[i].Interval,

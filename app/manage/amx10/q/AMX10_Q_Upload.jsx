@@ -16,9 +16,6 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import elo from "../../../assets/elo";
-import Papa from "papaparse";
-import commonConfig from "@/app/assets/csvHeader";
 import amx10points from "@/app/assets/amx10points";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -62,6 +59,9 @@ export default function AMX10_Q_Upload() {
       })
       .then((res) => {
         console.log(res.data);
+        if (res.data === "SUCCESS") {
+          alert("SUCCESS");
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -116,15 +116,33 @@ export default function AMX10_Q_Upload() {
                       1)) *
                     (res.data.length - 1)),
             points: 0,
+            lapsComp: res.data[i].lapsComp,
           });
         }
         //point계산
-        if (res.data.length < amx10points.length) {
+        if (res.data.length <= amx10points.length) {
+          // 참가자 15명 이하
+          var firstLapsComp = arr[0].lapsComp;
+          var limitLapsComp = firstLapsComp * 0.8;
+
           for (var i = 0; i < res.data.length; i++) {
-            arr[i].points = amx10points[i].points;
+            console.log("15명 이하!!!");
+            console.log("lapsComp : " + arr[i].lapsComp);
+            console.log("limitLapsComp : " + limitLapsComp);
+            if (arr[i].lapsComp <= limitLapsComp) {
+              //포인트 못받음(참가자 15명 이하 && 1등의 LapsComp 80% 이하)
+              console.log("얘 못받음");
+              arr[i].points = 0;
+            } else {
+              //포인트 받음(참가자 15명 이하 && 1등의 LapsComp 80% 초과)
+              console.log("얜 받음");
+              arr[i].points = amx10points[i].points;
+            }
           }
         } else {
+          // 참가자 15명 초과
           for (var i = 0; i < amx10points.length; i++) {
+            console.log("15명 초과임!!!");
             arr[i].points = amx10points[i].points;
           }
         }
@@ -162,6 +180,7 @@ export default function AMX10_Q_Upload() {
       .then((res) => {
         if (res.data === "SUCCESS") {
           console.log("good...");
+          alert("SUCCESS");
         } else {
           console.log("Failed....");
           setErrorOpen(true);
@@ -229,155 +248,160 @@ export default function AMX10_Q_Upload() {
           setCsvUrl(src);
         }}
       />
-      <div>
-        <h3>3. 결과</h3>
-        {parseData.map((row, index) => (
-          <Typography key={index}>
-            {row.FinPos}, {row.Name}
-          </Typography>
-        ))}
-      </div>
+      {src === "" ? null : (
+        <>
+          <div>
+            <h3>3. 결과</h3>
+            {parseData.map((row, index) => (
+              <Typography key={index}>
+                {row.FinPos}, {row.Name}
+              </Typography>
+            ))}
+          </div>
 
-      <div>
-        <h3>4. 사용자 정보 넣기</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            resultInsertUser(parseData);
-          }}
-        >
-          INPUT
-        </Button>
-      </div>
+          <div>
+            <h3>4. 사용자 정보 넣기</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                resultInsertUser(parseData);
+              }}
+            >
+              INPUT
+            </Button>
+          </div>
 
-      <Stack sx={{ width: "100%", marginTop: 2 }} spacing={2}>
-        {open && (
-          <Alert variant="outlined" severity="info" onClose={handleClose}>
-            SUCCESS !
-          </Alert>
-        )}
-      </Stack>
+          <Stack sx={{ width: "100%", marginTop: 2 }} spacing={2}>
+            {open && (
+              <Alert variant="outlined" severity="info" onClose={handleClose}>
+                SUCCESS !
+              </Alert>
+            )}
+          </Stack>
 
-      <div>
-        <h3>5. Qualifying 결과 넣기</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            resultInsert(parseData, rounds);
-          }}
-        >
-          INPUT
-        </Button>
-      </div>
+          <div>
+            <h3>5. Qualifying 결과 넣기</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                resultInsert(parseData, rounds);
+              }}
+            >
+              INPUT
+            </Button>
+          </div>
 
-      <Stack sx={{ width: "100%", marginTop: 2 }} spacing={2}>
-        {errorOpen && (
-          <Alert variant="outlined" severity="error" onClose={handleClose}>
-            ERROR! The file already exists!
-          </Alert>
-        )}
-      </Stack>
+          <Stack sx={{ width: "100%", marginTop: 2 }} spacing={2}>
+            {errorOpen && (
+              <Alert variant="outlined" severity="error" onClose={handleClose}>
+                ERROR! The file already exists!
+              </Alert>
+            )}
+          </Stack>
 
-      <div>
-        <h3>6. 해당라운드 정보 입력</h3>
-        <TextField
-          sx={{ width: "40%" }}
-          margin="dense"
-          id="datetime"
-          label="시간 입력(ex. 2024.01.01 12:20 AM GMT )"
-          type="text"
-          variant="standard"
-          required
-          onChange={(e) => setDatetime(e.target.value)}
-        />
-        <br />
-        <TextField
-          sx={{ width: "40%" }}
-          margin="dense"
-          id="datetime"
-          label="Car 또는 CarClass 입력"
-          type="text"
-          variant="standard"
-          required
-          onChange={(e) => setCar(e.target.value)}
-        />
-        <br />
-        <TextField
-          sx={{ width: "40%" }}
-          margin="dense"
-          id="datetime"
-          label="Track 정보 입력"
-          type="text"
-          variant="standard"
-          required
-          onChange={(e) => setTrack(e.target.value)}
-        />
-        <br />
-        <Button
-          variant="outlined"
-          onClick={() => {
-            insertRoundsTop();
-          }}
-        >
-          INPUT
-        </Button>
-        <br />
-      </div>
+          <div>
+            <h3>6. 해당라운드 정보 입력</h3>
+            <TextField
+              sx={{ width: "50%" }}
+              margin="dense"
+              id="datetime"
+              label="시간 입력(ex. 2024.01.01 12:20 AM GMT )"
+              type="text"
+              variant="standard"
+              required
+              onChange={(e) => setDatetime(e.target.value)}
+            />
+            <br />
+            <TextField
+              sx={{ width: "50%" }}
+              margin="dense"
+              id="datetime"
+              label="Car 또는 CarClass 입력"
+              type="text"
+              variant="standard"
+              required
+              onChange={(e) => setCar(e.target.value)}
+            />
+            <br />
+            <TextField
+              sx={{ width: "50%" }}
+              margin="dense"
+              id="datetime"
+              label="Track 정보 입력"
+              type="text"
+              variant="standard"
+              required
+              onChange={(e) => setTrack(e.target.value)}
+            />
+            <br />
+            <Button
+              variant="outlined"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                insertRoundsTop();
+              }}
+            >
+              INPUT
+            </Button>
+            <br />
+          </div>
 
-      <div>
-        <h3>7. Qualifying Elo 계산하기</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            eloCalculate(tier, category, rounds);
-          }}
-        >
-          Calculating
-        </Button>
+          <div>
+            <h3>7. Qualifying Elo 계산하기</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                eloCalculate(tier, category, rounds);
+              }}
+            >
+              Calculating
+            </Button>
 
-        <Paper sx={{ overflow: "hidden", marginTop: 3 }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 650 }} size="small">
-              <TableHead>
-                <TableRow>
-                  {tableheader.map((row, index) => (
-                    <TableCell sx={{ fontWeight: "900" }} key={index}>
-                      {row}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {eloData.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{row.finPos}</TableCell>
-                    <TableCell>{row.driverName}</TableCell>
-                    <TableCell>{row.startElo}</TableCell>
-                    <TableCell>{row.eloDiff}</TableCell>
-                    <TableCell>{row.odds}</TableCell>
-                    <TableCell>{row.finPos}</TableCell>
-                    <TableCell>{row.winLose}</TableCell>
-                    <TableCell>{row.newElo}</TableCell>
-                    <TableCell>{row.points}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </div>
+            <Paper sx={{ overflow: "hidden", marginTop: 3 }}>
+              <TableContainer>
+                <Table sx={{ minWidth: 650 }} size="small">
+                  <TableHead>
+                    <TableRow>
+                      {tableheader.map((row, index) => (
+                        <TableCell sx={{ fontWeight: "900" }} key={index}>
+                          {row}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {eloData.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{row.finPos}</TableCell>
+                        <TableCell>{row.driverName}</TableCell>
+                        <TableCell>{row.startElo}</TableCell>
+                        <TableCell>{row.eloDiff}</TableCell>
+                        <TableCell>{row.odds}</TableCell>
+                        <TableCell>{row.finPos}</TableCell>
+                        <TableCell>{row.winLose}</TableCell>
+                        <TableCell>{row.newElo}</TableCell>
+                        <TableCell>{row.points}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </div>
 
-      <div>
-        <h3>8. 확인 후 업데이트</h3>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            resultUpdate(eloData, rounds);
-          }}
-        >
-          INPUT
-        </Button>
-      </div>
+          <div>
+            <h3>8. 확인 후 업데이트</h3>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                resultUpdate(eloData, rounds);
+              }}
+            >
+              INPUT
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 }

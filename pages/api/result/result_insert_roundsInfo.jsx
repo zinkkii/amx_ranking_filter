@@ -13,9 +13,10 @@ export default async function handler(req, res) {
         req.body.car,
         req.body.track,
       ]);
-      return res.status(200).json(result);
+      return res.status(200).json("SUCCESS");
     } catch (err) {
       console.log(err);
+      return res.status(200).json("Failed");
     }
   }
 }

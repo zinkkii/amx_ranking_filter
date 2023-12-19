@@ -20,26 +20,15 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import csvStore from "@/app/store/amx10/csvStore";
 
-export default function AMX10ResultSearch() {
+export default function AMX0ResultSearch() {
   const { topCarInfo, topTrackInfo, topDateInfo, settingInfo } = csvStore();
   const [rounds, setRounds] = useState(0);
   const [result, setResult] = useState([{}]);
   const [qResult, setQResult] = useState([{}]);
   const [h1Result, setH1Result] = useState([{}]);
   const [h2Result, setH2Result] = useState([{}]);
-  const [amx10, setAmx10] = useState("");
-  const [tier, setTier] = useState("AMX10");
-  const [roundsList, setRoundsList] = useState([
-    {
-      game: "",
-      rounds: 0,
-      showCheck: 0,
-      tier: "",
-      topCarInfo: "",
-      topDateInfo: "",
-      topTrackInfo: "",
-    },
-  ]);
+  const [amx0, setAmx0] = useState("");
+  const [roundsList, setRoundsList] = useState([{}]);
   const [checked, setChecked] = useState(false);
   const [chartResult, setChartResult] = useState([
     {
@@ -60,13 +49,11 @@ export default function AMX10ResultSearch() {
     },
   ]);
 
-  useEffect(() => {
-    setTier(tier);
-  }, []);
+  var tier = "AMXZero";
 
   useEffect(() => {
     axios
-      .post("/api/result/result_select_roundsList", { tier: tier })
+      .post("/api/result/result_select_roundsList", { tier })
       .then((res) => {
         console.log(res.data);
         setRoundsList(res.data);
@@ -77,8 +64,8 @@ export default function AMX10ResultSearch() {
   useEffect(() => {
     axios
       .post("/api/result/result_select_showcheck", {
-        rounds: rounds,
-        tier: tier,
+        rounds,
+        tier,
       })
       .then((res) => {
         if (res.data.length === 0) {
@@ -134,6 +121,7 @@ export default function AMX10ResultSearch() {
             (a.fastestPoint + a.rankingPoints)
         );
         settingInfo(res.data[0]);
+        console.log(res.data);
         setChartResult(res.data);
       })
       .catch((err) => console.log(err));
@@ -169,9 +157,9 @@ export default function AMX10ResultSearch() {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Race"
-            value={amx10}
+            value={amx0}
             onChange={(e) => {
-              setAmx10(e.target.value);
+              setAmx0(e.target.value);
             }}
           >
             {roundsList.length > 0 ? (
@@ -296,7 +284,7 @@ export default function AMX10ResultSearch() {
             <TableContainer>
               <Paper sx={{ overflow: "hidden" }}>
                 <Typography sx={{ margin: 1, fontWeight: "900" }}>
-                  AMX10_Race {rounds} - {topDateInfo}
+                  AMX Zero_Race {rounds} - {topDateInfo}
                   <br />
                   {topCarInfo}
                   <br />
@@ -316,6 +304,10 @@ export default function AMX10ResultSearch() {
                       </TableCell>
                       <TableCell sx={{ fontWeight: "900" }}>
                         Fastest Laps
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>Zoom</TableCell>
+                      <TableCell sx={{ fontWeight: "900" }}>
+                        Total Earnings
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -337,6 +329,10 @@ export default function AMX10ResultSearch() {
                           {row.H1fastest + row.H2fastest == 0 ? null : (
                             <>{row.H1fastest + row.H2fastest}</>
                           )}
+                        </TableCell>
+                        <TableCell>{row.zoomCheck}</TableCell>
+                        <TableCell>
+                          {row.rankingPoints + row.fastestPoint + row.zoomCheck}
                         </TableCell>
                       </TableRow>
                     ))}

@@ -12,22 +12,21 @@ import {
   Paper,
   Input,
 } from "@mui/material";
-import amx10points from "@/app/assets/amx10points";
+import amx0points from "@/app/assets/amx0points";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
 import csvStore from "@/app/store/amx10/csvStore";
 
-export default function AMX10_H2_Upload() {
+export default function AMX0_H1_Upload() {
   const router = useRouter();
   const { fileupload, src, parseCsv, parseData, tableheader } = csvStore();
   const [rounds, setRounds] = useState(0);
   const [csvUrl, setCsvUrl] = useState("");
   const [eloData, setEloData] = useState([{}]);
   const [fastest, setFastest] = useState();
-  var category = "H2";
-  var tier = "AMX10";
-
+  var category = "H1";
+  var tier = "AMXZero";
   useEffect(() => {
     parseCsv(src);
   }, [src]);
@@ -39,7 +38,7 @@ export default function AMX10_H2_Upload() {
       return;
     }
     axios
-      .post("/api/result/result_insert_h2_info", {
+      .post("/api/result/result_insert_h1_info", {
         category,
         rounds,
         parseData,
@@ -110,7 +109,7 @@ export default function AMX10_H2_Upload() {
           });
         }
         //point계산
-        if (res.data.length <= amx10points.length) {
+        if (res.data.length <= amx0points.length) {
           // 참가자 15명 이하
           var firstLapsComp = arr[0].lapsComp;
           var limitLapsComp = firstLapsComp * 0.8;
@@ -126,14 +125,14 @@ export default function AMX10_H2_Upload() {
             } else {
               //포인트 받음(참가자 15명 이하 && 1등의 LapsComp 80% 초과)
               console.log("얜 받음");
-              arr[i].points = amx10points[i].points;
+              arr[i].points = amx0points[i].points;
             }
           }
         } else {
           // 참가자 15명 초과
-          for (var i = 0; i < amx10points.length; i++) {
+          for (var i = 0; i < amx0points.length; i++) {
             console.log("15명 초과임!!!");
-            arr[i].points = amx10points[i].points;
+            arr[i].points = amx0points[i].points;
           }
         }
         setEloData([...arr].sort((a, b) => a.finPos - b.finPos));
@@ -155,8 +154,8 @@ export default function AMX10_H2_Upload() {
   };
 
   const resultUpdate = (elodata, rounds) => {
-    if (!rounds) {
-      alert("라운드 입력 필수!");
+    if (!rounds || !fastest) {
+      alert("라운드 입력 / fastest 입력 필수");
       return;
     }
     axios
@@ -176,14 +175,13 @@ export default function AMX10_H2_Upload() {
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <>
       <Typography
         variant="h5"
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <b>AMX10 - H2</b>
+        <b>AMXZero - H1</b>
         <LoadingButton
           color="primary"
           size="large"
@@ -214,7 +212,6 @@ export default function AMX10_H2_Upload() {
           setCsvUrl(src);
         }}
       />
-
       {src === "" ? null : (
         <>
           <div>
@@ -227,7 +224,7 @@ export default function AMX10_H2_Upload() {
           </div>
 
           <div>
-            <h3>5. Heat2 결과 넣기</h3>
+            <h3>5. Heat1 결과 넣기</h3>
             <Button
               variant="outlined"
               onClick={() => {
@@ -239,7 +236,7 @@ export default function AMX10_H2_Upload() {
           </div>
 
           <div>
-            <h3>6. Heat2 Elo 계산하기</h3>
+            <h3>6. Heat1 Elo 계산하기</h3>
             <Button
               variant="outlined"
               onClick={() => {

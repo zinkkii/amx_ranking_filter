@@ -7,31 +7,35 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Typography,
 } from "@mui/material";
 import LeaderBoardTopCategory from "../TopCategory";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import TopResultSearch from "../TopResultSearch";
+import TopResultSearch10 from "./TopResultSearch10";
 
 export default function AMX10() {
   const [board, setBoard] = useState([
     {
-      custID: 0,
       driverName: "",
-      fastestLaps: 0,
-      heatWins: 0,
+      custID: 0,
+      sumPoints: 0,
       participated: 0,
-      points: 0,
-      polePositions: 0,
+      sumFastestLaps: 0,
+      sumPolePosition: 0,
+      sumH1heat: 0,
+      sumH2heat: 0,
     },
   ]);
+  var tier = "AMX10";
 
   useEffect(() => {
     axios
-      .post("/api/leaderboard/amx10")
+      .post("/api/result/result_select_leaderboard", { tier })
       .then((res) => {
         if (res.data.length > 1) {
-          setBoard(res.data.sort((a, b) => b.points - a.points));
+          console.log(res.data);
+          setBoard(res.data.sort((a, b) => b.sumPoints - a.sumPoints));
         }
       })
       .catch((err) => console.log(err));
@@ -40,7 +44,8 @@ export default function AMX10() {
   return (
     <>
       <LeaderBoardTopCategory />
-      <TopResultSearch />
+      <TopResultSearch10 />
+      <Typography variant="h4">AMX10</Typography>
       <Paper sx={{ overflow: "hidden" }}>
         <TableContainer>
           <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -64,11 +69,11 @@ export default function AMX10() {
                     <TableRow hover key={index}>
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{row.driverName}</TableCell>
-                      <TableCell>{row.points}</TableCell>
+                      <TableCell>{row.sumPoints}</TableCell>
                       <TableCell>{row.participated}</TableCell>
-                      <TableCell>{row.polePositions}</TableCell>
-                      <TableCell>{row.heatWins}</TableCell>
-                      <TableCell>{row.fastestLaps}</TableCell>
+                      <TableCell>{row.sumPolePosition}</TableCell>
+                      <TableCell>{row.sumH1heat + row.sumH2heat}</TableCell>
+                      <TableCell>{row.sumFastestLaps}</TableCell>
                     </TableRow>
                   ))}
                 </>

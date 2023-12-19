@@ -6,6 +6,6 @@ import AMX10_H1_Upload from "./AMX10_H1_Upload";
 export default async function page() {
   const session = await getServerSession(authOptions);
 
-  return <>{session === null ? <>로그인 하세요</> : <AMX10_H1 />}</>;
-  // return <>{session === null ? <>로그인 하세요</> : <AMX10_H1_Upload />}</>;
+  // return <>{session === null ? <>로그인 하세요</> : <AMX10_H1 />}</>;
+  return <>{session === null ? <>로그인 하세요</> : <AMX10_H1_Upload />}</>;
 }

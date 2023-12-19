@@ -2,7 +2,7 @@
 import { Box, Stack, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-export default function AMX10_Top() {
+export default function AMX0_Top() {
   const router = useRouter();
   return (
     <Box
@@ -10,9 +10,9 @@ export default function AMX10_Top() {
       display="grid"
       sx={{ mb: 3 }}
       gridTemplateColumns={{
-        xs: "repeat(3, 1fr)",
-        sm: "repeat(3, 1fr)",
-        md: "repeat(3, 1fr)",
+        xs: "repeat(4, 1fr)",
+        sm: "repeat(4, 1fr)",
+        md: "repeat(4, 1fr)",
       }}
     >
       <Stack
@@ -27,7 +27,7 @@ export default function AMX10_Top() {
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
-            router.push("/manage/amx10/q");
+            router.push("/manage/amx0/q");
           }}
         >
           Q update
@@ -45,7 +45,7 @@ export default function AMX10_Top() {
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
-            router.push("/manage/amx10/h1");
+            router.push("/manage/amx0/h1");
           }}
         >
           H1 update
@@ -64,10 +64,29 @@ export default function AMX10_Top() {
           sx={{ width: "100%", height: "75px" }}
           variant="outlined"
           onClick={() => {
-            router.push("/manage/amx10/h2");
+            router.push("/manage/amx0/h2");
           }}
         >
           H2 update
+        </Button>
+      </Stack>
+
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          borderRadius: 2,
+          cursor: "pointer",
+        }}
+      >
+        <Button
+          sx={{ width: "100%", height: "75px" }}
+          variant="outlined"
+          onClick={() => {
+            router.push("/manage/amx0/checkzoom");
+          }}
+        >
+          Zoom Check
         </Button>
       </Stack>
     </Box>

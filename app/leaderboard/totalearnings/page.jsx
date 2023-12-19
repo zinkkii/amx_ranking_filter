@@ -15,19 +15,25 @@ import { useState, useEffect } from "react";
 export default function TotalEarnings() {
   const [board, setBoard] = useState([
     {
-      custID: 0,
       driverName: "",
+      custID: 0,
+      sumPoints: 0,
       participated: 0,
-      points: 0,
+      sumFastestLaps: 0,
+      sumPolePosition: 0,
+      sumH1heat: 0,
+      sumH2heat: 0,
+      zoom: 0,
     },
   ]);
 
   useEffect(() => {
     axios
-      .post("/api/leaderboard/total")
+      .post("/api/result/result_select_leaderboard")
       .then((res) => {
         if (res.data.length > 1) {
-          setBoard(res.data.sort((a, b) => b.points - a.points));
+          console.log(res.data);
+          setBoard(res.data.sort((a, b) => b.sumPoints - a.sumPoints));
         }
       })
       .catch((err) => console.log(err));
@@ -43,10 +49,10 @@ export default function TotalEarnings() {
               <TableRow>
                 <TableCell sx={{ fontWeight: "900" }}>Pos.</TableCell>
                 <TableCell sx={{ fontWeight: "900" }}>Driver Name</TableCell>
-                <TableCell sx={{ fontWeight: "900" }}>Points</TableCell>
                 <TableCell sx={{ fontWeight: "900" }}>
                   Races Participated
                 </TableCell>
+                <TableCell sx={{ fontWeight: "900" }}>Points</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -56,8 +62,8 @@ export default function TotalEarnings() {
                     <TableRow hover key={index}>
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>{row.driverName}</TableCell>
-                      <TableCell>{row.points}</TableCell>
                       <TableCell>{row.participated}</TableCell>
+                      <TableCell>{row.sumPoints + row.zoom}</TableCell>
                     </TableRow>
                   ))}
                 </>

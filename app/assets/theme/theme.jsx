@@ -1,7 +1,17 @@
-"use client";
 import { createTheme } from "@mui/material";
 
 const theme = createTheme({
+  components: {
+    MuiTreeItem: {
+      styleOverrides: {
+        root: {
+          "&.MuiTreeItem-root .MuiTreeItem-label": {
+            fontSize: "1.5rem",
+          },
+        },
+      },
+    },
+  },
   html: {
     margin: 0,
     padding: 0,

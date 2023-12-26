@@ -117,6 +117,7 @@ export default function ModalSummary(props) {
           sx={{
             flexGrow: 1,
             overflowY: "auto",
+            overflowX: "hidden",
           }}
         >
           {tier.map((row, i) => (

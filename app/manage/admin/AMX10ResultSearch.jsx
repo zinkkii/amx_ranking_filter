@@ -16,6 +16,7 @@ import {
   MenuItem,
   Switch,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import csvStore from "@/app/store/amx10/csvStore";
@@ -150,14 +151,35 @@ export default function AMX10ResultSearch() {
           tier,
         })
         .then((res) => {
-          console.log(res.data);
           setChecked(true);
         })
         .catch((err) => console.log(err));
     } else if (checked == true) {
       tempnum = 0;
-      setChecked(false);
+      axios
+        .post("/api/result/result_update_showcheck", {
+          tempnum,
+          rounds,
+          tier,
+        })
+        .then((res) => {
+          setChecked(false);
+        });
     }
+  };
+
+  const deleteData = (rounds, tier) => {
+    axios
+      .post("/api/result/result_delete_csvResult", {
+        rounds,
+        tier,
+      })
+      .then((res) => {
+        if (res.data == "Deleteed") {
+          alert("삭제되었습니다");
+          location.reload();
+        }
+      });
   };
 
   return (
@@ -344,16 +366,33 @@ export default function AMX10ResultSearch() {
                 </Table>
               </Paper>
             </TableContainer>
-            <Switch
-              checked={checked}
-              onChange={(e) => {
-                switchHandle(e);
+            <Box
+              sx={{
+                marginTop: 2,
+                display: "flex",
+                justifyContent: "space-between",
               }}
-            />
+            >
+              <Switch
+                checked={checked}
+                onChange={(e) => {
+                  switchHandle(e);
+                }}
+              />
+              <LoadingButton
+                color="error"
+                size="large"
+                type="submit"
+                sx={{ border: "1px solid" }}
+                onClick={() => deleteData(rounds, tier)}
+              >
+                Delete
+              </LoadingButton>
+            </Box>
           </Box>
         </>
       ) : (
-        <>-no data</>
+        <></>
       )}
     </>
   );

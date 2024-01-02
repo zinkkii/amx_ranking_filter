@@ -154,7 +154,7 @@ export default function CheckZoom() {
         console.log(res.data);
         if (res.data == "SUCCESS") {
           alert("zoom 보너스 업데이트 OK");
-          router.push("/manage");
+          router.push("/manage/amx0");
         }
       })
       .catch((err) => console.log(err));

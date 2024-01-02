@@ -5,5 +5,7 @@ import DashBoard from "./DashBoard";
 
 export default async function Auth() {
   const session = await getServerSession(authOptions);
-  return <>{session === null ? <AdminLogin /> : <DashBoard />}</>;
+  return (
+    <>{session === null ? <AdminLogin /> : <DashBoard session={session} />}</>
+  );
 }

@@ -203,7 +203,7 @@ export default function AMX10_Q_Upload() {
         console.log(res.data);
         if (res.data === "SUCCESS") {
           alert("업데이트 완료");
-          router.push("/manage");
+          router.push("/manage/amx0");
         }
       })
       .catch((err) => console.log(err));
@@ -215,7 +215,7 @@ export default function AMX10_Q_Upload() {
         variant="h5"
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <b>AMX10 - Q</b>
+        <b>AMX Zero - Q</b>
         <LoadingButton
           color="primary"
           size="large"

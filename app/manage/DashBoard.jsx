@@ -1,15 +1,12 @@
 "use client";
-import { Typography, Stack, Divider } from "@mui/material";
+import { Typography, Stack, Divider, Box, Button } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { LoadingButton } from "@mui/lab";
-import AMX10 from "./admin/AMX10";
-import AMX0 from "./admin/AMX0";
-import AMX10_Top from "./admin/AMX10_Top";
-import AMX10ResultSearch from "./admin/AMX10ResultSearch";
-import AMX0_Top from "./admin/AMX0_Top";
-import AMX0ResultSearch from "./admin/AMX0ResultSearch";
+import { useRouter } from "next/navigation";
 
-export default function DashBoard() {
+export default function DashBoard(props) {
+  const router = useRouter();
+  const { session } = props;
   return (
     <>
       <Stack>
@@ -28,18 +25,54 @@ export default function DashBoard() {
             <b>LOGOUT</b>
           </LoadingButton>
         </Typography>
-        <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
-          AMX_10
-        </Divider>
-        <AMX10_Top />
-        <AMX10ResultSearch />
-        {/* <AMX10 /> */}
-        <Divider sx={{ marginTop: 5, marginBottom: 2, fontWeight: "900" }}>
-          AMX_Zero
-        </Divider>
-        {/* <AMX0 /> */}
-        <AMX0_Top />
-        <AMX0ResultSearch />
+
+        <Box
+          gap={1}
+          display="grid"
+          sx={{ mb: 3, mt: 10 }}
+          gridTemplateColumns={{
+            xs: "repeat(2, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(2, 1fr)",
+          }}
+        >
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              borderRadius: 2,
+              cursor: "pointer",
+            }}
+          >
+            <Button
+              sx={{ width: "100%", height: "10vh" }}
+              variant="outlined"
+              onClick={() => {
+                router.push("/manage/amx10");
+              }}
+            >
+              AMX 10
+            </Button>
+          </Stack>
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              borderRadius: 2,
+              cursor: "pointer",
+            }}
+          >
+            <Button
+              sx={{ width: "100%", height: "10vh" }}
+              variant="outlined"
+              onClick={() => {
+                router.push("/manage/amx0");
+              }}
+            >
+              AMX ZERO
+            </Button>
+          </Stack>
+        </Box>
       </Stack>
     </>
   );

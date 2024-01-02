@@ -171,7 +171,7 @@ export default function AMX0_H2_Upload() {
         console.log(res.data);
         if (res.data === "SUCCESS") {
           alert("업데이트 완료");
-          router.push("/manage");
+          router.push("/manage/amx0");
         }
       })
       .catch((err) => console.log(err));

@@ -5,6 +5,7 @@ export default async function handler(req, res) {
     var updateSql =
       "UPDATE RoundsInfo SET showCheck = ? " + "WHERE rounds = ? AND tier = ?";
     try {
+      console.log(req.body.tempnum);
       let updateShowCheck = await executeQuery(updateSql, [
         req.body.tempnum,
         req.body.rounds,

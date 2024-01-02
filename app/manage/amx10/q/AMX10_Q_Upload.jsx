@@ -203,7 +203,7 @@ export default function AMX10_Q_Upload() {
         console.log(res.data);
         if (res.data === "SUCCESS") {
           alert("업데이트 완료");
-          router.push("/manage");
+          router.push("/manage/amx10");
         }
       })
       .catch((err) => console.log(err));

@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   var selectTierusers =
     "SELECT DISTINCT custID FROM CsvResult " +
     "WHERE game='iRacing' AND tier=? ";
-  var selectAllusers = "SELECT custID from Driver";
+  var selectCsvResultUser = "SELECT custID from CsvResult GROUP BY custID";
   var selectDataAmx10 =
     "SELECT driverName, custID, tier, " +
     "sum(points+fastestPoints) AS sumPoints, " +
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
         }
         res.status(200).json(resData);
       } else {
-        let AMXallUsers = await executeQuery(selectAllusers, []);
+        let AMXallUsers = await executeQuery(selectCsvResultUser, []);
         for (var i = 0; i < AMXallUsers.length; i++) {
           let result = await executeQuery(selectDataTotal, [
             AMXallUsers[i].custID,
